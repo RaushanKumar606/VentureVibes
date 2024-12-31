@@ -68,5 +68,5 @@ Make sure you have the following installed before setting up the project:
 1. **Clone the Repository**:  
    Clone the entire project or navigate to the `client` directory if it's a separate repo.  
    ```bash
-   git clone https://github.com/your-username/venturevibes.git
+   git clone https://github.com/RaushanKumar606/venturevibes.git
    cd venturevibes/client
