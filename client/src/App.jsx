@@ -5,16 +5,17 @@ import { BrowserRouter } from 'react-router-dom'; // Import BrowserRouter, Route
 import SignupPage from './components/Pages/Sing';
 import LoginPage from './components/Pages/Login';
 import Home from './components/Home/Home';
-import Navbar from './components/Navbar/Navbar';
+// import Navbar from './components/Navbar/Navbar';
 import UserDashboard from './components/Dashboard/UserDashboard';
 import Logout from './components/Pages/Logout';
 // import AdminTable from './components/Admin/UserAdmin';
 import Sidebar from './components/Admin/Salider';
+import NotFoundPage from './components/Pages/Error';
 
 function App() {
   return (
     <BrowserRouter>
-    <Navbar/>
+    {/* <Navbar/> */}
       <Routes>
         {/* Define the routes */}
         <Route path="/" element={<Home />} />
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="*" element={<NotFoundPage />} />
         {/* Admin Router  */}
          <Route path="/admin" element={<Sidebar />}>
          </Route>

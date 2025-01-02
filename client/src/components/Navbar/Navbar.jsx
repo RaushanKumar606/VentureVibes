@@ -38,11 +38,6 @@ const Navbar = () => {
             </>
              )
             }
-
-          
-          
-
-         
         </ul>
       </div>
       <button className="hamburger" onClick={toggleMenu}>

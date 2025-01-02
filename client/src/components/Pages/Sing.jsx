@@ -55,7 +55,6 @@
 // //       setIsLoading(true);
 // //       setError("");
 
-      
 // //       // const response = await fetch("http://localhost:8080/api/signup", {
 // //       //   method: "POST",
 // //       //   headers: {
@@ -73,19 +72,17 @@
 // //       });
 // //       const resData = await response.json();
 // //       console.log("userdata",resData);
-      
 
-   
 // //       if (response.ok) {
 // //         const data = await response.json();
 // //         storetokenInLS(data.token);
 // //         console.log(data)
-  
+
 // //       }
 
 // //       // Handle successful signup
 // //     alert("Signup successful!");
-// //       navigate('/login');   
+// //       navigate('/login');
 // //     } catch (err) {
 // //       setError(err.message);
 // //     } finally {
@@ -120,17 +117,17 @@
 //         'Content-Type': 'application/json'
 //       },
 //       body: JSON.stringify(userData),
-   
+
 //     });
-    
+
 //      if (response.ok) {
 //               const data = await response.json();
 //               storetokenInLS(data.token);
 //               console.log("userdata",data)
-        
+
 //             }
 //             alert("Signup successful!");
-//             navigate('/login'); 
+//             navigate('/login');
 //    } catch (err) {
 //     console.log("user error",err)
 //     setError(err.message);
@@ -139,7 +136,6 @@
 //           setIsLoading(false);
 //         }
 //     }
-
 
 //   return (
 //     <div style={styles.container}>
@@ -263,155 +259,268 @@
 
 // export default SignupPage;
 
+// import { useState } from "react";
 
+// const SignupPage = () => {
+//   const [userData, setUserData] = useState({
+//     username: "",
+//     email: "",
+//     phone: "",
+//     password: "",
+//     country: "",
+//   });
 
+//   // const [message, setMessage] = useState("");
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setUserData({
+//       ...userData,
+//       [name]: value,
+//     });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     console.log(userData)
+//     const response = await fetch(`http://localhost:8080/api/signup`,{
+//       method:'POST',
+//       headers:{
+//         'Content-Type':'application/json'
+//       },
+//       body: JSON.stringify(userData)
+//     })
+//     if(response.ok){
+//       const data = await response.json()
+//       console.log(data)
+
+//       console.log("singup succfull ")
+//     }
+
+//   };
+
+//   return (
+//     <div
+//       style={{
+//         maxWidth: "400px",
+//         margin: "50px auto",
+//         padding: "20px",
+//         border: "1px solid #ccc",
+//         borderRadius: "8px",
+//       }}
+//     >
+//       <h2>Signup</h2>
+//       <form onSubmit={handleSubmit}>
+//         <div style={{ marginBottom: "15px" }}>
+//           <label htmlFor="username" style={{ display: "block", marginBottom: "5px" }}>
+//             Username:
+//           </label>
+//           <input
+//             type="text"
+//             id="username"
+//             name="username"
+//             value={userData.username}
+//             onChange={handleChange}
+//             required
+//             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+//           />
+//         </div>
+//         <div style={{ marginBottom: "15px" }}>
+//           <label htmlFor="email" style={{ display: "block", marginBottom: "5px" }}>
+//             Email:
+//           </label>
+//           <input
+//             type="email"
+//             id="email"
+//             name="email"
+//             value={userData.email}
+//             onChange={handleChange}
+//             required
+//             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+//           />
+//         </div>
+//         <div style={{ marginBottom: "15px" }}>
+//           <label htmlFor="phone" style={{ display: "block", marginBottom: "5px" }}>
+//             Phone:
+//           </label>
+//           <input
+//             type="text"
+//             id="phone"
+//             name="phone"
+//             value={userData.phone}
+//             onChange={handleChange}
+//             required
+//             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+//           />
+//         </div>
+//         <div style={{ marginBottom: "15px" }}>
+//           <label htmlFor="country" style={{ display: "block", marginBottom: "5px" }}>
+//             Country:
+//           </label>
+//           <input
+//             type="text"
+//             id="country"
+//             name="country"
+//             value={userData.country}
+//             onChange={handleChange}
+//             required
+//             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+//           />
+//         </div>
+//         <div style={{ marginBottom: "15px" }}>
+//           <label htmlFor="password" style={{ display: "block", marginBottom: "5px" }}>
+//             Password:
+//           </label>
+//           <input
+//             type="password"
+//             id="password"
+//             name="password"
+//             value={userData.password}
+//             onChange={handleChange}
+//             required
+//             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+//           />
+//         </div>
+//         <button
+//           type="submit"
+//           style={{
+//             width: "100%",
+//             padding: "10px",
+//             background: "#4CAF50",
+//             color: "white",
+//             border: "none",
+//             borderRadius: "4px",
+//           }}
+//         >
+//           Signup
+//         </button>
+//       </form>
+//       {/* {message && (
+//         <p
+//           style={{
+//             marginTop: "15px",
+//             color: message.includes("Error") ? "red" : "green",
+//           }}
+//         >
+//           {message}
+//         </p>
+//       )} */}
+//     </div>
+//   );
+// };
+
+// export default SignupPage;
 import { useState } from "react";
+import "./singup.css";
 
 const SignupPage = () => {
   const [userData, setUserData] = useState({
     username: "",
     email: "",
     phone: "",
-    password: "",
     country: "",
+    password: "",
   });
-
-  // const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
+    setUserData({ ...userData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userData)
-    const response = await fetch(`http://localhost:8080/api/signup`,{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
+    const response = await fetch(`http://localhost:8080/api/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(userData)
-    })
-    if(response.ok){
-      const data = await response.json()
-      console.log(data)
-
-      console.log("singup succfull ")
+      body: JSON.stringify(userData),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Signup successful:", data);
     }
-    
-    
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "50px auto",
-        padding: "20px",
-        border: "1px solid #ccc",
-        borderRadius: "8px",
-      }}
-    >
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="username" style={{ display: "block", marginBottom: "5px" }}>
-            Username:
-          </label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={userData.username}
-            onChange={handleChange}
-            required
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-          />
-        </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="email" style={{ display: "block", marginBottom: "5px" }}>
-            Email:
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={userData.email}
-            onChange={handleChange}
-            required
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-          />
-        </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="phone" style={{ display: "block", marginBottom: "5px" }}>
-            Phone:
-          </label>
-          <input
-            type="text"
-            id="phone"
-            name="phone"
-            value={userData.phone}
-            onChange={handleChange}
-            required
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-          />
-        </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="country" style={{ display: "block", marginBottom: "5px" }}>
-            Country:
-          </label>
-          <input
-            type="text"
-            id="country"
-            name="country"
-            value={userData.country}
-            onChange={handleChange}
-            required
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-          />
-        </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="password" style={{ display: "block", marginBottom: "5px" }}>
-            Password:
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={userData.password}
-            onChange={handleChange}
-            required
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-          />
-        </div>
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            background: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-          }}
-        >
-          Signup
-        </button>
-      </form>
-      {/* {message && (
-        <p
-          style={{
-            marginTop: "15px",
-            color: message.includes("Error") ? "red" : "green",
-          }}
-        >
-          {message}
-        </p>
-      )} */}
+    <div className="sign-page">
+      <div className="signup-container">
+        <h1>Signup</h1>
+        <form onSubmit={handleSubmit}>
+          <label>Username</label>
+          <div className="input-group">
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter your username"
+              value={userData.username}
+              onChange={handleChange}
+              required
+            />
+            <span className="icon">👤</span>
+          </div>
+
+          <label>Email</label>
+          <div className="input-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={userData.email}
+              onChange={handleChange}
+              required
+            />
+            <span className="icon">📧</span>
+          </div>
+
+          <label>Phone</label>
+          <div className="input-group">
+            <input
+              type="text"
+              name="phone"
+              placeholder="Enter your phone number"
+              value={userData.phone}
+              onChange={handleChange}
+              required
+            />
+            <span className="icon">📞</span>
+          </div>
+
+          <label>Country</label>
+          <div className="input-group">
+            <input
+              type="text"
+              name="country"
+              placeholder="Enter your country"
+              value={userData.country}
+              onChange={handleChange}
+              required
+            />
+            <span className="icon">🌍</span>
+          </div>
+
+          <label>Password</label>
+          <div className="input-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              value={userData.password}
+              onChange={handleChange}
+              required
+            />
+            <span className="icon">🔒</span>
+          </div>
+
+          <button type="submit" className="signup-button">
+            Signup
+          </button>
+        </form>
+        <div className="login">
+  Already have an account? <a href="/login">Login</a>
+</div>
+
+      </div>
     </div>
   );
 };

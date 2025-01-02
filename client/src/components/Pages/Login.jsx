@@ -1,15 +1,57 @@
 import { useState } from "react";
 import { useAuth } from "../Hooks/ContextApi/ContextApi";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+//   return (
+//     <div style={styles.container}>
+//       <form onSubmit={handleLogin} style={styles.form}>
+//         <h2>Login</h2>
+
+//         {error && <p style={styles.error}>{error}</p>}
+
+//         <div style={styles.inputGroup}>
+//           <label>Email</label>
+//           <input
+//             type="email"
+//             placeholder="Enter your email"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//             style={styles.input}
+//           />
+//         </div>
+
+//         <div style={styles.inputGroup}>
+//           <label>Password</label>
+//           <input
+//             type="password"
+//             placeholder="Enter your password"
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//             style={styles.input}
+//           />
+//         </div>
+
+//         <button type="submit" style={styles.button} 
+//           disabled={isLoading}>
+//           {isLoading ? "Logging in..." : "Login"}
+//         </button>
+//         <p>
+//           New Account? <Link to="/signup">Register here</Link>
+//         </p>
+//       </form>
+//     </div>
+//   );
+// };
+
+import "./Login.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const { storeTokenInLS  } = useAuth(); 
-  // const { user  } = useAuth(); 
+  const [error, setError] = useState("")
+  const { storeTokenInLS } = useAuth();
+  // const { user  } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -34,105 +76,63 @@ const LoginPage = () => {
       const data = await response.json();
       // console.log(data)
       if (response.ok) {
-        console.log(data)
-        storeTokenInLS(data.token); 
+        console.log(data);
+        storeTokenInLS(data.token);
         alert("Login successful!");
-      
-        navigate("/"); 
+        navigate("/");
       } else {
         alert(data.message || "Login failed. Please try again.");
         // setError(data.message || "Login failed. Please try again.");
-      
       }
     } catch (error) {
-
-      setError("Something went wrong. Please try again.",error);
-      
+      setError("Something went wrong. Please try again.", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div style={styles.container}>
-      <form onSubmit={handleLogin} style={styles.form}>
-        <h2>Login</h2>
-
-        {error && <p style={styles.error}>{error}</p>}
-
-        <div style={styles.inputGroup}>
+    <div className="login-page">
+      <div className="login-container">
+        <h2 className="login-title">LOGIN</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>} 
+        <form onSubmit={handleLogin}>
           <label>Email</label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-
-        <div style={styles.inputGroup}>
+          <div className="input-group">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <span className="icon">👤</span>
+          </div>
           <label>Password</label>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-
-        <button type="submit" style={styles.button} disabled={isLoading}>
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <span className="icon">🔒</span>
+          </div>
+          <div className="options">
+            <label>
+              <input type="checkbox" /> Remember Me
+            </label>
+            <a href="#forgot">Forgotten Password</a>
+          </div>
+          <button type="submit" className="login-button"  disabled={isLoading}>
           {isLoading ? "Logging in..." : "Login"}
-        </button>
-        <p>
-          New Account? <Link to="/signup">Register here</Link>
-        </p>
-      </form>
+          </button>
+        </form>
+        <div className="signup">
+          New User? <a href="/signup">SignUp</a>
+        </div>
+      </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    backgroundColor: "#f4f4f4",
-  },
-  form: {
-    padding: "2rem",
-    backgroundColor: "#fff",
-    borderRadius: "8px",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    width: "100%",
-    maxWidth: "400px",
-  },
-  inputGroup: {
-    marginBottom: "1rem",
-  },
-  input: {
-    width: "100%",
-    padding: "0.5rem",
-    fontSize: "1rem",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-  },
-  button: {
-    width: "100%",
-    padding: "0.7rem",
-    fontSize: "1rem",
-    color: "#fff",
-    backgroundColor: "#007BFF",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-  error: {
-    color: "red",
-    marginBottom: "1rem",
-  },
 };
 
 export default LoginPage;
