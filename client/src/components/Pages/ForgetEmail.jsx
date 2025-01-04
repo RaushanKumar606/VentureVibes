@@ -8,7 +8,7 @@ function ForgetEmail() {
   
     return (
       <div style={styles.container}>
-        <h2 style={styles.heading}>Forgot Email?</h2>
+        <h2 style={styles.heading}>Email</h2>
         <p style={styles.description}>
           Enter your registered email address, and we will send you a recovery link.
         </p>
@@ -20,7 +20,7 @@ function ForgetEmail() {
             style={styles.input}
           />
           <button type="submit" style={styles.button}>
-            Submit
+            Reset Password
           </button>
         </form>
       </div>
@@ -62,7 +62,7 @@ function ForgetEmail() {
     button: {
       padding: "10px",
       fontSize: "1rem",
-      backgroundColor: "#007bff",
+      backgroundColor: "green",
       color: "white",
       border: "none",
       borderRadius: "5px",
