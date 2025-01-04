@@ -445,7 +445,7 @@ const SignupPage = () => {
   return (
     <div className="sign-page">
       <div className="signup-container">
-        <h1>Signup</h1>
+        <h1 className="sing">Signup</h1>
         <form onSubmit={handleSubmit}>
           <label>Username</label>
           <div className="input-group">

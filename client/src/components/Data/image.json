@@ -1,0 +1,34 @@
+[
+   
+   
+    {
+      "key": 1,
+      "name":"Umaid Bhavan",
+      "countery":"Explore india with india Travel",
+      "title": "EXPERIENCE UNIQUIE  & LUXURY HOTEL IN INDIA",
+      "imageSrc": "/assets/countery/luxruyHotel.jpg"
+    },
+   
+    {
+      "key": 2,
+      "countery":"Explore Indonosiya with indonosiya Trevels",
+      "title": " EXPLORE INDIA,FASTIVAL & CULTURE",
+      "imageSrc": "/assets/countery/tajmahal.jpg"
+    }
+    ,{
+      "key": 3,
+      "name":"Maharaja Express",
+      "countery":"Explore india with india Travel",
+      "title": "EXPERIENCE LUXURY TRAINS OF INDIA",
+      "imageSrc": "/assets/countery/Train.jpg"
+    }
+    ,{
+      "key": 4,
+      "name":"Maharaja Express",
+      "countery":"Explore india with india Travel",
+      "title": "EXPERIENCE LUXURY TRAINS OF INDIA",
+      "imageSrc": "/assets/countery/Train.jpg"
+    }
+    
+  ]
+  

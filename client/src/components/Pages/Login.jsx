@@ -92,7 +92,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-page">
+    <div className="login-box">
       <div className="login-container">
         <h2 className="login-title">LOGIN</h2>
         {error && <p style={{ color: "red" }}>{error}</p>} 
@@ -121,7 +121,7 @@ const LoginPage = () => {
             <label>
               <input type="checkbox" /> Remember Me
             </label>
-            <a href="#forgot">Forgotten Password</a>
+            <a href="/email">Forgotten Password</a>
           </div>
           <button type="submit" className="login-button"  disabled={isLoading}>
           {isLoading ? "Logging in..." : "Login"}

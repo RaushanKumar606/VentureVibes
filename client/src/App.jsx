@@ -1,32 +1,35 @@
 
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom'; // Import BrowserRouter, Routes, and Route
+import { BrowserRouter } from 'react-router-dom'; 
 import SignupPage from './components/Pages/Sing';
 import LoginPage from './components/Pages/Login';
-import Home from './components/Home/Home';
-// import Navbar from './components/Navbar/Navbar';
 import UserDashboard from './components/Dashboard/UserDashboard';
-import Logout from './components/Pages/Logout';
-// import AdminTable from './components/Admin/UserAdmin';
-import Sidebar from './components/Admin/Salider';
+import Logout from './components/Pages/Logout'
 import NotFoundPage from './components/Pages/Error';
+import HomePages from './components/Home/HomePages';
+import ForgetEmail from './components/Pages/ForgetEmail';
+import ChangePassword from './components/Pages/ChangePassword';
+
+
 
 function App() {
   return (
     <BrowserRouter>
-    {/* <Navbar/> */}
-      <Routes>
+       <Routes>
         {/* Define the routes */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomePages/>} />
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/email" element={<ForgetEmail />} />
+        <Route path="/changePass" element={<ChangePassword />} />
+       
         {/* Admin Router  */}
-         <Route path="/admin" element={<Sidebar />}>
-         </Route>
+         {/* <Route path="/admin" element={<Sidebar />}>
+         </Route> */}
       </Routes>
     </BrowserRouter>
   );
