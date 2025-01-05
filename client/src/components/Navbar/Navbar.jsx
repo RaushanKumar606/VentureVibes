@@ -22,7 +22,9 @@ const Navbar = () => {
           <li className="nav-item">
             <a href="/booking ">Booking </a>
           </li>
-          
+          <li className="nav-item">
+            <a href="tours ">Tours </a>
+          </li>
              
              {isLoggedIn ? (
           <>

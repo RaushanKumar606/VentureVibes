@@ -10,7 +10,7 @@ import NotFoundPage from './components/Pages/Error';
 import HomePages from './components/Home/HomePages';
 import ForgetEmail from './components/Pages/ForgetEmail';
 import ChangePassword from './components/Pages/ChangePassword';
-
+import ToursPages from './components/Tours/ToursPages';
 
 
 function App() {
@@ -26,6 +26,7 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/email" element={<ForgetEmail />} />
         <Route path="/changePass" element={<ChangePassword />} />
+        <Route path="/tours" element={<ToursPages />} />
        
         {/* Admin Router  */}
          {/* <Route path="/admin" element={<Sidebar />}>
