@@ -1,0 +1,332 @@
+
+.hotel-container {
+  padding: 10px;
+  width: 80vw;
+  height: 90vh;
+  background-color: rgb(238, 41, 10); 
+  display: flex; 
+   justify-content: center; 
+  /* align-items: center; */
+}
+
+.hotel {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  width: 80vw;
+  /* background-color: black;  */
+   margin: 0 auto;
+}
+
+.right-head {
+ 
+  
+  position: relative;
+  height: 620px;
+  width: 550px;
+  /* background-color: #1478dc;  */
+  color: #fff; 
+  padding: 20px;
+  /* border-radius: 10px; */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  */
+}
+
+.right-head h1 {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  color: #121111; 
+}
+
+.right-head p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.left-img {
+  height: 650px;
+  width: 580px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-img img {
+  position: relative;
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 768px) {
+  .hotel {
+    flex-direction: column; /* Stack content vertically */
+    gap: 1rem;
+  }
+
+  .right-head {
+    width: 100%; 
+    text-align: center; 
+  }
+
+  .right-head h1 {
+    font-size: 1.5rem; 
+  }
+
+  .right-head p {
+    font-size: 1rem; 
+  }
+
+  .left-img {
+    width: 100%;
+    height: auto;
+  }
+
+  .left-img img {
+    width: 100%; 
+    height: auto; 
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .right-head h1 {
+    font-size: 1.2rem; 
+  }
+
+  .right-head p {
+    font-size: 0.9rem; 
+  }
+}
+
+
+/* HOTELS SERVICES CSS  */
+/* Service Container Styles */
+.service-container {
+  padding: 20px;
+  width: 100%;
+  height: auto; 
+  margin-top: 5px;
+  background-color: rgb(238, 41, 10);
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+}
+
+/* Service Content Section */
+.service {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px; 
+  margin: 0 auto;
+  flex-wrap: wrap; 
+}
+
+/* Left Side Section */
+.left-side {
+  flex: 1;
+  min-width: 500px; 
+  padding: 20px;
+}
+
+.left-side h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #121111;
+}
+
+.left-side p {
+  font-size: 1.2rem;
+  color: #121111;
+  line-height: 1.8;
+}
+
+/* Right Image Section */
+.right-img {
+  flex: 1;
+  min-width: 500px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-img img {
+  width: 100%;
+  max-width: 500px; 
+  height: auto; 
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Service Page Styles (Grid Layout) */
+.service-page {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+}
+
+/* Individual Service Item */
+.services-part {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease; 
+}
+
+.services-part:hover {
+  transform: scale(1.05); 
+}
+
+.services-part h2 {
+  color: #121111;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.services-part p {
+  color: #121111;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.icon {
+  font-size: 2rem;
+  color: #1478dc;
+  margin-bottom: 10px;
+}
+
+/* Media Queries for Responsiveness */
+/* Small Devices (Mobile Phones) */
+@media (max-width: 576px) {
+  .service {
+    flex-direction: column; 
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .left-side h1 {
+    font-size: 1.5rem;
+  }
+
+  .left-side p {
+    font-size: 1rem; 
+  }
+
+  .right-img img {
+    max-width: 100%; 
+    height: auto;
+  }
+}
+
+/* Medium Devices (Tablets) */
+@media (max-width: 768px) {
+  .service {
+    flex-wrap: wrap;
+  }
+
+  .left-side, .right-img {
+    flex: 1;
+    min-width: 250px; 
+  }
+}
+
+/* Large Devices (Desktops) */
+@media (min-width: 1200px) {
+  .service {
+    gap: 3rem; 
+  }
+
+  .services-part {
+    max-width: 220px;
+  }
+}
+
+
+/* HOTELFEATURE CSS FILE  */
+
+/* Container Styles */
+.feature-container {
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0 auto;
+  text-align: center;
+  background-color: aquamarine;
+}
+
+.feature-container h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+.feature-row {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 20px; 
+  justify-content: center; 
+}
+.feature-card {
+  background-color: #f5f5f5; 
+  padding: 15px;
+  border-radius: 10px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+  text-align: center;
+  flex: 1 1 calc(20% - 20px); 
+  max-width: 240px; 
+}
+.feature-card img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover; 
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #1478dc;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #555;
+}
+
+/* Media Queries */
+@media (max-width: 576px) {
+  .feature-card {
+    flex: 1 1 100%; 
+  }
+  .feature-card img {
+    height: 120px; 
+  }
+}
+/* Medium Devices (Tablets) */
+@media (max-width: 768px) {
+  .feature-card {
+    flex: 1 1 calc(50% - 20px); 
+  }
+}
+/* Large Devices (Desktops) */
+@media (min-width: 1200px) {
+  .feature-card {
+    flex: 1 1 calc(20% - 20px); 
+  }
+}
+
