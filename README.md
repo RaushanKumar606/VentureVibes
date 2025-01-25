@@ -34,7 +34,7 @@ VentureVibes is a full-stack travel application that connects travelers with ama
 **Frontend (Client)**:  
 - React.js  
 - React Router (for routing)  
-- Axios (for HTTP requests)  
+- Fatch (for HTTP requests)  
 - Tailwind CSS or CSS Modules (for styling)  
 - JWT (JSON Web Token) for authentication  
 
