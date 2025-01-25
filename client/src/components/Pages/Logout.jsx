@@ -8,7 +8,7 @@ const Logout=()=> {
         LogoutUser()
     },[LogoutUser])
 
-  return <Navigate to='/logout'/>;
+  return <Navigate to='/login'/>;
 }
 
 export default Logout
