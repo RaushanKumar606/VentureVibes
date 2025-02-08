@@ -1,25 +1,21 @@
-
 function HeroFlight() {
   return (
-    <div className="flight-container">
-      <div className="flight-header">
-      <div className="left-img">
-          <img
-            src="assets/countery/luxruyHotel.jpg"
-            alt="Hotel"
-            className="img-fluid"
-          />
+    <div className="flight-header">
+     
+      <div className="row">
+        <div className="col image-col">
+          <img src="/assets/Images/flightImage.png" alt="logo" className="hero-logo" />
         </div>
-        <div className="right-head">
-          <h1>Find the top Hotels nearby.</h1>
-          <p>
-          We bring you not only a stay option, but an experience in your budget to enjoy the luxury
-          </p>
+        <div className="col text-col">
+          <h2>Your Ticket to Explore the World</h2>
+          <p>Discover new destinations, embrace adventures, and create unforgettable memories with us.</p>
+          <button className="explore-btn">Book Now ✈️</button>
         </div>
       </div>
       
     </div>
-  )
+  );
 }
 
-export default HeroFlight
+export default HeroFlight;
+

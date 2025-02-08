@@ -9,16 +9,17 @@ const changePassword =require('./routers/changePass.router')
 const emailSendPass=require('./routers/changePass.router')
 const userPassReset =require('./routers/changePass.router')
 const adminRouter = require('./routers/admin.routers')
+const Tours = require('./routers/tours.router')
 const connectDB = require('./dataBase/db');
 
 require('dotenv').config();
 
-const corsOption = { 
+const corsOption = 
+{ 
   origin: "http://localhost:5173",
    methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
-    credentials: true };
-
-
+    credentials: true 
+  };
 
 // Middleware to parse JSON data
 app.use(cors(corsOption))
@@ -36,6 +37,7 @@ app.use('/api',userData)
 app.use('/api',changePassword)
 app.use('/api',emailSendPass)
 app.use('/api',userPassReset)
+app.use('/api',Tours)
 
 
 

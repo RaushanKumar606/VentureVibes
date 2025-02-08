@@ -1,5 +1,5 @@
 import './Tours.css'
-import Tours from './Tours'
+import {Tours} from './Tours'
 import Navbar from "../Navbar/Navbar";
 import Footer from "../../Footer/Footer";
 function ToursPages() {
