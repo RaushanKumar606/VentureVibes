@@ -8,7 +8,7 @@ function HotelService() {
 
         <div className="right-img">
           <img
-            src="assets/countery/luxruyHotel.jpg"
+            src="assets/Images/hotel.png"
             alt="Hotel"
             className="img-fluid"
           />
