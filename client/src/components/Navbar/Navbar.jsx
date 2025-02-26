@@ -10,10 +10,11 @@ const Navbar = () => {
   };
 
   return (
+    <div className="nav_contaner">
     <nav className="navbar">
       <div className="navbar-left">
-        <h1 className="logo">The World Awaits</h1>
-        <img src="" alt="" />
+        {/* <h1 className="logo">The World Awaits</h1> */}
+        <img src="assets\Images\logo.png" alt="logo" className="logo" />
       </div>
       <div className={`navbar-right ${isMenuOpen ? "active" : ""}`}>
         <ul className="nav-items">
@@ -57,6 +58,7 @@ const Navbar = () => {
         ☰
       </button>
     </nav>
+    </div>
   );
 };
 

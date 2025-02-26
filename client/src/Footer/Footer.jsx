@@ -7,9 +7,9 @@ const Footer = () => {
       <div className="footer-column">
         <div className="footer-logo">
           <img
-            src="https://via.placeholder.com/50"
+            src="assets\Images\logo.png"
             alt="WorldTrips Logo"
-            className="logo-image"
+            className="logo_footer"
           />
           <h3>WorldTrips</h3>
         </div>
