@@ -26,6 +26,43 @@ background-color: #00bcd4;
     align-items: center;
   }
   
+  /* PRIME CODE  */
+  .prime-container{
+    background-color: #0b0d1a;
+    display: flex;
+    justify-content: space-between;
+    height:40px;
+    width: 180px;
+    border-top-right-radius: 15px;
+ border-top-left-radius: 15px;
+ border-bottom-left-radius: 15px;
+ border-bottom-right-radius: 15px;
+ 
+    
+  
+  }
+  .join{
+ margin-left: 25px;
+ width: 50px;
+ text-align: center;    
+    background-color: #eae558;
+    border-top-right-radius: 12px;
+ border-top-left-radius: 12px;
+ border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    
+  }
+  .world-prime{
+    color: #fff;
+
+  }
+  span{
+    color: #eae558;
+    
+  }
+  .prime-container a{
+    text-decoration: none;
+  }
   /* Navigation Items */
   .nav-items {
     display: flex;
@@ -34,6 +71,7 @@ background-color: #00bcd4;
     margin: 0;
     padding: 0;
   }
+ 
   
   .nav-item a {
     color: #fff;
