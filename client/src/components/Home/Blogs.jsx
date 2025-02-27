@@ -1,7 +1,8 @@
 // import "./service.css";
 import countery from "../Data/image.json";
 
-function Blogs() {
+function Blogs()
+ {
   return (
     <>
       <div className="blogs-container">

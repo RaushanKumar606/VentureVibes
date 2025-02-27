@@ -16,13 +16,20 @@ const Navbar = () => {
         {/* <h1 className="logo">The World Awaits</h1> */}
         <img src="assets\Images\logo.png" alt="logo" className="logo" />
       </div>
+     <a href="/">
+     <div className="prime-container">
+      <div className="join"><p>JOIN</p></div>
+      <p className="world-prime">World <span>PRIME</span> </p>
+      </div>
+     </a>
+      
       <div className={`navbar-right ${isMenuOpen ? "active" : ""}`}>
         <ul className="nav-items">
           <li className="nav-item">
             <a href="/">Home</a>
           </li>
-          <li className="nav-item">
-            <a href="/booking ">Booking </a>
+          <li className="nav-item ">
+            <a href="/booking "> <span>JOIN </span>Tours<span> PRIME</span></a>
           </li>
           <li className="nav-item">
             <a href="tours ">Tours </a>

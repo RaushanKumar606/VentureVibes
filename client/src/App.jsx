@@ -11,8 +11,9 @@ import HomePages from './components/Home/HomePages';
 import ForgetEmail from './components/Pages/ForgetEmail';
 import ChangePassword from './components/Pages/ChangePassword';
 import ToursPages from './components/Tours/ToursPages';
-import HotelPage from './components/Booking/Hotels/HotelPage';
+
 import FlightPage from './components/Booking/Filght/FlightPage';
+import TrainPage from './components/Booking/Trains/TrainPage';
 
 
 function App() {
@@ -29,7 +30,7 @@ function App() {
         <Route path="/email" element={<ForgetEmail />} />
         <Route path="/changePass" element={<ChangePassword />} />
         <Route path="/tours" element={<ToursPages />} />
-        <Route path="/hotels" element={<HotelPage />} />
+        <Route path="/train" element={<TrainPage />} />
         <Route path="/flight" element={<FlightPage />} />
        
         {/* Admin Router  */}
