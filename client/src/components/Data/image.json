@@ -3,31 +3,36 @@
    
     {
       "key": 1,
-      "name":"Umaid Bhavan",
+      "name":"Luxury Hotel",
       "countery":"Explore india with india Travel",
       "title": "EXPERIENCE UNIQUIE  & LUXURY HOTEL IN INDIA",
-      "imageSrc": "/assets/countery/luxruyHotel.jpg"
+      "imageSrc": "/assets/countery/hotel.jpg",
+      "demoLink":""
     },
    
     {
       "key": 2,
+      "name":"Luxury Bus",
       "countery":"Explore Indonosiya with indonosiya Trevels",
-      "title": " EXPLORE INDIA,FASTIVAL & CULTURE",
-      "imageSrc": "/assets/countery/tajmahal.jpg"
+      "title": " EXPLORE INDIA,FASTIVAL & CULTURE WITH A BUS",
+      "imageSrc": "/assets/countery/bus.jpg",
+       "demoLink":""
     }
     ,{
       "key": 3,
       "name":"Maharaja Express",
       "countery":"Explore india with india Travel",
       "title": "EXPERIENCE LUXURY TRAINS OF INDIA",
-      "imageSrc": "/assets/countery/Train.jpg"
+      "imageSrc": "/assets/countery/Train.jpg",
+       "demoLink":""
     }
     ,{
       "key": 4,
-      "name":"Maharaja Express",
+      "name":"Air-India",
       "countery":"Explore india with india Travel",
-      "title": "EXPERIENCE LUXURY TRAINS OF INDIA",
-      "imageSrc": "/assets/countery/Train.jpg"
+      "title": "EXPERIENCE LUXURY AIR-INDIA OF INDIA",
+      "imageSrc": "/assets/countery/Air-India.jpg",
+       "demoLink":""
     }
     
   ]

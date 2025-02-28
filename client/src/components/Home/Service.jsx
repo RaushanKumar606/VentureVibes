@@ -6,6 +6,7 @@ function Services() {
     <>
     
    
+    
     <div className="train-container">
       <h2>LUXURY TRAINS</h2>
       <div className="luxury-train">
@@ -17,6 +18,7 @@ function Services() {
         ))}
       </div>
     </div>
+   
 
 
 <div className="train-container">
