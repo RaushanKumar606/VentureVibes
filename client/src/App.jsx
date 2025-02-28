@@ -11,7 +11,6 @@ import HomePages from './components/Home/HomePages';
 import ForgetEmail from './components/Pages/ForgetEmail';
 import ChangePassword from './components/Pages/ChangePassword';
 import ToursPages from './components/Tours/ToursPages';
-
 import FlightPage from './components/Booking/Filght/FlightPage';
 import TrainPage from './components/Booking/Trains/TrainPage';
 
