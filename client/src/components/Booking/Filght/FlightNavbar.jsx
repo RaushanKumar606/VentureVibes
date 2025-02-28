@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
-import { Home, Hotel, Train, Flight, DirectionsBus, Menu } from "@mui/icons-material";
+import { Home, Hotel, Train, Flight, DirectionsBus, Menu, Login,HowToReg } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 const FlightNavbar = () => {
@@ -47,6 +47,17 @@ const FlightNavbar = () => {
           <Link to="/bus" style={navStyle}>
             <DirectionsBus />
             <Typography variant="body1">Bus</Typography>
+          </Link>
+          
+          <Link to="/signup" style={navStyle}>
+          <HowToReg />
+            <Typography variant="body1">SingUp</Typography>
+          </Link>
+
+          
+          <Link to="/login" style={navStyle}>
+          <Login />
+            <Typography variant="body1">Login</Typography>
           </Link>
         </Box>
 

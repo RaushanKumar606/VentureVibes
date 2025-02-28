@@ -2,7 +2,11 @@
 
 function SingleTopPageTour() {
   return (
-    <div>SingleTopPageTour</div>
+    <div className="singlePage-container">
+        <div className="single-page">
+            
+        </div>
+    </div>
   )
 }
 

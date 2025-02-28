@@ -1,6 +1,11 @@
 body {
     font-family: Arial, sans-serif;
-    background: #F26735;
+    background-image: url("assets/country/bus.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+ 
+    
   }
   
   
