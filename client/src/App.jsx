@@ -13,6 +13,7 @@ import ChangePassword from './components/Pages/ChangePassword';
 import ToursPages from './components/Tours/ToursPages';
 import FlightPage from './components/Booking/Filght/FlightPage';
 import TrainPage from './components/Booking/Trains/TrainPage';
+import BusPage from './components/Booking/Bus/BusPage';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route path="/tours" element={<ToursPages />} />
         <Route path="/train" element={<TrainPage />} />
         <Route path="/flight" element={<FlightPage />} />
+        <Route path="/bus" element={<BusPage/>}/>
        
         {/* Admin Router  */}
          {/* <Route path="/admin" element={<Sidebar />}>
