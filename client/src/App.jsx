@@ -14,6 +14,7 @@ import ToursPages from './components/Tours/ToursPages';
 import FlightPage from './components/Booking/Filght/FlightPage';
 import TrainPage from './components/Booking/Trains/TrainPage';
 import BusPage from './components/Booking/Bus/BusPage';
+import HotelPage from './components/Booking/Hotels/HotelPage';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/train" element={<TrainPage />} />
         <Route path="/flight" element={<FlightPage />} />
         <Route path="/bus" element={<BusPage/>}/>
+        <Route path="/hotel" element={<HotelPage/>}/>
        
         {/* Admin Router  */}
          {/* <Route path="/admin" element={<Sidebar />}>

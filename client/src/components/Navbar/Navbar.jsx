@@ -29,7 +29,16 @@ const Navbar = () => {
             <a href="/">Home</a>
           </li>
           <li className="nav-item ">
-            <a href="/booking "> <span>JOIN </span>Tours<span> PRIME</span></a>
+            <a href="/bus "> Bus</a>
+          </li>
+          <li className="nav-item ">
+            <a href="/hotel "> Hotels</a>
+          </li>
+          <li className="nav-item ">
+            <a href="/train ">Train</a>
+          </li>
+          <li className="nav-item ">
+            <a href="/flight"> Air</a>
           </li>
           <li className="nav-item">
             <a href="tours ">Tours </a>

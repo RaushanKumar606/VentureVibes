@@ -8,7 +8,7 @@ function Services() {
    
     
     <div className="train-container">
-      <h2>LUXURY TRAINS</h2>
+      <h2>LUXURY TRAINS BUS AIR HOTEL</h2>
       <div className="luxury-train">
         {countery.map((item, index) => (
           <div className="c1" key={item.key || index}>
@@ -21,7 +21,7 @@ function Services() {
    
 
 
-<div className="train-container">
+{/* <div className="train-container">
 <h2>LUXURY HOTELS</h2>
 <div className="luxury-train">
   {countery.map((item, index) => (
@@ -31,7 +31,7 @@ function Services() {
     </div>
   ))}
 </div>
-</div>
+</div> */}
 </>
   );
 }

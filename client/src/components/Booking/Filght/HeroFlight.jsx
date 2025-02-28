@@ -18,4 +18,3 @@ function HeroFlight() {
 }
 
 export default HeroFlight;
-
