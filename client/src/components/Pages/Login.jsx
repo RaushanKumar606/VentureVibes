@@ -44,7 +44,7 @@ import { useNavigate } from "react-router-dom";
 // };
 
 import "./Login.css";
-
+import {  toast } from 'react-toastify';
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -52,8 +52,8 @@ const LoginPage = () => {
   const [error, setError] = useState("")
   const { storeTokenInLS } = useAuth();
   // const { user  } = useAuth();
-  const navigate = useNavigate();
-
+  const Navigate = useNavigate();
+  const API = import.meta.env.VITE_APP_API;
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -65,7 +65,7 @@ const LoginPage = () => {
       setIsLoading(true);
       setError("");
 
-      const response = await fetch("http://localhost:8080/api/login", {
+      const response = await fetch(`${API}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,8 +78,8 @@ const LoginPage = () => {
       if (response.ok) {
         console.log(data);
         storeTokenInLS(data.token);
-        alert("Login successful!");
-        navigate("/");
+        toast.success("Login Successful");
+        Navigate  ('/');
       } else {
         alert(data.message || "Login failed. Please try again.");
         // setError(data.message || "Login failed. Please try again.");

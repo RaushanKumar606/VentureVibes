@@ -259,201 +259,58 @@
 
 // export default SignupPage;
 
-// import { useState } from "react";
 
-// const SignupPage = () => {
-//   const [userData, setUserData] = useState({
-//     username: "",
-//     email: "",
-//     phone: "",
-//     password: "",
-//     country: "",
-//   });
-
-//   // const [message, setMessage] = useState("");
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setUserData({
-//       ...userData,
-//       [name]: value,
-//     });
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     console.log(userData)
-//     const response = await fetch(`http://localhost:8080/api/signup`,{
-//       method:'POST',
-//       headers:{
-//         'Content-Type':'application/json'
-//       },
-//       body: JSON.stringify(userData)
-//     })
-//     if(response.ok){
-//       const data = await response.json()
-//       console.log(data)
-
-//       console.log("singup succfull ")
-//     }
-
-//   };
-
-//   return (
-//     <div
-//       style={{
-//         maxWidth: "400px",
-//         margin: "50px auto",
-//         padding: "20px",
-//         border: "1px solid #ccc",
-//         borderRadius: "8px",
-//       }}
-//     >
-//       <h2>Signup</h2>
-//       <form onSubmit={handleSubmit}>
-//         <div style={{ marginBottom: "15px" }}>
-//           <label htmlFor="username" style={{ display: "block", marginBottom: "5px" }}>
-//             Username:
-//           </label>
-//           <input
-//             type="text"
-//             id="username"
-//             name="username"
-//             value={userData.username}
-//             onChange={handleChange}
-//             required
-//             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-//           />
-//         </div>
-//         <div style={{ marginBottom: "15px" }}>
-//           <label htmlFor="email" style={{ display: "block", marginBottom: "5px" }}>
-//             Email:
-//           </label>
-//           <input
-//             type="email"
-//             id="email"
-//             name="email"
-//             value={userData.email}
-//             onChange={handleChange}
-//             required
-//             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-//           />
-//         </div>
-//         <div style={{ marginBottom: "15px" }}>
-//           <label htmlFor="phone" style={{ display: "block", marginBottom: "5px" }}>
-//             Phone:
-//           </label>
-//           <input
-//             type="text"
-//             id="phone"
-//             name="phone"
-//             value={userData.phone}
-//             onChange={handleChange}
-//             required
-//             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-//           />
-//         </div>
-//         <div style={{ marginBottom: "15px" }}>
-//           <label htmlFor="country" style={{ display: "block", marginBottom: "5px" }}>
-//             Country:
-//           </label>
-//           <input
-//             type="text"
-//             id="country"
-//             name="country"
-//             value={userData.country}
-//             onChange={handleChange}
-//             required
-//             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-//           />
-//         </div>
-//         <div style={{ marginBottom: "15px" }}>
-//           <label htmlFor="password" style={{ display: "block", marginBottom: "5px" }}>
-//             Password:
-//           </label>
-//           <input
-//             type="password"
-//             id="password"
-//             name="password"
-//             value={userData.password}
-//             onChange={handleChange}
-//             required
-//             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-//           />
-//         </div>
-//         <button
-//           type="submit"
-//           style={{
-//             width: "100%",
-//             padding: "10px",
-//             background: "#4CAF50",
-//             color: "white",
-//             border: "none",
-//             borderRadius: "4px",
-//           }}
-//         >
-//           Signup
-//         </button>
-//       </form>
-//       {/* {message && (
-//         <p
-//           style={{
-//             marginTop: "15px",
-//             color: message.includes("Error") ? "red" : "green",
-//           }}
-//         >
-//           {message}
-//         </p>
-//       )} */}
-//     </div>
-//   );
-// };
-
-// export default SignupPage;
 import { useState } from "react";
+import {  toast } from 'react-toastify';
 import "./singup.css";
-
+import { useNavigate,Link } from 'react-router-dom';
 const SignupPage = () => {
   const [userData, setUserData] = useState({
-    username: "",
+    name: "",
     email: "",
-    phone: "",
+    number: "",
     country: "",
     password: "",
   });
-
+  const API = import.meta.env.VITE_APP_API;
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const formSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`http://localhost:8080/api/signup`, {
+    console.log("User Data:", userData);
+  
+    const response = await fetch(`${API}/api/signup`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': "application/json",
       },
       body: JSON.stringify(userData),
     });
+  
     if (response.ok) {
       const data = await response.json();
-      console.log("Signup successful:", data);
+      toast.success("Register Successful");
+      navigate('/login');
+    } else {
+      console.log("Signup failed:", response.status, await response.text());
     }
   };
-
   return (
     <div className="sign-page">
       <div className="signup-container">
         <h1 className="sing">Signup</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={formSubmit}>
           <label>Username</label>
           <div className="input-group">
             <input
               type="text"
-              name="username"
+              name="name"
               placeholder="Enter your username"
-              value={userData.username}
+              value={userData.name}
               onChange={handleChange}
               required
             />
@@ -477,9 +334,9 @@ const SignupPage = () => {
           <div className="input-group">
             <input
               type="text"
-              name="phone"
+              name="number"
               placeholder="Enter your phone number"
-              value={userData.phone}
+              value={userData.number}
               onChange={handleChange}
               required
             />
