@@ -21,8 +21,8 @@ const AirportSearch = () => {
       // Handle rate-limiting (status code 429)
       if (response.status === 429 && retryCount > 0) {
         console.warn(`Rate limit exceeded. Retrying in ${delay / 1000} seconds...`);
-        await new Promise((resolve) => setTimeout(resolve, delay)); // Wait for the delay
-        return fetchAirports(retryCount - 1, delay * 2); // Retry with increased delay
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        return fetchAirports(retryCount - 1, delay * 2); 
       }
 
       // Handle other errors

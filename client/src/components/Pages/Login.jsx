@@ -1,48 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../Hooks/ContextApi/ContextApi";
 import { useNavigate } from "react-router-dom";
-
-//   return (
-//     <div style={styles.container}>
-//       <form onSubmit={handleLogin} style={styles.form}>
-//         <h2>Login</h2>
-
-//         {error && <p style={styles.error}>{error}</p>}
-
-//         <div style={styles.inputGroup}>
-//           <label>Email</label>
-//           <input
-//             type="email"
-//             placeholder="Enter your email"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//             style={styles.input}
-//           />
-//         </div>
-
-//         <div style={styles.inputGroup}>
-//           <label>Password</label>
-//           <input
-//             type="password"
-//             placeholder="Enter your password"
-//             value={password}
-//             onChange={(e) => setPassword(e.target.value)}
-//             style={styles.input}
-//           />
-//         </div>
-
-//         <button type="submit" style={styles.button} 
-//           disabled={isLoading}>
-//           {isLoading ? "Logging in..." : "Login"}
-//         </button>
-//         <p>
-//           New Account? <Link to="/signup">Register here</Link>
-//         </p>
-//       </form>
-//     </div>
-//   );
-// };
-
 import "./Login.css";
 import {  toast } from 'react-toastify';
 const LoginPage = () => {
@@ -52,8 +10,8 @@ const LoginPage = () => {
   const [error, setError] = useState("")
   const { storeTokenInLS } = useAuth();
   // const { user  } = useAuth();
-  const Navigate = useNavigate();
-  const API = import.meta.env.VITE_APP_API;
+  const navigate = useNavigate();
+  // const API = import.meta.env.VITE_APP_API;
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -65,7 +23,7 @@ const LoginPage = () => {
       setIsLoading(true);
       setError("");
 
-      const response = await fetch(`${API}/api/login`, {
+      const response = await fetch(`http://localhost:8080/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,15 +31,14 @@ const LoginPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      const res_data = await response.json();
       // console.log(data)
       if (response.ok) {
-        console.log(data);
-        storeTokenInLS(data.token);
+        storeTokenInLS(res_data.token);
         toast.success("Login Successful");
-        Navigate  ('/');
+        navigate  ('/');
       } else {
-        alert(data.message || "Login failed. Please try again.");
+        toast.error(res_data.message || "Login failed. Please try again.");
         // setError(data.message || "Login failed. Please try again.");
       }
     } catch (error) {

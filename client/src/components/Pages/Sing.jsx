@@ -1,269 +1,9 @@
-// import { useState } from "react";
-// import { useAuth } from "../Hooks/ContextApi/ContextApi";
-// import { useNavigate,Link } from 'react-router-dom';
-// // import { use } from "react";
-// // const SignupPage = () => {
-// //   const [userData, setUserData] = useState({
-// //     username: "",
-// //     email: "",
-// //     phone: "",
-// //     password: "",
-// //     country: "",
-// //   });
-// //   const storetokenInLS=useAuth()
-// //   const navigate = useNavigate();
 
-// //   const [error, setError] = useState("");
-// //   const [isLoading, setIsLoading] = useState(false);
-
-// //   const handleInputChange = (e) => {
-// //     const { name, value } = e.target;
-// //     setUserData({ ...userData, [name]: value });
-// //   };
-
-// //   const handleSignup = async (e) => {
-// //     e.preventDefault();
-// //     if (
-// //       !userData.username ||
-// //       !userData.email ||
-// //       !userData.phone ||
-// //       !userData.password ||
-// //       !userData.country
-// //     ) {
-// //       setError("All fields are required.");
-// //       return;
-// //     }
-
-// //     if (!/^\d{10}$/.test(userData.phone)) {
-// //       setError("Phone number must be a valid 10-digit number.");
-// //       return;
-// //     }
-
-// //     if (
-// //       !/[a-z]/.test(userData.password) ||
-// //       !/[A-Z]/.test(userData.password) ||
-// //       !/\d/.test(userData.password) ||
-// //       !/[!@#$%^&*(),.?":{}|<>]/.test(userData.password)
-// //     ) {
-// //       setError(
-// //         "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character."
-// //       );
-// //       return;
-// //     }
-
-// //     try {
-// //       setIsLoading(true);
-// //       setError("");
-
-// //       // const response = await fetch("http://localhost:8080/api/signup", {
-// //       //   method: "POST",
-// //       //   headers: {
-// //       //     "Content-Type": "application/json",
-// //       //   },
-// //       //   body: JSON.stringify(userData),
-// //       // });
-
-// //       const response = await fetch(`http://localhost:8080/api/signup`, {
-// //         method: "POST",
-// //         headers: {
-// //           "Content-Type": "application/json",
-// //         },
-// //         body: JSON.stringify(userData),
-// //       });
-// //       const resData = await response.json();
-// //       console.log("userdata",resData);
-
-// //       if (response.ok) {
-// //         const data = await response.json();
-// //         storetokenInLS(data.token);
-// //         console.log(data)
-
-// //       }
-
-// //       // Handle successful signup
-// //     alert("Signup successful!");
-// //       navigate('/login');
-// //     } catch (err) {
-// //       setError(err.message);
-// //     } finally {
-// //       setIsLoading(false);
-// //     }
-// //   };
-// const SignupPage= ()=>{
-// const [userData,setUserData] = useState({
-//   username:"",
-//   email:"",
-//   phone:"",
-//   password:"",
-//   country:"",
-// })
-//   const [error, setError] = useState("");
-//   const [isLoading, setIsLoading] = useState(false);
-
-// const storetokenInLS=useAuth();
-// const navigate =useNavigate();
-
-// const handleInputChange = async(e) => {
-//       const { name, value } = e.target;
-//       setUserData({ ...userData, [name]: value });
-//     };
-
-//     const handleForm = async(e)=>{
-//   e.preventDefault();
-//    try {
-//     const response = await fetch('http://localhost:8080/api/signup', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify(userData),
-
-//     });
-
-//      if (response.ok) {
-//               const data = await response.json();
-//               storetokenInLS(data.token);
-//               console.log("userdata",data)
-
-//             }
-//             alert("Signup successful!");
-//             navigate('/login');
-//    } catch (err) {
-//     console.log("user error",err)
-//     setError(err.message);
-//    }
-//    finally {
-//           setIsLoading(false);
-//         }
-//     }
-
-//   return (
-//     <div style={styles.container}>
-//       <form onSubmit={handleForm} style={styles.form}>
-//         <h2>Signup</h2>
-
-//         {error && <p style={styles.error}>{error}</p>}
-
-//         <div style={styles.inputGroup}>
-//           <label>Username</label>
-//           <input
-//             type="text"
-//             name="username"
-//             placeholder="Enter your username"
-//             value={userData.username}
-//             onChange={handleInputChange}
-//             style={styles.input}
-//           />
-//         </div>
-
-//         <div style={styles.inputGroup}>
-//           <label>Email</label>
-//           <input
-//             type="email"
-//             name="email"
-//             placeholder="Enter your email"
-//             value={userData.email}
-//             onChange={handleInputChange}
-//             style={styles.input}
-//           />
-//         </div>
-
-//         <div style={styles.inputGroup}>
-//           <label>Phone Number</label>
-//           <input
-//             type="text"
-//             name="phone"
-//             placeholder="Enter your phone number"
-//             value={userData.phone}
-//             onChange={handleInputChange}
-//             style={styles.input}
-//           />
-//         </div>
-
-//         <div style={styles.inputGroup}>
-//           <label>Password</label>
-//           <input
-//             type="password"
-//             name="password"
-//             placeholder="Enter your password"
-//             value={userData.password}
-//             onChange={handleInputChange}
-//             style={styles.input}
-//           />
-//         </div>
-
-//         <div style={styles.inputGroup}>
-//           <label>Country</label>
-//           <input
-//             type="text"
-//             name="country"
-//             placeholder="Enter your country"
-//             value={userData.country}
-//             onChange={handleInputChange}
-//             style={styles.input}
-//           />
-//         </div>
-
-//         <button type="submit" style={styles.button} disabled={isLoading}>
-//           {isLoading ? "Signing up..." : "Signup"}
-//         </button>
-//         <p>
-//         Already have an account? <Link to="/login">Login here</Link>
-//       </p>
-//       </form>
-//     </div>
-//   );
-// };
-
-// const styles = {
-//   container: {
-//     display: "flex",
-//     justifyContent: "center",
-//     alignItems: "center",
-//     height: "100vh",
-//     backgroundColor: "#f4f4f4",
-//   },
-//   form: {
-//     padding: "2rem",
-//     backgroundColor: "#fff",
-//     borderRadius: "8px",
-//     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-//     width: "100%",
-//     maxWidth: "400px",
-//   },
-//   inputGroup: {
-//     marginBottom: "1rem",
-//   },
-//   input: {
-//     width: "100%",
-//     padding: "0.5rem",
-//     fontSize: "1rem",
-//     borderRadius: "4px",
-//     border: "1px solid #ccc",
-//   },
-//   button: {
-//     width: "100%",
-//     padding: "0.7rem",
-//     fontSize: "1rem",
-//     color: "#fff",
-//     backgroundColor: "#28a745",
-//     border: "none",
-//     borderRadius: "4px",
-//     cursor: "pointer",
-//   },
-//   error: {
-//     color: "red",
-//     marginBottom: "1rem",
-//   },
-// };
-
-// export default SignupPage;
-
-
+ import { useAuth } from "../Hooks/ContextApi/ContextApi";
 import { useState } from "react";
 import {  toast } from 'react-toastify';
 import "./singup.css";
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 const SignupPage = () => {
   const [userData, setUserData] = useState({
     name: "",
@@ -272,7 +12,9 @@ const SignupPage = () => {
     country: "",
     password: "",
   });
-  const API = import.meta.env.VITE_APP_API;
+
+  const storetokenInLS=useAuth()
+  // const API = import.meta.env.VITE_APP_API;
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -281,22 +23,23 @@ const SignupPage = () => {
 
   const formSubmit = async (e) => {
     e.preventDefault();
-    console.log("User Data:", userData);
-  
-    const response = await fetch(`${API}/api/signup`, {
+    // console.log("User Data:", userData);
+   
+    const response = await fetch(`http://localhost:8080/api/signup`, {
       method: "POST",
       headers: {
         'Content-Type': "application/json",
       },
       body: JSON.stringify(userData),
     });
-  
+    const res_data = await response.json();
     if (response.ok) {
-      const data = await response.json();
+      storetokenInLS(res_data.token);
       toast.success("Register Successful");
       navigate('/login');
     } else {
-      console.log("Signup failed:", response.status, await response.text());
+      // console.log("Signup failed:", response.status, res_data.message);
+      toast.error(res_data.message)
     }
   };
   return (
