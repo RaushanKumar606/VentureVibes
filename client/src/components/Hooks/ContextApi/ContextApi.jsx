@@ -1,15 +1,32 @@
 
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { fetchData } from "../../../../utils/rapid.api";
 export const AuthContext = createContext();
 // Define the provider
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUserData] = useState(null);
+  const [loading,setLoading]=useState([]);
+  const [data,setData]= useState(["New"]);
+  const [value,setValue]= useState(["New"]);
+
   const storeTokenInLS = (serverToken) => {
     localStorage.setItem("token", serverToken);
     setToken(serverToken); // Update state when token is stored
   };
+
+  // Api call for hotel train flight and bus
+ const featchAllData = (query)=>{
+  setLoading(true);
+  fetchData(`search/?q=${query}`).then((res)=>{
+  setData(res)
+  setLoading(false);
+})
+
+ }
+
+
 
   const userAuthentication = async () => {
     if (!token) 
@@ -42,7 +59,8 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       userAuthentication();
     }
-  }, []);
+    featchAllData(value)
+  }, [value]);
 
   // userLogout logic
 let isLoggedIn = !!token
@@ -53,7 +71,7 @@ let isLoggedIn = !!token
   }
 
   return (
-    <AuthContext.Provider value={{ storeTokenInLS,user ,token ,LogoutUser,isLoggedIn }}>
+    <AuthContext.Provider value={{ storeTokenInLS,user ,token ,LogoutUser,isLoggedIn,data,loading,setValue }}>
       {children}
     </AuthContext.Provider>
   );

@@ -15,9 +15,13 @@ import FlightPage from './components/Booking/Filght/FlightPage';
 import TrainPage from './components/Booking/Trains/TrainPage';
 import BusPage from './components/Booking/Bus/BusPage';
 import HotelPage from './components/Booking/Hotels/HotelPage';
+import { useAuth } from './components/Hooks/ContextApi/ContextApi';
 
 
 function App() {
+  const {loading,data} = useAuth
+  console.log(loading);
+  console.log(data)
   return (
     <BrowserRouter>
        <Routes>

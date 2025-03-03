@@ -1,16 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Train.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { fetchData } from "../../../../utils/rapid.api";
 
 const TrainSearch = () => {
   const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [tatkal, setTatkal] = useState("Today");
+
+
+  // Search train used r for api call 
+  useEffect(()=>{
+ const featchData =async ()=>{
+  try {
+     const response= await fetch(featchData +source );
+     const data1 = response.json();
+     setSource(data1)
+     console.lpg(data1)
+  } catch (error) {
+    console.log(error)
+    
+  }
+ }
+ featchData();
+  },[source])
+
+  const SearchButton = async (event) => {
+    event.preventDefault();
+    console.log("🔍 Searching Trains...");
+    let newInfo = await fetchData(); // Ye API Call hai
+   console.log (newInfo)
+  };
+
+
 
   return (
     <>
@@ -91,7 +118,7 @@ const TrainSearch = () => {
           ))}
         </RadioGroup>
 
-        <Button variant="contained" color="success" className="search_btn">
+        <Button variant="contained" color="success" className="search_btn" onClick={SearchButton}>
           SEARCH TRAINS
         </Button>
       </div>
