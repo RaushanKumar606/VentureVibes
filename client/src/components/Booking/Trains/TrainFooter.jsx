@@ -1,65 +1,79 @@
-
-import { Container, Grid, Typography, IconButton } from '@mui/material';
-import { Facebook, WhatsApp, YouTube, Instagram, LinkedIn, Telegram, Pinterest, Twitter } from '@mui/icons-material';
-
 const Footer = () => {
   return (
-    <footer style={{ backgroundColor: '#212121', color: 'white', padding: '20px 0' ,marginTop:'32px'}}>
-      <Container >
-        <Grid container spacing={4} justifyContent="space-between">
+    <footer className="bg-gray-900 text-white py-8 mt-8">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Social Media Icons */}
-          <Grid item xs={12} sm={6}>
-            <div>
-              <IconButton color="primary"> <Facebook /> </IconButton>
-              <IconButton color="primary"> <WhatsApp /> </IconButton>
-              <IconButton color="primary"> <YouTube /> </IconButton>
-              <IconButton color="primary"> <Instagram /> </IconButton>
-              <IconButton color="primary"> <LinkedIn /> </IconButton>
-              <IconButton color="primary"> <Telegram /> </IconButton>
-              <IconButton color="primary"> <Pinterest /> </IconButton>
-              <IconButton color="primary"> <Twitter /> </IconButton>
-            </div>
-          </Grid>
+          <div className="flex flex-wrap gap-4">
+            {/* {[
+              "Facebook",
+              "WhatsApp",
+              "YouTube",
+              "Instagram",
+              "LinkedIn",
+              "Telegram",
+              "Pinterest",
+              "Twitter",
+            ].map((icon, index) => (
+              <button
+                key={index}
+                className="bg-blue-600 rounded-full p-2 hover:bg-blue-500 transition"
+                aria-label={icon}
+              >
+                {icon}
+              </button>
+            ))} */}
+          </div>
 
-          {/* Footer Links */}
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={2}>
-              <Grid item xs={6} sm={3}>
-                <Typography variant="h6">IRCTC Trains</Typography>
-                <Typography variant="body2">General Info</Typography>
-                <Typography variant="body2">Important Info</Typography>
-                <Typography variant="body2">Agents</Typography>
-                <Typography variant="body2">Enquiries</Typography>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Typography variant="h6">Services</Typography>
-                <Typography variant="body2">IRCTC eWallet</Typography>
-                <Typography variant="body2">IRCTC iPay</Typography>
-                <Typography variant="body2">DMRC Ticket Booking</Typography>
-                <Typography variant="body2">Refund Rules</Typography>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Typography variant="h6">Support</Typography>
-                <Typography variant="body2">Help & Support</Typography>
-                <Typography variant="body2">Policies</Typography>
-                <Typography variant="body2">Mobile Zone</Typography>
-                <Typography variant="body2">Ask Disha ChatBot</Typography>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Typography variant="h6">About Us</Typography>
-                <Typography variant="body2">Advertise with us</Typography>
-                <Typography variant="body2">Person with Disability</Typography>
-                <Typography variant="body2">IRCTC Zone</Typography>
-                <Typography variant="body2">Newly Migrated Agents</Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+  
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              {
+                title: "IRCTC Trains",
+                links: ["General Info", "Important Info", "Agents", "Enquiries"],
+              },
+              {
+                title: "Services",
+                links: [
+                  "IRCTC eWallet",
+                  "IRCTC iPay",
+                  "DMRC Ticket Booking",
+                  "Refund Rules",
+                ],
+              },
+              {
+                title: "Support",
+                links: [
+                  "Help & Support",
+                  "Policies",
+                  "Mobile Zone",
+                  "Ask Disha ChatBot",
+                ],
+              },
+              {
+                title: "About Us",
+                links: [
+                  "Advertise with us",
+                  "Person with Disability",
+                  "IRCTC Zone",
+                  "Newly Migrated Agents",
+                ],
+              },
+            ].map((section, index) => (
+              <div key={index}>
+                <h6 className="text-lg font-bold mb-2">{section.title}</h6>
+                {section.links.map((link, i) => (
+                  <p key={i} className="text-sm hover:text-blue-400 cursor-pointer">{link}</p>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
 
-        <Typography align="center" style={{ marginTop: '20px', borderTop: '1px solid gray', paddingTop: '10px' }}>
+        <div className="text-center border-t border-gray-700 mt-6 pt-4">
           &copy; 2025 www.irctc.co.in. All Rights Reserved
-        </Typography>
-      </Container>
+        </div>
+      </div>
     </footer>
   );
 };

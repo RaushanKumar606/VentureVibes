@@ -1,9 +1,13 @@
+
 import travelData from "../../Data/TravalData.json";
 
-const BusRoute = () => {
+const FlightDeals= () => {
   return (
     <div className="container mx-auto mt-8">
-      <h2 className="text-3xl text-center font-semibold mb-6">Top Bus Routes</h2>
+      <h2 className="text-3xl  font-semibold mb-6">Flight deals from Worlds</h2>
+      <p className=" text-gray-700 text-base mb-4">
+        Here are the flight deals with the lowest prices. Act fast – they all depart within the next three months.
+      </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {travelData.map((item) => (
@@ -24,4 +28,4 @@ const BusRoute = () => {
   );
 };
 
-export default BusRoute;
+export default FlightDeals

@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { useAuth } from "../Hooks/ContextApi/ContextApi";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
   const { storeTokenInLS } = useAuth();
-  // const { user  } = useAuth();
   const navigate = useNavigate();
-  // const API = import.meta.env.VITE_APP_API;
+
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -32,60 +31,68 @@ const LoginPage = () => {
       });
 
       const res_data = await response.json();
-      // console.log(data)
       if (response.ok) {
         storeTokenInLS(res_data.token);
         toast.success("Login Successful");
-        navigate  ('/');
+        navigate('/');
       } else {
         toast.error(res_data.message || "Login failed. Please try again.");
-        // setError(data.message || "Login failed. Please try again.");
       }
     } catch (error) {
-      setError("Something went wrong. Please try again.", error);
+      setError("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="login-box">
-      <div className="login-container">
-        <h2 className="login-title">LOGIN</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>} 
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-6">LOGIN</h2>
+        {error && <p className="text-red-500 text-center">{error}</p>}
         <form onSubmit={handleLogin}>
-          <label>Email</label>
-          <div className="input-group">
+          <label className="block mb-2 text-gray-700">Email</label>
+          <div className="relative mb-4">
             <input
               type="email"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-            <span className="icon">👤</span>
+            <span className="absolute right-3 top-3">👤</span>
           </div>
-          <label>Password</label>
-          <div className="input-group">
+
+          <label className="block mb-2 text-gray-700">Password</label>
+          <div className="relative mb-4">
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-            <span className="icon">🔒</span>
+            <span className="absolute right-3 top-3">🔒</span>
           </div>
-          <div className="options">
+
+          <div className="flex justify-between items-center mb-6">
             <label>
-              <input type="checkbox" /> Remember Me
+              <input type="checkbox" className="mr-2" /> Remember Me
             </label>
-            <a href="/email">Forgotten Password</a>
+            <a href="/email" className="text-blue-500 hover:underline">Forgotten Password?</a>
           </div>
-          <button type="submit" className="login-button"  disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Login"}
+
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600"
+            disabled={isLoading}
+          >
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
-        <div className="signup">
-          New User? <a href="/signup">SignUp</a>
+
+        <div className="text-center mt-4">
+          New User? <a href="/signup" className="text-blue-500 hover:underline">SignUp</a>
         </div>
       </div>
     </div>

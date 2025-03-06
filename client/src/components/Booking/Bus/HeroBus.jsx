@@ -1,11 +1,4 @@
-
 import { useState } from "react";
-// import "./Train.css";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 
 const HeroBus = () => {
   const [source, setSource] = useState("");
@@ -15,70 +8,54 @@ const HeroBus = () => {
 
   return (
     <>
-    <div className="heding-container">
-    <div className="train-left">
-      <h2 className="trainHeading">Bus Ticket Booking</h2>
-    </div>
-  
-  </div>
-      <div className="booking_box">
-        <RadioGroup
-          row
-          value={tatkal}
-          onChange={(e) => setTatkal(e.target.value)}
-        >
-          {["Book Bus", "Check Bus Status", "Live Bus Status"].map(
-            (option, index) => (
-              <FormControlLabel
-                key={index}
+      <div className="text-center my-6">
+        <h2 className="text-3xl font-bold">Bus Ticket Booking</h2>
+      </div>
+      
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-4 mb-6">
+          {['Book Bus', 'Check Bus Status', 'Live Bus Status'].map((option, index) => (
+            <label key={index} className="inline-flex items-center">
+              <input
+                type="radio"
                 value={option}
-                control={<Radio />}
-                label={option}
+                checked={tatkal === option}
+                onChange={(e) => setTatkal(e.target.value)}
+                className="mr-2"
               />
-            )
-          )}
-        </RadioGroup>
+              {option}
+            </label>
+          ))}
+        </div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "25px" }}>
-          <TextField
-            label="Enter Source Name"
-            variant="outlined"
-            style={{ flex: "1 1 300px", height: "70px" }}
-            margin="normal"
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <input
+            type="text"
+            placeholder="Enter Source Name"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
             value={source}
             onChange={(e) => setSource(e.target.value)}
-            InputProps={{ style: { height: "70px" } }}
           />
-          <TextField
-            label="Enter Destination Name"
-            variant="outlined"
-            style={{ flex: "1 1 300px", height: "70px" }}
-            margin="normal"
+          <input
+            type="text"
+            placeholder="Enter Destination Name"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
-            InputProps={{ style: { height: "70px" } }}
           />
-          <TextField
+          <input
             type="date"
-            label="Departure Date"
-            variant="outlined"
-            style={{ flex: "1 1 300px", height: "70px" }}
-            margin="normal"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            InputProps={{ style: { height: "70px" } }}
           />
         </div>
 
-     
-
-        <Button variant="contained" color="success" className="search_btn">
-          SEARCH TRAINS
-        </Button>
+        <button className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-all w-full">
+          SEARCH BUSES
+        </button>
       </div>
-      
-      </>
+    </>
   );
 };
 

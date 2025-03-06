@@ -1,30 +1,29 @@
-
-import { Container, Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
-import countery from "../../Data/holidays.json";
+import holidays from "../../Data/holidays.json";
 
 const TrainHolidayPage = () => {
   return (
-    <Container>
-      <Typography variant="h4" align="center" gutterBottom sx={{ mt: 4 }}>
-        HOLIDAYS
-      </Typography>
-      <Grid container spacing={3} justifyContent="center" sx={{ mt: 3 }}>
-        {countery.map((item, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={item.key || index}>
-            <Card>
-              <CardMedia component="img" height="200" image={item.imageSrc} alt={item.title} />
-              <CardContent>
-                <Typography variant="h6">{item.name}</Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {item.title || "Discover more about this destination!"}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+    <div className="container mx-auto py-10">
+      <h2 className="text-4xl font-bold text-center mb-10">HOLIDAYS</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {holidays.map((item, index) => (
+          <div key={item.key || index} className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <img
+              src={item.imageSrc}
+              alt={item.title}
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-4">
+              <h3 className="text-xl font-semibold">{item.name}</h3>
+              <p className="text-gray-600 mt-2">
+                {item.title || "Discover more about this destination!"}
+              </p>
+            </div>
+          </div>
         ))}
-      </Grid>
-    </Container>
+      </div>
+    </div>
   );
 };
 
 export default TrainHolidayPage;
+

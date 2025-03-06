@@ -11,7 +11,7 @@ import HomePages from './components/Home/HomePages';
 import ForgetEmail from './components/Pages/ForgetEmail';
 import ChangePassword from './components/Pages/ChangePassword';
 import ToursPages from './components/Tours/ToursPages';
-import FlightPage from './components/Booking/Filght/FlightPage';
+import FlightPages from './components/Booking/Flight/FlightPages';
 import TrainPage from './components/Booking/Trains/TrainPage';
 import BusPage from './components/Booking/Bus/BusPage';
 import HotelPage from './components/Booking/Hotels/HotelPage';
@@ -36,7 +36,7 @@ function App() {
         <Route path="/changePass" element={<ChangePassword />} />
         <Route path="/tours" element={<ToursPages />} />
         <Route path="/train" element={<TrainPage />} />
-        <Route path="/flight" element={<FlightPage />} />
+        <Route path="/flight" element={<FlightPages />} />
         <Route path="/bus" element={<BusPage/>}/>
         <Route path="/hotel" element={<HotelPage/>}/>
        

@@ -1,26 +1,24 @@
- const trainInquiry= ()=>{
+const TrainInquiry = () => {
     return (
-        <div className="inquiry-container">
-            <h2 className="heading-inq">Railways inquiry just a click away!</h2>
-       <div className="row ">
-        <div className="col"> <a href="#">
-        <h3>Live Train Status</h3>
-        <p>Know the whereabouts of <br /> your train easily</p>
-        </a></div>
-        <div className="col"> <a href="#">
-        <h3>coach & seat Position</h3>
-        <p>view coach & seat layout <br /> of the train you wish to</p>
-        </a></div>
-        <div className="col"> <a href="#">
-        <h3>PNR Status</h3>
-        <p>cheak PNR Status <br /> effortlessly</p>
-        </a></div>
-        <div className="col"> <a href="#">
-        <h3>Platform Locater</h3>
-        <p>know the platform for you <br />train</p>
-        </a></div>
-       </div>
+      <div className="text-center py-10 bg-gray-100">
+        <h2 className="text-3xl font-bold mb-10">Railways Inquiry Just a Click Away!</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
+          {[
+            { title: "Live Train Status", description: "Know the whereabouts of your train easily" },
+            { title: "Coach & Seat Position", description: "View coach & seat layout of the train you wish to" },
+            { title: "PNR Status", description: "Check PNR Status effortlessly" },
+            { title: "Platform Locator", description: "Know the platform for your train" }
+          ].map((item, index) => (
+            <div key={index} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+              <a href="#" className="block">
+                <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+                <p className="text-gray-600">{item.description}</p>
+              </a>
+            </div>
+          ))}
         </div>
-    )
- }
- export default trainInquiry
+      </div>
+    );
+  };
+  
+  export default TrainInquiry;

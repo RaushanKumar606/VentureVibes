@@ -1,0 +1,129 @@
+import { useState } from "react";
+
+const FlightHero = () => {
+  const [source, setSource] = useState("");
+  const [destination, setDestination] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [cheak, setCheak] = useState("");
+  const [flightClass, setFlightClass] = useState("Economy");
+  const [adult, setAdult] = useState(1);
+  const [children, setChildren] = useState(0);
+
+  const handleAdultChange = (value) => {
+    if (adult + value >= 1) {
+      setAdult(adult + value);
+    }
+  };
+
+  const handleChildrenChange = (value) => {
+    if (children + value >= 0) {
+      setChildren(children + value);
+    }
+  };
+
+  return (
+    <>
+      <div className="text-center my-6 mt-20">
+        <h2 className="text-3xl font-bold">Flight Ticket Booking ✈️</h2>
+      </div>
+
+      <div className="bg-transparent p-4 rounded-lg shadow-lg max-w-7xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-2 mb-6">
+          {["OneWay", "Return"].map((option, index) => (
+            <label key={index} className="inline-flex items-center">
+              <input
+                type="radio"
+                value={option}
+                checked={cheak === option}
+                onChange={(e) => setCheak(e.target.value)}
+                className="mr-2 cursor-pointer"
+              />
+              {option}
+            </label>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-6 mb-6">
+          <input
+            type="text"
+            placeholder="Enter Source Name"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
+            value={source}
+            onChange={(e) => setSource(e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="Enter Destination Name"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+          />
+
+          <input
+            type="date"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+
+          <select
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
+            value={flightClass}
+            onChange={(e) => setFlightClass(e.target.value)}
+          >
+            <option value="Economy">Economy</option>
+            <option value="Business">Business</option>
+            <option value="First Class">First Class</option>
+          </select>
+
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Adults</h3>
+            <div className="flex items-center gap-4">
+              <button
+                className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                onClick={() => handleAdultChange(-1)}
+              >
+                -
+              </button>
+              <span>{adult}</span>
+              <button
+                className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                onClick={() => handleAdultChange(1)}
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Children</h3>
+            <div className="flex items-center gap-4">
+              <button
+                className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                onClick={() => handleChildrenChange(-1)}
+              >
+                -
+              </button>
+              <span>{children}</span>
+              <button
+                className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                onClick={() => handleChildrenChange(1)}
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <button className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-500 transition-all w-1/2">
+            SEARCH FLIGHTS
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default FlightHero;

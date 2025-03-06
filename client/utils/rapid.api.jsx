@@ -1,42 +1,30 @@
 
 
-const API_KEY = '44ba591c20msh00f3b3d3cb71c73p1f8861jsn3cda8d86a314';
-const BASE_URL = "https://trains.p.rapidapi.com/v1/railways/trains/india";
-
-const options = {
-    method: "POST", // POST Request
-    headers: {
-        "x-rapidapi-key": API_KEY,
-        "x-rapidapi-host": "trains.p.rapidapi.com",
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        search: "Rajdhani" // Yeh payload bhejna zaroori hai
-    }),
-};
-
-export const fetchData = async (url) => {
+export const fetchData = async () => {
+    const url = 'https://hotels-com-provider.p.rapidapi.com/v2/regions?query=Prag&domain=AR&locale=es_AR';
+  
+    const options = {
+      method: 'GET',
+      headers: {
+   	'x-rapidapi-key': '44ba591c20msh00f3b3d3cb71c73p1f8861jsn3cda8d86a314',
+		'x-rapidapi-host': 'hotels-com-provider.p.rapidapi.com'
+      },
+    };
+  
     try {
-        const response = await fetch(`${BASE_URL}${url}`, options);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log("Fetch Result:", data);
-        return data;
-
+      const response = await fetch(url, options);
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+    //   console.log("all data ",data);
+      return data;
+  
     } catch (error) {
-        console.error("❌ Error fetching data:", error);
-        return null;
+      console.error('Error fetching data:', error);
+      return null;
     }
-};
-
-// // Example Usage:
-fetchData("/search/?q=New&hl=en&gl=US")
-    .then(data => console.log("Fetch Result:", data))
-    .catch(err => console.error("Promise Rejection:", err));
-
-
-
+  };
+  

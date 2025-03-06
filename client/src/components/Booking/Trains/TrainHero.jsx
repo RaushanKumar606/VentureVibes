@@ -1,10 +1,4 @@
 import { useEffect, useState } from "react";
-import "./Train.css";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { fetchData } from "../../../../utils/rapid.api";
 
 const TrainSearch = () => {
@@ -13,117 +7,104 @@ const TrainSearch = () => {
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [tatkal, setTatkal] = useState("Today");
 
-
-  // Search train used r for api call 
-  useEffect(()=>{
- const featchData =async ()=>{
-  try {
-     const response= await fetch(featchData +source );
-     const data1 = response.json();
-     setSource(data1)
-     console.lpg(data1)
-  } catch (error) {
-    console.log(error)
-    
-  }
- }
- featchData();
-  },[source])
+  useEffect(() => {
+    const fetchDataAPI = async () => {
+      try {
+        const response = await fetch(fetchData + source);
+        const data1 = await response.json();
+        setSource(data1);
+        console.log(data1);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchDataAPI();
+  }, [source]);
 
   const SearchButton = async (event) => {
     event.preventDefault();
     console.log("🔍 Searching Trains...");
-    let newInfo = await fetchData(); // Ye API Call hai
-   console.log (newInfo)
+    let newInfo = await fetchData();
+    console.log(newInfo);
   };
-
-
 
   return (
     <>
-    <div className="heding-container">
-    <div className="train-left">
-      <h2 className="trainHeading">Train Ticket Booking</h2>
-    </div>
-    <div className="train-right">
-      <h2 className="trainHeading">IRCTC Authorized Partner</h2>
-    </div>
-  </div>
-      <div className="booking_box">
-        <RadioGroup
-          row
-          value={tatkal}
-          onChange={(e) => setTatkal(e.target.value)}
-        >
-          {["Book Train", "Check PNR Status", "Live Trains Status"].map(
-            (option, index) => (
-              <FormControlLabel
-                key={index}
-                value={option}
-                control={<Radio />}
-                label={option}
-              />
-            )
-          )}
-        </RadioGroup>
+      <div className="flex justify-between items-center p-6 bg-green-500 text-white">
+        <h2 className="text-xl font-bold">Train Ticket Booking</h2>
+        <h2 className="text-xl font-bold">IRCTC Authorized Partner</h2>
+      </div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "25px" }}>
-          <TextField
-            label="Enter Source Name"
-            variant="outlined"
-            style={{ flex: "1 1 300px", height: "70px" }}
-            margin="normal"
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-7xl mx-auto mt-10">
+        <div className="flex flex-wrap gap-6 mb-6">
+          {[
+            "Book Train",
+            "Check PNR Status",
+            "Live Trains Status"
+          ].map((option, index) => (
+            <label key={index} className="inline-flex items-center cursor-pointer">
+              <input
+                type="radio"
+                value={option}
+                checked={tatkal === option}
+                onChange={(e) => setTatkal(e.target.value)}
+                className="mr-2"
+              />
+              {option}
+            </label>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <input
+            type="text"
+            placeholder="Enter Source Name"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
             value={source}
             onChange={(e) => setSource(e.target.value)}
-            InputProps={{ style: { height: "70px" } }}
           />
-          <TextField
-            label="Enter Destination Name"
-            variant="outlined"
-            style={{ flex: "1 1 300px", height: "70px" }}
-            margin="normal"
+
+          <input
+            type="text"
+            placeholder="Enter Destination Name"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
-            InputProps={{ style: { height: "70px" } }}
           />
-          <TextField
+
+          <input
             type="date"
-            label="Departure Date"
-            variant="outlined"
-            style={{ flex: "1 1 300px", height: "70px" }}
-            margin="normal"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            InputProps={{ style: { height: "70px" } }}
           />
         </div>
 
-        <RadioGroup
-          row
-          value={tatkal}
-          onChange={(e) => setTatkal(e.target.value)}
-        >
+        <div className="flex flex-wrap gap-4 mb-6">
           {["Today", "Tomorrow", "Day After Tomorrow"].map((day, index) => (
-            <FormControlLabel
-              key={index}
-              value={day}
-              control={<Radio />}
-              label={
-                <>
-                  <span className="tatkal_btn">TATKAL OPEN</span> {day}
-                </>
-              }
-            />
+            <label key={index} className="inline-flex items-center cursor-pointer">
+              <input
+                type="radio"
+                value={day}
+                checked={tatkal === day}
+                onChange={(e) => setTatkal(e.target.value)}
+                className="mr-2"
+              />
+              <span className="font-bold text-green-500">TATKAL OPEN</span> {day}
+            </label>
           ))}
-        </RadioGroup>
+        </div>
 
-        <Button variant="contained" color="success" className="search_btn" onClick={SearchButton}>
-          SEARCH TRAINS
-        </Button>
+        <div className="flex justify-center">
+          <button
+            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-500 transition-all w-1/2"
+            onClick={SearchButton}
+          >
+            SEARCH TRAINS
+          </button>
+        </div>
       </div>
-      
-      </>
+    </>
   );
 };
 

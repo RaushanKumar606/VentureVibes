@@ -1,7 +1,5 @@
 
 import HeroBus from "./HeroBus"
-import './Bus.css'
-import FlightNavbar from "../Filght/FlightNavbar"
 import BusCusTrust from "./BusCusTrust"
 import BusList from "./BusList"
 import BusFeature from "./BusFeature"
@@ -13,7 +11,7 @@ import BusRoute from "./BusRoute"
 function BusPage() {
   return (
     <>
-     <FlightNavbar/>
+   
     <HeroBus/>
     <BusCusTrust/>
     <BusList/>
