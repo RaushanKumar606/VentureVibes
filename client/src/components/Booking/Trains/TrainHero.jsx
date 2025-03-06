@@ -30,13 +30,13 @@ const TrainSearch = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center p-6 bg-green-500 text-white">
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-7xl mx-auto mt-10">
+      <div className="flex justify-between  max-w-7xl mx-auto p-6 bg-green-500 text-white">
         <h2 className="text-xl font-bold">Train Ticket Booking</h2>
         <h2 className="text-xl font-bold">IRCTC Authorized Partner</h2>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-7xl mx-auto mt-10">
-        <div className="flex flex-wrap gap-6 mb-6">
+        <div className="flex flex-wrap gap-6 mb-6 mt-10">
           {[
             "Book Train",
             "Check PNR Status",

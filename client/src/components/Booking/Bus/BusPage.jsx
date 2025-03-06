@@ -4,6 +4,7 @@ import BusCusTrust from "./BusCusTrust"
 import BusList from "./BusList"
 import BusFeature from "./BusFeature"
 import BusRoute from "./BusRoute"
+import FlightNavbar from "../Flight/FlightNavbar"
 // import BusTravData from "./BusTravData"
 
 
@@ -11,7 +12,7 @@ import BusRoute from "./BusRoute"
 function BusPage() {
   return (
     <>
-   
+   <FlightNavbar/>
     <HeroBus/>
     <BusCusTrust/>
     <BusList/>
