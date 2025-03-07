@@ -2,7 +2,7 @@ import { FaMoneyBillWave, FaCheckCircle, FaWallet } from 'react-icons/fa';
 
 const BusCusTrust = () => {
   return (
-    <div className="bus-container bg-gray-100 p-20">
+    <div className="bus-container bg-gray-100 p-10 mt-10">
       <div className="traincus text-center">
         <h1 className="text-3xl font-bold mb-4">1 million+ customers</h1>
         <p className="text-lg mb-6">Book Bus tickets with us because</p>

@@ -3,7 +3,7 @@ import countery from "../../Data/image.json";
 function BusList() {
   return (
     <>
-      <div className="bus-list-container bg-gray-100 p-20">
+      <div className="bus-list-container bg-gray-100 p-10">
         <h2 className="blogs-title text-3xl font-bold text-center mb-6">TOP BUS TRAVELS</h2>
         <div className="blogs-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {countery.map((item, index) => (

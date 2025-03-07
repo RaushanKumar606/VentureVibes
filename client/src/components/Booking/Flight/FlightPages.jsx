@@ -1,4 +1,5 @@
 import FlightDeals from "./FlightDeals"
+import FlightFooter from "./FlightFooter"
 import FlightHero from "./FlightHero"
 import FlightNavbar from "./FlightNavbar"
 import FlightService from "./FlightService"
@@ -11,6 +12,7 @@ function FlightPages() {
    <FlightHero/>
    <FlightService/>
    <FlightDeals/>
+   <FlightFooter/>
    </>
   )
 }

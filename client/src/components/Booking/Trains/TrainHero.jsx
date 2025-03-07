@@ -30,77 +30,56 @@ const TrainSearch = () => {
 
   return (
     <>
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-7xl mx-auto mt-10">
-      <div className="flex justify-between  max-w-7xl mx-auto p-6 bg-green-500 text-white">
-        <h2 className="text-xl font-bold">Train Ticket Booking</h2>
-        <h2 className="text-xl font-bold">IRCTC Authorized Partner</h2>
-      </div>
-
-        <div className="flex flex-wrap gap-6 mb-6 mt-10">
-          {[
-            "Book Train",
-            "Check PNR Status",
-            "Live Trains Status"
-          ].map((option, index) => (
-            <label key={index} className="inline-flex items-center cursor-pointer">
-              <input
-                type="radio"
-                value={option}
-                checked={tatkal === option}
-                onChange={(e) => setTatkal(e.target.value)}
-                className="mr-2"
-              />
-              {option}
-            </label>
-          ))}
+      <div className="bg-[url('/assets/countery/Train.jpg')] bg-cover bg-center bg-no-repeat w-full h-screen">
+        <div className="flex justify-between p-6 bg-green-500 text-white">
+          <h2 className="text-xl font-bold">Train Ticket Booking</h2>
+          <h2 className="text-xl font-bold">IRCTC Authorized Partner</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div className="flex flex-wrap  max-w-6xl mx-auto gap-4 mb-6 mt-10">
+          {["Book Bus", "Check Bus Status", "Live Bus Status"].map(
+            (option, index) => (
+              <label key={index} className="inline-flex items-center">
+                <input
+                  type="radio"
+                  value={option}
+                  checked={tatkal === option}
+                  onChange={(e) => setTatkal(e.target.value)}
+                  className="mr-2"
+                />
+                {option}
+              </label>
+            )
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-6  max-w-6xl mx-auto bg-transparent mt-10">
           <input
             type="text"
             placeholder="Enter Source Name"
-            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500 bg-transparent"
             value={source}
             onChange={(e) => setSource(e.target.value)}
           />
-
           <input
             type="text"
             placeholder="Enter Destination Name"
-            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500 bg-transparent"
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
           />
-
           <input
             type="date"
-            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="p-4 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-500 bg-transparent"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
         </div>
 
-        <div className="flex flex-wrap gap-4 mb-6">
-          {["Today", "Tomorrow", "Day After Tomorrow"].map((day, index) => (
-            <label key={index} className="inline-flex items-center cursor-pointer">
-              <input
-                type="radio"
-                value={day}
-                checked={tatkal === day}
-                onChange={(e) => setTatkal(e.target.value)}
-                className="mr-2"
-              />
-              <span className="font-bold text-green-500">TATKAL OPEN</span> {day}
-            </label>
-          ))}
-        </div>
-
-        <div className="flex justify-center">
-          <button
-            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-500 transition-all w-1/2"
-            onClick={SearchButton}
-          >
-            SEARCH TRAINS
+        <div className="relative w-full mt-10 ">
+          <button className="bg-blue-500 text-white text-center font-semibold py-3 px-6 rounded-md hover:bg-green-600 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          onClick={SearchButton}>
+            SEARCH
           </button>
         </div>
       </div>
