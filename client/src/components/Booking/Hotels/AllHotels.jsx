@@ -1,5 +1,6 @@
-
 import travelData from "../../Data/TravalData.json";
+import { Link } from 'react-router-dom';
+
 function AllHotels() {
     return (
         <div className="container mx-auto mt-8">
@@ -7,21 +8,23 @@ function AllHotels() {
     
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {travelData.map((item) => (
-              <div key={item.id} className="max-w-sm mx-auto shadow-lg rounded-lg overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.from}
-                  className="w-full h-40 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-lg font-bold mb-2">Buses From {item.from} To:</h3>
-                  <p className="text-gray-700">{item.to.join(", ")}</p>
+              <Link to={`/item/${item.id}`} key={item.id} className="block">
+                <div className="max-w-sm mx-auto shadow-lg rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300">
+                  <img
+                    src={item.image}
+                    alt={item.from}
+                    className="w-full h-40 object-cover"
+                  />
+                  <div className="p-4">
+                    <h3 className="text-lg font-bold mb-2">Buses From {item.from} To:</h3>
+                    <p className="text-gray-700">{item.to.join(", ")}</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       );
     };
 
-export default AllHotels
+export default AllHotels;

@@ -1,6 +1,7 @@
 import countery from "../../Data/image.json";
 
 function BusList() {
+
   return (
     <>
       <div className="bus-list-container bg-gray-100 p-10">

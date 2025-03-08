@@ -1,53 +1,62 @@
 
-
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchData } from "../../../../utils/rapid.api";
+import { busApi, flightApi, hotelApi, trainApi } from "../../utils/ApiAll";
+
 export const AuthContext = createContext();
-// Define the provider
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUserData] = useState(null);
-  const [loading,setLoading]=useState([]);
-  const [data,setData]= useState(["New"]);
-  const [value,setValue]= useState(["New"]);
+  const [loading, setLoading] = useState(false); 
+  const [flightData, setFlightData] = useState([]);
+  const [trainData, setTrainData] = useState([]);
+  const [busData, setBusData] = useState([]);
+  const [hotelData, setHotelData] = useState([]);
+  const [value, setValue] = useState("New"); 
+
+  const fetchAllData = async () => {
+    setLoading(true);
+    try {
+      const [flightRes, trainRes, busRes, hotelRes] = await Promise.all([
+        flightApi(),
+        trainApi(),
+        busApi(),
+        hotelApi(),
+      ]);
+      setFlightData(flightRes || []);
+      setTrainData(trainRes || []);
+      setBusData(busRes || []);
+      setHotelData(hotelRes || []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); 
+    }
+  };
+
+  useEffect(() => {
+    fetchAllData();
+  }, [value]); 
 
   const storeTokenInLS = (serverToken) => {
     localStorage.setItem("token", serverToken);
-    setToken(serverToken); // Update state when token is stored
+    setToken(serverToken);
   };
 
-  // Api call for hotel train flight and bus
- const featchAllData = (query)=>{
-  setLoading(true);
-  fetchData(`search/?q=${query}`).then((res)=>{
-  setData(res)
-  setLoading(false);
-})
-
- }
-
-
-
   const userAuthentication = async () => {
-    if (!token) 
-      return; 
-
+    if (!token) return;
     try {
-      const response = await fetch(`http://localhost:8080/api/user`, {
+      const response = await fetch("http://localhost:8080/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
       if (response.ok) {
         const userData = await response.json();
         setUserData(userData);
       } else if (response.status === 401) {
         console.error("Token is invalid or expired. Logging out...");
-        localStorage.removeItem("token");
-        setToken(null);
-        setUserData(null);
+        LogoutUser();
       } else {
         console.error("Failed to authenticate user");
       }
@@ -55,23 +64,37 @@ export const AuthProvider = ({ children }) => {
       console.error("Error during user authentication:", error);
     }
   };
+
   useEffect(() => {
     if (token) {
       userAuthentication();
     }
-    featchAllData(value)
-  }, [value]);
+  }, [token]); 
 
-  // userLogout logic
-let isLoggedIn = !!token
+  const isLoggedIn = !!token;
 
-  const LogoutUser=()=>{
-    setToken("");
-    return localStorage.removeItem('token')
-  }
+  const LogoutUser = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+    setUserData(null); 
+  };
 
   return (
-    <AuthContext.Provider value={{ storeTokenInLS,user ,token ,LogoutUser,isLoggedIn,data,loading,setValue }}>
+    <AuthContext.Provider
+      value={{
+        storeTokenInLS,
+        user,
+        token,
+        LogoutUser,
+        isLoggedIn,
+        flightData,
+        hotelData,
+        busData,
+        trainData,
+        setValue,
+        loading, 
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -84,6 +107,5 @@ export const useAuth = () => {
   if (!authContextValue) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
-
   return authContextValue;
 };
