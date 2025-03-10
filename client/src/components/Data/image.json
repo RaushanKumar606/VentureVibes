@@ -7,7 +7,7 @@
       "countery":"Explore india with india Travel",
       "title": "EXPERIENCE UNIQUIE  & LUXURY HOTEL IN INDIA",
       "imageSrc": "/assets/countery/hotel.jpg",
-      "demoLink":""
+      "demoLink":"/hotel"
     },
    
     {
@@ -16,7 +16,7 @@
       "countery":"Explore Indonosiya with indonosiya Trevels",
       "title": " EXPLORE INDIA,FASTIVAL & CULTURE WITH A BUS",
       "imageSrc": "/assets/countery/bus.jpg",
-       "demoLink":""
+       "demoLink":"/bus"
     }
     ,{
       "key": 3,
@@ -24,7 +24,7 @@
       "countery":"Explore india with india Travel",
       "title": "EXPERIENCE LUXURY TRAINS OF INDIA",
       "imageSrc": "/assets/countery/Train.jpg",
-       "demoLink":""
+        "demoLink":"/train"
     }
     ,{
       "key": 4,
@@ -32,7 +32,7 @@
       "countery":"Explore india with india Travel",
       "title": "EXPERIENCE LUXURY AIR-INDIA OF INDIA",
       "imageSrc": "/assets/countery/Air-India.jpg",
-       "demoLink":""
+       "demoLink":"/flight"
     }
     
   ]
