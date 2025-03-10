@@ -1,5 +1,5 @@
 import countery from "../Data/image.json";
-
+console.log("home page",countery)
 function Services() {
   return (
     <>
@@ -17,6 +17,14 @@ function Services() {
                 className="w-full h-48 object-cover"
               />
               <h3 className="text-xl font-semibold text-gray-800 p-4">{item.name}</h3>
+              <a
+                      href={item.demoLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary"
+                    >
+                      Live Demo!
+                    </a>
             </div>
           ))}
         </div>

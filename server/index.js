@@ -2,16 +2,24 @@ const bodyParser = require("body-parser");
 const express = require('express');
 const app = express();
 const cors = require('cors');
+// this is  user router 
 const userRouter = require('./routers/user.router'); 
 const loginRouter =require('./routers/login.router')
 const userData =  require('./routers/user.router');
 const changePassword =require('./routers/changePass.router')
 const emailSendPass=require('./routers/changePass.router')
 const userPassReset =require('./routers/changePass.router')
+// Admin Router 
 const adminRouter = require('./routers/admin.routers')
+const singleUser = require('./routers/admin.routers')
+const updateUser = require('./routers/admin.routers')
+const deleteUser = require('./routers/admin.routers')
+//  Tours Router
 const Tours = require('./routers/tours.router')
 const connectDB = require('./dataBase/db');
-
+const createTour  = require('./routers/tours.router');
+const updateTour  = require('./routers/tours.router');
+const deleteTour  = require('./routers/tours.router');
 require('dotenv').config();
 
 const corsOption = 
@@ -29,6 +37,9 @@ app.use(bodyParser.json());
 
 // Admin routers
 app.use('/api/admin',adminRouter)
+app.use('/api/admin',singleUser)
+app.use('/api/admin',updateUser)
+app.use('/api/admin',deleteUser) 
 
 // Define a simple route
 app.use('/api', userRouter);
@@ -38,7 +49,9 @@ app.use('/api',changePassword)
 app.use('/api',emailSendPass)
 app.use('/api',userPassReset)
 app.use('/api',Tours)
-
+app.use('/api',deleteTour)
+app.use('/api',updateTour)
+app.use('/api',createTour)
 
 
 const PORT1 = process.env.PORT || 5000;

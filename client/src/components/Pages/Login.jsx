@@ -9,9 +9,11 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { storeTokenInLS } = useAuth();
+  const {user} = useAuth
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
+    console.log( "all user",user)
     e.preventDefault();
     if (!email || !password) {
       setError("Please enter both email and password.");
@@ -33,13 +35,13 @@ const LoginPage = () => {
       const res_data = await response.json();
       if (response.ok) {
         storeTokenInLS(res_data.token);
-        toast.success("Login Successful");
+        toast.success(`Login Successful! Welcome, ${user.name}`);
         navigate('/');
       } else {
         toast.error(res_data.message || "Login failed. Please try again.");
       }
     } catch (error) {
-      setError("Something went wrong. Please try again.");
+      setError("Something went wrong. Please try again.",error);
     } finally {
       setIsLoading(false);
     }

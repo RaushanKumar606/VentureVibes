@@ -15,7 +15,11 @@ import FlightPages from './components/Booking/Flight/FlightPages';
 import TrainPage from './components/Booking/Trains/TrainPage';
 import BusPage from './components/Booking/Bus/BusPage';
 import HotelPage from './components/Booking/Hotels/HotelPage';
-// import { useAuth } from './components/Hooks/ContextApi/ContextApi';
+import SingleTure from './components/Tours/SingleTure';
+import AdminPage from './components/Admin/AdminPage';
+import AdminUser from './components/Pages/AdminUser';
+import AdminUserEdit from './components/Pages/AdminUserEdit';
+
 
 
 function App() {
@@ -33,14 +37,17 @@ function App() {
         <Route path="/email" element={<ForgetEmail />} />
         <Route path="/changePass" element={<ChangePassword />} />
         <Route path="/tours" element={<ToursPages />} />
+        <Route path="/tours/:id" element={<SingleTure />} />
         <Route path="/train" element={<TrainPage />} />
         <Route path="/flight" element={<FlightPages />} />
         <Route path="/bus" element={<BusPage/>}/>
         <Route path="/hotel" element={<HotelPage/>}/>
-       
+        
         {/* Admin Router  */}
-         {/* <Route path="/admin" element={<Sidebar />}>
-         </Route> */}
+        <Route  path= '/admin' element={<AdminPage/>}>
+        <Route path="users" element={<AdminUser/>} />
+        <Route path="/admin/users/:id/edit" element={<AdminUserEdit/>}/>
+        </Route>
       </Routes>
     </BrowserRouter>
   );

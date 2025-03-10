@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-
+import{useAuth} from '../Hooks/ContextApi/ContextApi';
 function ChangePassword() {
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
+  const {token}=useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +29,7 @@ function ChangePassword() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           currentPassword,

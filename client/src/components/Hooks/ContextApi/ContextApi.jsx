@@ -5,7 +5,7 @@ import { busApi, flightApi, hotelApi, trainApi } from "../../utils/ApiAll";
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [user, setUserData] = useState(null);
+  const [user, setUserData] = useState("");
   const [loading, setLoading] = useState(false); 
   const [flightData, setFlightData] = useState([]);
   const [trainData, setTrainData] = useState([]);
@@ -54,6 +54,7 @@ export const AuthProvider = ({ children }) => {
       if (response.ok) {
         const userData = await response.json();
         setUserData(userData);
+        console.log("userdata",userData)
       } else if (response.status === 401) {
         console.error("Token is invalid or expired. Logging out...");
         LogoutUser();
