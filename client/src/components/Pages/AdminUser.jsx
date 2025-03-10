@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 function AdminUser() {
   const [users, setUsers] = useState([]);
   const { token } = useAuth();
-
-
   const fetchUsers = async () => {
     try {
       const response = await fetch(`http://localhost:8080/api/admin/users`, {
@@ -22,7 +20,6 @@ function AdminUser() {
       console.log(error);
     }
   };
-  
   const deleteUserById = async (id) => {
     try {
       const response = await fetch(`http://localhost:8080/api/admin/users/delete/${id}`, {
@@ -39,8 +36,6 @@ function AdminUser() {
       console.log(error);
     }
   };
-
-
   useEffect(() => {
     fetchUsers();
   }, []);

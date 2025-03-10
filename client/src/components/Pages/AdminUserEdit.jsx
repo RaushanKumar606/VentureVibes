@@ -3,13 +3,14 @@ import { useAuth } from "../Hooks/ContextApi/ContextApi";
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 function AdminUserEdit() {
+  const { token } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     mobile: "",
     country: "",
   });
-  const { token,  storeTokenInLS} = useAuth();
+  const {   storeTokenInLS} = useAuth();
   const { id } = useParams(); 
   const getUserById = async () => {
     try {
@@ -47,7 +48,7 @@ function AdminUserEdit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await fetch(`http://localhost:8080/admin/users/update/${id}`, {
+        const response = await fetch(`http://localhost:8080/api/admin/users/update/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
