@@ -102,7 +102,7 @@ const Navbar = () => {
                 <li><a href="/logout" className="hover:text-red-600">Logout</a></li> */}
                 <li className="relative group">
                   <button className="hover:text-blue-600 flex items-center gap-2">
-                    <a href="/dashboard">
+                    <a href="/user">
                       <HiOutlineUserCircle className="text-3xl" />
                       <i className="fas fa-user-circle"></i>{user.userData.name}
                     </a>

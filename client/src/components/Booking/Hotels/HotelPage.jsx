@@ -1,4 +1,4 @@
-import FlightNavbar from "../Flight/FlightNavbar"
+import Navbar from "../../Navbar/Navbar"
 import AllHotels from "./AllHotels"
 import HotelChoice from "./HotelChoice"
 import HotelFeatures from "./HotelFeatures"
@@ -10,7 +10,7 @@ import PopularHotel from "./PopularHotel"
 function HotelPage() {
   return (
     <>
-      <FlightNavbar/>
+      <Navbar/>
     <HotelSearch/>
     <HotelChoice/>
     <AllHotels/>

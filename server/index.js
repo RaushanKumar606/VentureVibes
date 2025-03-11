@@ -6,6 +6,7 @@ const cors = require('cors');
 const userRouter = require('./routers/user.router'); 
 const loginRouter =require('./routers/login.router')
 const userData =  require('./routers/user.router');
+const userUpdate = require('./routers/user.router')
 const changePassword =require('./routers/changePass.router')
 const emailSendPass=require('./routers/changePass.router')
 const userPassReset =require('./routers/changePass.router')
@@ -66,6 +67,7 @@ app.use('/api/admin',getBus)
 app.use('/api', userRouter);
 app.use('/api', loginRouter);
 app.use('/api',userData)
+app.use('/api',userUpdate)
 app.use('/api',changePassword)
 app.use('/api',emailSendPass)
 app.use('/api',userPassReset)

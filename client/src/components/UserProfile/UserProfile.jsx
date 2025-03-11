@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
-import { FiSearch, FiBell, FiLogOut } from "react-icons/fi";
-import { AiOutlineDashboard } from "react-icons/ai";
-import { BsTruck, BsCreditCard, BsChatDots, BsGear } from "react-icons/bs";
-import { HiOutlineUserCircle } from "react-icons/hi";
 import { useAuth } from "../Hooks/ContextApi/ContextApi";
-const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState("Tracking");
+const UserProfile = () => {
+  
   const [user, setUser] = useState(null);
   const { token } = useAuth();
   useEffect(() => {
@@ -34,61 +30,10 @@ const Dashboard = () => {
   }
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md p-5 flex flex-col justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-5">Treavler</h2>
-          <nav className="space-y-4">
-           <a href=""> <SidebarItem
-              icon={AiOutlineDashboard}
-              label="/Dashboard"
-              active={activeTab}
-              setActiveTab={setActiveTab}
-            /></a>
-            <SidebarItem
-              icon={BsTruck}
-              label="Tracking"
-              active={activeTab}
-              setActiveTab={setActiveTab}
-            />
-            <SidebarItem
-              icon={BsCreditCard}
-              label="Payments"
-              active={activeTab}
-              setActiveTab={setActiveTab}
-            />
-            <SidebarItem
-              icon={BsChatDots}
-              label="Messages"
-              active={activeTab}
-              setActiveTab={setActiveTab}
-              badge={5}
-            />
-          </nav>
-        </div>
-        <div>
-          <SidebarItem
-            icon={BsGear}
-            label="Settings"
-            active={activeTab}
-            setActiveTab={setActiveTab}
-          />
-
-          <a href="/logout">
-            <SidebarItem
-              icon={FiLogOut}
-              label="Log out"
-              active={activeTab}
-              setActiveTab={setActiveTab}
-            />
-          </a>
-        </div>
-      </aside>
-
       {/* Main Content */}
       <main className="flex-1 p-6 overflow-auto">
         {/* Top Bar */}
-        <div className="flex justify-between items-center mb-6">
+        {/* <div className="flex justify-between items-center mb-6">
           <div className="relative w-full max-w-md">
             <input
               type="text"
@@ -107,7 +52,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div>
           <table className="w-full border-collapse border border-gray-300">
@@ -189,4 +134,5 @@ const Card = ({ title, content }) => (
   </div>
 );
 
-export default Dashboard;
+
+export default UserProfile;
