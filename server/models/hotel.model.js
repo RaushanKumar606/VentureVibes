@@ -1,41 +1,98 @@
-const mongoose = require('mongoose')
-const {Schema}= mongoose
-const hotelSchema = new Schema
-({
-    title: {
-        type: String,
-        required: true
-    },
-    image: {
-        // url:String,
-        // filename:String,
-        
-        filename: { type: String, default: 'default-image.jpg' },
-        url: { type: String, default: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bGFrZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60" }
-    },
-    description: {
-        type: String
-    },
-    price: {
-        type: Number
-    },
-    location: {
-        type: String
-    },
-    country: {
-        type: String
-    },
-    reviews: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Review"  
-        }
-    ],
-    owner: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-    },
+const mongoose = require("mongoose");
 
+const hotelSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Assuming a User model
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  latitude: {
+    type: Number,
+    required: true,
+  },
+  longitude: {
+    type: Number,
+    required: true,
+  },
+  kilometers: {
+    type: Number, // Distance from a city center or landmark
+    required: true,
+  },
+  typeRoom: {
+    type: String,
+    enum: ["Single", "Double", "Suite", "Family", "Luxury"],
+    required: true,
+  },
+  checkIn: {
+    type: String, // Example: "12:00 PM"
+    required: true,
+  },
+  checkOut: {
+    type: String, // Example: "10:00 AM"
+    required: true,
+  },
+  persons: {
+    type: Number,
+    required: true,
+  },
+  adults: {
+    type: Number,
+    required: true,
+  },
+  children: {
+    type: Number,
+    required: true,
+  },
+  pricePerNight: {
+    type: Number,
+    required: true,
+  },
+  amenities: {
+    type: [String], // Example: ["Free WiFi", "Swimming Pool", "Parking"]
+    default: [],
+  },
+  rating: {
+    type: Number,
+    min: 0,
+    max: 5,
+    default: 0,
+  },
+  images: [  
+    {
+        url: String,
+        filename: String
+    }
+],
+  description: {
+    type: String,
+  },
+  reviews: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "review",
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
-const Hotels = mongoose.model("Hotel", hotelSchema);
-module.exports = Hotels;
+
+const Hotel = mongoose.model("Hotel", hotelSchema);
+
+module.exports= Hotel;

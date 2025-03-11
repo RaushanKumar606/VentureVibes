@@ -15,7 +15,6 @@ const loginUser = async (req, res) => {
       if (!userExist) {
         return res.status(400).json({ message: 'Invalide email or password please try again' });
       }
-      // Compare the entered password with the hashed password stored in the database
       const token = await userExist.generateToken();
       const user = await userExist.comparePassword(password) 
       if (!user) {

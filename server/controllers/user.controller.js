@@ -22,11 +22,8 @@ const createUser = async (req, res) => {
     if (existingPasswordUser) {
       return res.status(400).json({ message: 'Password is already taken' });
     }
-
     const newUser = new User({ name, email, number, country, password });
     const savedUser = await newUser.save();
-
-    // Return the response with the JWT token
     const token = await savedUser.generateToken();
   
     res.status(201).json({

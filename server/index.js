@@ -14,12 +14,28 @@ const adminRouter = require('./routers/admin.routers')
 const singleUser = require('./routers/admin.routers')
 const updateUser = require('./routers/admin.routers')
 const deleteUser = require('./routers/admin.routers')
+const getHotel = require('./routers/admin.routers')
+const getFlight= require('./routers/admin.routers')
+const getBus = require('./routers/admin.routers')
+const getTour = require('./routers/admin.routers')
 //  Tours Router
 const Tours = require('./routers/tours.router')
 const connectDB = require('./dataBase/db');
 const createTour  = require('./routers/tours.router');
 const updateTour  = require('./routers/tours.router');
 const deleteTour  = require('./routers/tours.router');
+// Flight Router
+const Flight = require('./routers/flight.router');
+const FlightById=require('./routers/flight.router')
+// Hotel Router
+const Hotel = require('./routers/hotel.router');
+const HotelById = require('./routers/hotel.router')
+// Bus Router
+const Bus = require('./routers/bus.router');
+const BusById = require('./routers/bus.router')
+// Train Router
+const Train = require('./routers/train.router');
+const TrainById = require('./routers/train.router')
 require('dotenv').config();
 
 const corsOption = 
@@ -41,6 +57,11 @@ app.use('/api/admin',singleUser)
 app.use('/api/admin',updateUser)
 app.use('/api/admin',deleteUser) 
 
+app.use('/api/admin',getHotel) 
+app.use('/api/admin',getFlight) 
+app.use('/api/admin',getTour) 
+app.use('/api/admin',getBus) 
+
 // Define a simple route
 app.use('/api', userRouter);
 app.use('/api', loginRouter);
@@ -48,11 +69,26 @@ app.use('/api',userData)
 app.use('/api',changePassword)
 app.use('/api',emailSendPass)
 app.use('/api',userPassReset)
+  // Tours
 app.use('/api',Tours)
 app.use('/api',deleteTour)
 app.use('/api',updateTour)
 app.use('/api',createTour)
 
+// Flight
+app.use('/api',Flight)
+app.use('/api',FlightById)
+
+// Hotel
+app.use('/api',Hotel)
+app.use('/api',HotelById)
+
+// BUS
+app.use('/api',Bus)
+app.use('/api',BusById)
+// TRAIN
+app.use('/api',Train)
+app.use('/api',TrainById)
 
 const PORT1 = process.env.PORT || 5000;
 
