@@ -47,7 +47,7 @@ const Sidebar = () => {
               to="/admin/visa"
               className="block px-4 py-2 rounded hover:bg-gray-700"
             >
-              Visa
+              Hotel
             </NavLink>
           </li>
           <li>
