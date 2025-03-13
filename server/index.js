@@ -37,6 +37,10 @@ const BusById = require('./routers/bus.router')
 // Train Router
 const Train = require('./routers/train.router');
 const TrainById = require('./routers/train.router')
+
+// Bookiing roouter 
+bookingRoutes =require( "./routers/booking.router");
+
 require('dotenv').config();
 
 const corsOption = 
@@ -91,6 +95,8 @@ app.use('/api',BusById)
 // TRAIN
 app.use('/api',Train)
 app.use('/api',TrainById)
+// Booking
+app.use("/api/bookings", bookingRoutes);
 
 const PORT1 = process.env.PORT || 5000;
 

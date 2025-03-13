@@ -1,4 +1,4 @@
-import { useAuth } from "../Hooks/ContextApi/ContextApi";
+import { useAuth } from "../Hooks/ContextApi";
 import { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -60,9 +60,8 @@ const AdminTour = () => {
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-3 md:gap-6">
-        <button className="bg-green-500 hover:bg-green-600 text-black px-4 py-2 rounded-lg border border-gray-300 shadow-md bg-">
+          <button className="bg-green-500 hover:bg-green-600 text-black px-4 py-2 rounded-lg border border-gray-300 shadow-md bg-">
             <Link to={`/admin/create-tour`}>+Add Tour</Link>
-            
           </button>
           <button className="text-black px-4 py-2 rounded-lg border border-gray-300 shadow-md">
             View Table
@@ -87,14 +86,16 @@ const AdminTour = () => {
             <th className="py-3 px-6 text-left">Country</th>
             <th className="py-3 px-6 text-left">Rating</th>
             <th className="py-3 px-6 text-left">Date</th>
-            <th className="py-3 px-6 text-left">Edit</th>
-            <th className="py-3 px-6 text-left">Delete</th>
+            <th className="py-3 px-6 text-center">Action</th>
           </tr>
         </thead>
         <tbody>
           {tours.length > 0 ? (
             tours.map((tour, index) => (
-              <tr key={index} className="border-b hover:bg-gray-100 transition duration-300">
+              <tr
+                key={index}
+                className="border-b hover:bg-gray-100 transition duration-300"
+              >
                 {/* Tour Image */}
                 <td className="py-3 px-6">
                   <img
@@ -116,16 +117,18 @@ const AdminTour = () => {
                   })}
                 </td>
                 <td className="py-3 px-6">
-                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
-                    <Link to={`/admin/tour/${tour._id}/edit`}>Edit</Link>
-                  </button>
-                  </td>
-                <td className="py-3 px-6"><button
-                    onClick={() => deleteUserById(tour._id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
-                  >
-                    Remove
-                  </button></td>
+                  <div className="flex gap-2">
+                    <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
+                      <Link to={`/admin/tour/${tour._id}/edit`}>Edit</Link>
+                    </button>
+                    <button
+                      onClick={() => deleteUserById(tour._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </td>
               </tr>
             ))
           ) : (

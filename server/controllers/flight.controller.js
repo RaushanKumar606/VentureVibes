@@ -1,22 +1,18 @@
 const Flight = require("../models/flight.model"); 
-// ✅ Create a new Flight
+
 const createFlight = async (req, res) => {
   try {
     if (!req.body || !req.file){
       return res.status(400).json({ success: false, message: "All required fields must"})
     }
-
     const { airline, minPrice, departureTime, arrivalTime, duration, flightNumber, carrier, seatsAvailable, status, travellerType } = req.body;
-
     if (!airline || !minPrice || !departureTime || !arrivalTime || !duration || !flightNumber || !carrier || !seatsAvailable || !travellerType) {
       return res.status(400).json({ success: false, message: "All required fields must be provided" });
     }
-    
     const images = req.files.map(file => ({
       url: file.path, 
       filename: file.filename,
     }));
-     
     const newFlight = new Flight({
       airline,
       images,
@@ -31,10 +27,8 @@ const createFlight = async (req, res) => {
       travellerType,
       owner: req.user ? req.user._id : null,
     });
-
     await newFlight.save();
     res.status(201).json({ success: true, message: "Flight created successfully", flight: newFlight });
-
   } catch (error) {
     console.error("Flight Creation Error:", error);
     res.status(500).json({ success: false, message: "Error creating flight", error: error.message });

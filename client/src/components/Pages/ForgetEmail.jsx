@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import{useAuth} from "../Hooks/ContextApi/ContextApi";
+import { useAuth } from "../Hooks/ContextApi";
 const ForgetEmail = () => {
   const [formData, setFormData] = useState({ email: "" });
   const token = useAuth()

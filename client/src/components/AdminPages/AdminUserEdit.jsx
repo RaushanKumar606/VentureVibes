@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../Hooks/ContextApi/ContextApi";
+import { useAuth } from "../Hooks/ContextApi";
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 function AdminUserEdit() {

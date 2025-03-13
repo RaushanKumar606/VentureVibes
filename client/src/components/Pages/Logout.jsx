@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { Navigate } from "react-router-dom"
-import { useAuth } from "../Hooks/ContextApi/ContextApi";
+import { useAuth } from "../Hooks/ContextApi";
 import {  toast } from 'react-toastify';
 const Logout=()=> {
  

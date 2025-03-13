@@ -1,10 +1,24 @@
-import { useAuth } from "../Hooks/ContextApi/ContextApi";
+import { useAuth } from "../Hooks/ContextApi";
 import { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
 const AdminHotel = () => {
   const [hotel, setHotel] = useState([]); // Initialize as an empty array
   const { token } = useAuth();
+  const [search, setSearch] = useState("");
+  // const [filter, setFilter] = useState("All");
+
+  const filteredHotels = hotel.filter(
+    (hotel) => hotel.name.toLowerCase().includes(search.toLowerCase()) ||
+               hotel.location.toLowerCase().includes(search.toLowerCase())
+  );
+
+  // const filteredHotels = hotel.filter(
+  //   (hotel) =>
+  //     (filter === "All" || hotel.type === filter) &&
+  //     hotel.name.toLowerCase().includes(search.toLowerCase())
+  // );
+
 
   const fetchHotel = async () => {
     try {
@@ -57,6 +71,7 @@ const AdminHotel = () => {
             type="text"
             placeholder="Search something"
             className="w-full p-2 pl-10 border rounded-md"
+            onChange={(e) => setSearch(e.target.value)}
           />
           <FiSearch className="absolute left-3 top-3 text-gray-500" />
         </div>
@@ -71,6 +86,17 @@ const AdminHotel = () => {
           </button>
           <button className="text-black px-4 py-2 rounded-lg border border-gray-300 shadow-md">
             Filter
+
+            {/* <select
+          className="p-2 border rounded"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
+          <option value="All">All</option>
+          <option value="name">Name</option>
+          <option value="Flight">Flight</option>
+          <option value="Bus">Bus</option>
+        </select> */}
           </button>
           <button className="text-black px-4 py-2 rounded-lg border border-gray-300 shadow-md">
             Export
@@ -87,15 +113,16 @@ const AdminHotel = () => {
             <th className="py-3 px-6 text-left">Type Room</th>
             <th className="py-3 px-6 text-left">Night Price</th>
             <th className="py-3 px-6 text-left">Location</th>
-            <th className="py-3 px-6 text-left">Date</th>
+            <th className="py-3 px-6 text-left">Status</th>
+            <th className="py-3 px-6 text-left"> Rooms 
+              Available</th>
             <th className="py-3 px-6 text-left">Review</th>
-            <th className="py-3 px-6 text-left">Edit</th>
-            <th className="py-3 px-6 text-left">Delete</th>
+            <th className="py-3 px-6 text-left text-center">Action</th>
           </tr>
         </thead>
         <tbody>
           {hotel.length > 0 ? (
-            hotel.map((hotel, index) => (
+            filteredHotels.map((hotel, index) => (
               <tr
                 key={index}
                 className="border-b hover:bg-gray-100 transition duration-300"
@@ -114,25 +141,22 @@ const AdminHotel = () => {
                 <td className="py-3 px-6">{hotel.typeRoom}</td>
                 <td className="py-3 px-6">${hotel.pricePerNight}</td>
                 <td className="py-3 px-6">{hotel.location}</td>
-                <td className="py-3 px-6">
-                  {new Date(hotel.createdAt).toLocaleDateString("en-IN", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </td>
-                <td className="py-3 px-6">{hotel.review} ⭐</td>
-                <td className="py-3 px-6"> <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
+                <td className="py-3 px-6">{hotel.status}</td>
+                <td className="py-3 px-6 text-center">{hotel.roomAvilable}</td>
+                <td className="py-3 px-6 space-x-3">{hotel.rating} ⭐</td>
+                <td className="py-3 px-6"> 
+                <div className="flex gap-2">
+                  <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
                     <Link to={`/admin/hotel/${hotel._id}/edit`}>Edit</Link>
-                  </button></td>
-                <td className="py-3 px-6">
+                  </button>
                   <button
                     onClick={() => deleteUserById(hotel._id)}
                     className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
                   >
-                    Remove
+                    Delete
                   </button>
-                </td>
+                  </div>
+                  </td>
               </tr>
             ))
           ) : (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../Hooks/ContextApi/ContextApi";
+import { useAuth } from "../Hooks/ContextApi";
 const UserProfile = () => {
   
   const [user, setUser] = useState(null);

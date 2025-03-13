@@ -1,4 +1,4 @@
-import { useAuth } from "../../Hooks/ContextApi/ContextApi";
+import { useAuth } from "../../Hooks/ContextApi";
 
 function FlightDetails() {
   const { flightData } = useAuth(); // Ensure correct key name

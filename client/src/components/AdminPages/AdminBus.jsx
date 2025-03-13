@@ -1,10 +1,18 @@
-import { useAuth } from "../Hooks/ContextApi/ContextApi";
+import { useAuth } from "../Hooks/ContextApi";
 import { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
 const AdminBus = () => {
   const [buses, setBuses] = useState([]);
   const { token } = useAuth();
+
+  // const [search, setSearch] = useState("");
+
+  // const filteredBus = buses.filter(
+  //   (buse) => buses.name.toLowerCase().includes(search.toLowerCase()) ||
+  //   buse.location.toLowerCase().includes(search.toLowerCase())
+  // );
+
 
   // Fetch buses from API
   const fetchBuses = async () => {
@@ -58,6 +66,7 @@ const AdminBus = () => {
             type="text"
             placeholder="Search buses"
             className="w-full p-2 pl-10 border rounded-md"
+            onChange={(e) => setSearch(e.target.value)}
           />
           <FiSearch className="absolute left-3 top-3 text-gray-500" />
         </div>
@@ -83,15 +92,17 @@ const AdminBus = () => {
       <table className="min-w-full bg-white shadow-md rounded-lg">
         <thead className="bg-blue-500 text-white">
           <tr>
-            <th className="py-3 px-6 text-left">Image</th>
-            <th className="py-3 px-6 text-left">Name</th>
-            <th className="py-3 px-6 text-left">Operator</th>
-            <th className="py-3 px-6 text-left">Departure</th>
-            <th className="py-3 px-6 text-left">Arrival</th>
-            <th className="py-3 px-6 text-left">Price</th>
-            <th className="py-3 px-6 text-left">Status</th>
-            <th className="py-3 px-6 text-left">Update</th>
-            <th className="py-3 px-6 text-left">Delete</th>
+            <th className="py-3 px-6 text-center">Image</th>
+            <th className="py-3 px-6 text-center">Name</th>
+            <th className="py-3 px-6 text-center">Operator</th>
+            <th className="py-3 px-6 text-center">From</th>
+            <th className="py-3 px-6 text-center"> To</th>
+            <th className="py-3 px-6  text-center"> Price</th>
+            <th className="py-3 px-6  text-center"> TotalSeast</th>
+            <th className="py-3 px-6  text-center">AvilableSeat </th>
+            <th className="py-3 px-6  text-center">Status</th>
+            <th className="py-3 px-6  text-center">Action</th>
+         
           </tr>
         </thead>
         <tbody>
@@ -113,9 +124,11 @@ const AdminBus = () => {
                 </td>
                 <td className="py-3 px-6">{bus.name}</td>
                 <td className="py-3 px-6">{bus.operator}</td>
-                <td className="py-3 px-6">{bus.departureTime}</td>
-                <td className="py-3 px-6">{bus.arrivalTime}</td>
+                <td className="py-3 px-6">{bus.departureLocation}</td>
+                <td className="py-3 px-6">{bus.arrivalLocation}</td>
                 <td className="py-3 px-6">${bus.price?.amount}</td>
+                <td className="py-3 px-6">{bus.totalSeat}</td>
+                <td className="py-3 px-6">{bus.seatsAvailable}</td>
                 <td
                   className={`py-3 px-6 font-semibold ${
                     bus.status === "Scheduled"
@@ -127,20 +140,20 @@ const AdminBus = () => {
                 >
                   {bus.status}
                 </td>
-                <td className="py-3 px-6">
-                  {" "}
+                <td className="py-3 px-6 ">
+                <div className="flex gap-2">
                   <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
                     <Link to={`/admin/bus/${bus._id}/edit`}>Edit</Link>
                   </button>
-                </td>
-                <td className="py-3 px-6">
                   <button
                     onClick={() => deleteUserById(bus._id)}
                     className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
                   >
-                    Remove
+                    Delete
                   </button>
+                  </div>
                 </td>
+               
               </tr>
             ))
           ) : (

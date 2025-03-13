@@ -1,5 +1,5 @@
 import {  useState } from "react";
-import { useAuth } from "../Hooks/ContextApi/ContextApi";
+import { useAuth } from "../Hooks/ContextApi";
 import { toast } from "react-toastify";
 const UserEditProfile = () => {
   const [profileImage, setProfileImage] = useState(null);

@@ -29,10 +29,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  dob: {
-    type: Date, // Date format
-    default: false, 
-  },
+  // dob: {
+  //   type: Date, // Date format
+  //   default: false, 
+  // },
   isAdmin: {
     type: Boolean, 
     default: false, 

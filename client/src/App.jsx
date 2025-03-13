@@ -39,6 +39,9 @@ import UserInvoice from './components/UserProfile/UserInvoice';
 import UserReview from './components/UserProfile/UserReview';
 import UserWishList from './components/UserProfile/UserWishList';
 import UserSetting from './components/UserProfile/UserSetting';
+import AdminBooking from './components/AdminPages/AdminBooking';
+import AdminDash from './components/AdminPages/AdminDash';
+import BookingList from './components/UserProfile/BookingList';
 function App() {
  
   return (
@@ -46,7 +49,7 @@ function App() {
     {/* <Navbar/> */}
        <Routes>
         <Route path="/" element={<HomePages/>} />
-        {/* <Route path="/dashboard" element={<UserDashboard />} /> */}
+        <Route path="/bookingList" element={<BookingList />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/logout" element={<Logout />} />
@@ -62,6 +65,7 @@ function App() {
        
         {/* Admin Router  */}
         <Route  path= '/admin' element={<AdminPage/>}>
+        <Route path="/admin/dashboard" element={<AdminDash />} />
         <Route path="users" element={<AdminUser/>} />
         <Route path="/admin/users/:id/edit" element={<AdminUserEdit/>}/>
         <Route path="/admin/hotels" element={<AdminHotel/>}/>
@@ -77,6 +81,8 @@ function App() {
         <Route path="/admin/tour/:id/edit" element={<AdminTourUpdate/>}/>
         <Route path="/admin/bus/:id/edit" element={<AdminBusUpdate/>}/>
         <Route path="/admin/flight/:id/edit" element={<AdminFlightUpdate/>}/>
+        <Route path="/admin/booking" element={<AdminBooking/>}/>
+
         </Route>
         {/* ✅ User Dashboard Panel */}
         <Route path="/user" element={<UserData/>}>
