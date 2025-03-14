@@ -1,22 +1,27 @@
 const Flight = require("../models/flight.model"); 
+const fs = require('fs');
+const path = require('path');
 
 const createFlight = async (req, res) => {
   try {
     if (!req.body || !req.file){
       return res.status(400).json({ success: false, message: "All required fields must"})
     }
-    const { airline, minPrice, departureTime, arrivalTime, duration, flightNumber, carrier, seatsAvailable, status, travellerType } = req.body;
-    if (!airline || !minPrice || !departureTime || !arrivalTime || !duration || !flightNumber || !carrier || !seatsAvailable || !travellerType) {
+    const { airline, minPrice, departureTime, arrivalTime, duration, flightNumber, carrier, seatsAvailable, status, travellerType ,from,to} = req.body;
+    if (!airline || !minPrice || !departureTime || !arrivalTime || !duration || !flightNumber || !carrier || !seatsAvailable || !travellerType || !from || !to) {
       return res.status(400).json({ success: false, message: "All required fields must be provided" });
     }
-    const images = req.files.map(file => ({
-      url: file.path, 
-      filename: file.filename,
-    }));
+    // const images = req.files.map(file => ({
+    //   url: file.path, 
+    //   filename: file.filename,
+    // }));
+    const imageUrl = req.files.map(file => `/uploads/${file.filename}`);
+
     const newFlight = new Flight({
       airline,
-      images,
+      images:imageUrl,
       minPrice,
+      from,to,
       departureTime,
       arrivalTime,
       duration,

@@ -1,4 +1,6 @@
-const Hotel = require('../models/hotel.model')
+const Hotel = require("../models/hotel.model");
+const fs = require('fs');
+const path = require('path');
 // Get all hotels
 const getHotels = async (req, res) => {
   try {
@@ -23,18 +25,18 @@ const getHotelById = async (req, res) => {
 // Create a new hotel
 const createHotel = async (req, res) => {
   try {
-    // if (!req.body || !req.file){
-    //   return res.status(400).json({ success: false, message: "All required fields must"})
-    // }
-    const { name,  location, latitude, longitude, kilometers, typeRoom, checkIn, checkOut, persons, adults, children, pricePerNight, amenities, rating,description } = req.body;
-    if (!name || !location || !latitude || !longitude || !kilometers || !typeRoom || !checkIn || !checkOut || !persons || !adults || !children || !pricePerNight) {
-      return res.status(400).json({ success: false, message: "All required fields must be provided" });
+    console.log("Request Headers:", req.headers);  
+    console.log("Request Files:", req.files); // Debugging
+    console.log("Request Body:", req.body); // Debugging
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Images are required",
+      });
     }
-    // const images = req.files.map(file => ({
-    //   url: file.path, 
-    //   filename: file.filename,
-    // }));
-    const newHotel = new Hotel({
+
+    const {
       name,
       location,
       latitude,
@@ -49,24 +51,87 @@ const createHotel = async (req, res) => {
       pricePerNight,
       amenities,
       rating,
-      // images,
+      status,
+      description,
+    } = req.body;
+
+      //  const imageUrl = req.files.map(file=>file.path);
+      //  console.log("all image url", imageUrl);
+
+      const imageUrl = req.files.map(file => `/uploads/${file.filename}`);
+
+    if (
+      !name ||
+      !location ||
+      !latitude ||
+      !longitude ||
+      !kilometers ||
+      !typeRoom ||
+      !checkIn ||
+      !checkOut ||
+      !persons ||
+      !adults ||
+      !children ||
+      !pricePerNight ||
+      !status
+
+    ) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "All required fields must be provided",
+        });
+    }
+   
+    const newHotel = new Hotel({
+      name,
+      location,
+      latitude,
+      longitude,
+      kilometers,
+      typeRoom,
+      checkIn,
+      checkOut,
+      persons,
+      adults,
+      children,
+      pricePerNight,
+      amenities,status,
+      rating,
+      images:imageUrl,
       description,
       owner: req.user ? req.user._id : null,
     });
-
     await newHotel.save();
-    res.status(201).json({ success: true, message: "Hotel created successfully", hotel: newHotel });
-
+    res
+      .status(201)
+      .json({
+        success: true,
+        message: "Hotel created successfully",
+        hotel: newHotel,
+      });
   } catch (error) {
     console.error("Hotel Creation Error:", error);
-    res.status(500).json({ success: false, message: "Error creating hotel", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Error creating hotel",
+        error: error.message,
+      });
   }
 };
 // Update a hotel by ID
 const updateHotel = async (req, res) => {
   try {
-    const updatedHotel = await Hotel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedHotel) return res.status(404).json({ message: "Hotel not found" });
+    const updatedHotel = await Hotel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updatedHotel)
+      return res.status(404).json({ message: "Hotel not found" });
 
     res.status(200).json(updatedHotel);
   } catch (error) {
@@ -75,7 +140,7 @@ const updateHotel = async (req, res) => {
 };
 
 // Delete a hotel by ID
- const deleteHotel = async (req, res) => {
+const deleteHotel = async (req, res) => {
   try {
     const hotel = await Hotel.findByIdAndDelete(req.params.id);
     if (!hotel) return res.status(404).json({ message: "Hotel not found" });
@@ -86,4 +151,10 @@ const updateHotel = async (req, res) => {
   }
 };
 
-module.exports = {deleteHotel,updateHotel,createHotel,getHotels,getHotelById}
+module.exports = {
+  deleteHotel,
+  updateHotel,
+  createHotel,
+  getHotels,
+  getHotelById,
+};

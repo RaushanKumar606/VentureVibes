@@ -18,8 +18,8 @@ const createBus = async (req, res) => {
       return res.status(400).json({ success: false, message: "All required fields must"})
     }
 
-    const { name, operator, departureTime, arrivalTime, duration, departureLocation, arrivalLocation, to, day, price, seatsAvailable, busType, status } = req.body;
-    if (!name || !operator || !departureTime || !arrivalTime || !duration || !departureLocation || !arrivalLocation || !to || !day || !price || !seatsAvailable || !busType) {
+    const { name, operator, departureTime, arrivalTime, duration, departureLocation, arrivalLocation, to, day, price, seatsAvailable, busType, status,totalSeats } = req.body;
+    if (!name || !operator || !departureTime || !arrivalTime || !duration || !departureLocation || !arrivalLocation || !to || !day || !price || !seatsAvailable || !busType ||!totalSeats)  {
       return res.status(400).json({ success: false, message: "All required fields must be provided" });
     }
 
@@ -36,12 +36,12 @@ const createBus = async (req, res) => {
       arrivalTime,
       duration,
       departureLocation,
-      arrivalLocation,
+      arrivalLocation,totalSeats,
       to,
       day,
       price,
       seatsAvailable,
-      busType,
+      busType,busName,amenities,
       status,
       owner: req.user ? req.user._id : null,
     });

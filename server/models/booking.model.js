@@ -32,7 +32,7 @@
 
 // export default mongoose.model("Booking", bookingSchema);
 
-const mongoose= require ("mongoose");
+const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema(
   {
@@ -66,6 +66,11 @@ const bookingSchema = new mongoose.Schema(
 
     bookingDetails: {
       seatNumber: { type: String, default: null },
+    },
+    status: {
+      type: String,
+      enum: ["Scheduled", "Delayed", "Cancelled", "Completed ,Pending"],
+      default: "Scheduled",
     },
 
     paymentStatus: {

@@ -36,7 +36,7 @@ const createBooking = async (req, res) => {
             bookedItem = await Train.findById(trainId);
         }
         if (!bookedItem) {
-            return res.status(404).json({ message: `${bookingType} not found` });
+            return res.status(404).json({ message: `${bookingType} not found ` });
         }
         const newBooking = new Booking({
             user: userId,

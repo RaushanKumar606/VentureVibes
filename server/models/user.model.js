@@ -14,6 +14,9 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
   },
+  bookings:{type:mongoose.Schema.Types.ObjectId,
+    ref:"Booking"
+  },
   number: {
     type: String,
     required: true,

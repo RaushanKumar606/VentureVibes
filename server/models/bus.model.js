@@ -9,12 +9,13 @@ const busSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  images: [  
-    {
-        url: String,
-        filename: String
-    }
-],
+  busNumber:{
+    type:String,
+    required:true,
+    unique:true,
+  },
+  images: { type: [String], required: true },
+  
   departureTime: {
     type: String, // e.g., "10:30 AM"
     required: true,
@@ -59,6 +60,10 @@ const busSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  totalSeats:{
+    type:Number,
+    required:true,
+  },
   busType: {
     type: String,
     enum: ["AC", "Non-AC", "Sleeper", "Semi-Sleeper", "Seater"],
@@ -69,6 +74,10 @@ const busSchema = new mongoose.Schema({
     enum: ["Scheduled", "Delayed", "Cancelled", "Completed"],
     default: "Scheduled",
   },
+amenities:[{type:String,}],
+bookings:{type:mongoose.Schema.Types.ObjectId,
+  ref:"Booking"
+},
    reviews: [
       {
         user: {
@@ -81,6 +90,7 @@ const busSchema = new mongoose.Schema({
         },
       },
     ],
+
 owner: {
       type: mongoose.Schema.Types.ObjectId,
     ref: "User",

@@ -42,13 +42,15 @@ import UserSetting from './components/UserProfile/UserSetting';
 import AdminBooking from './components/AdminPages/AdminBooking';
 import AdminDash from './components/AdminPages/AdminDash';
 import BookingList from './components/UserProfile/BookingList';
+import SingleHotel from './components/Booking/Hotels/SingleHotel';
+import AdminCreateHotel from './components/AdminPages/AdminCreateHotel';
 function App() {
  
   return (
     <BrowserRouter>
     {/* <Navbar/> */}
        <Routes>
-        <Route path="/" element={<HomePages/>} />
+        <Route path="/Home" element={<HomePages/>} />
         <Route path="/bookingList" element={<BookingList />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
@@ -56,12 +58,13 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/email" element={<ForgetEmail />} />
         {/* <Route path="/changePass" element={<ChangePassword />} /> */}
-        <Route path="/tours" element={<ToursPages />} />
+        <Route path="/Tours" element={<ToursPages />} />
         <Route path="/tours/:id" element={<SingleTure />} />
-        <Route path="/train" element={<TrainPage />} />
-        <Route path="/flight" element={<FlightPages />} />
-        <Route path="/bus" element={<BusPage/>}/>
-        <Route path="/hotel" element={<HotelPage/>}/>
+        <Route path="/Train" element={<TrainPage />} />
+        <Route path="/Air" element={<FlightPages />} />
+        <Route path="/Bus" element={<BusPage/>}/>
+        <Route path="/Hotels" element={<HotelPage/>}/>
+        <Route path="/hotel/:id" element={<SingleHotel/>}/>
        
         {/* Admin Router  */}
         <Route  path= '/admin' element={<AdminPage/>}>
@@ -82,6 +85,7 @@ function App() {
         <Route path="/admin/bus/:id/edit" element={<AdminBusUpdate/>}/>
         <Route path="/admin/flight/:id/edit" element={<AdminFlightUpdate/>}/>
         <Route path="/admin/booking" element={<AdminBooking/>}/>
+    
 
         </Route>
         {/* ✅ User Dashboard Panel */}

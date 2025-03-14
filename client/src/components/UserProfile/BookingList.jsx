@@ -1,7 +1,7 @@
-import { useBooking } from "../Hooks/BookingApi";
+import { useAuth } from "../Hooks/ContextApi";
 
 const BookingList = () => {
-  const { bookings,} = useBooking();
+  const { bookings} = useAuth();
   console.log("booking deatiels",bookings)
 
   return (

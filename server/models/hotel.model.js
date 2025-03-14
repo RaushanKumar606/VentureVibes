@@ -56,6 +56,13 @@ const hotelSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+
+  status:{
+      type:String,
+      enum:["Available","Not Available"],
+      required:true
+  },
+
   amenities: {
     type: [String], // Example: ["Free WiFi", "Swimming Pool", "Parking"]
     default: [],
@@ -66,12 +73,7 @@ const hotelSchema = new mongoose.Schema({
     max: 5,
     default: 0,
   },
-  images: [  
-    {
-        url: String,
-        filename: String
-    }
-],
+  images: { type: [String], required: true },
   description: {
     type: String,
   },

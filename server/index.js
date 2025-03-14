@@ -1,7 +1,10 @@
-const bodyParser = require("body-parser");
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const bodyParser = require("body-parser");
+const path = require('path');
+
 // this is  user router 
 const userRouter = require('./routers/user.router'); 
 const loginRouter =require('./routers/login.router')
@@ -54,6 +57,8 @@ const corsOption =
 app.use(cors(corsOption))
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // Admin routers

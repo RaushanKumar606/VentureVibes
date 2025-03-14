@@ -3,26 +3,24 @@ const mongoose = require("mongoose");
 const FlightSchema = new mongoose.Schema({
   airline: {
     name: { type: String, required: true },
-    logoUrl: { type: String, required: true },
-    iataCode: { type: String, required: true },
   },
-  images: [  
-    {
-        url: String,
-        filename: String
-    }
-],
+  from:{
+    type:String,
+    required:true,
+  },
+  to:{
+    type:String,
+    required:true,
+  },
+  images: { type: [String], required: true },
   minPrice: {
-    currencyCode: { type: String, required: true },
-    amount: { type: Number, required: true },
+    type: Number, required: true 
   },
   departureTime: {
-    start: { type: String, required: true },
-    end: { type: String, required: true },
+          Date
   },
   arrivalTime: {
-    start: { type: String, required: true },
-    end: { type: String, required: true },
+   Date
   },
   duration: {
     min: { type: Number, required: true },
@@ -36,14 +34,24 @@ const FlightSchema = new mongoose.Schema({
   seatsAvailable: { type: Number, required: true },
   status: {
     type: String,
-    enum: ["Scheduled", "Delayed", "Cancelled", "Completed"],
+    enum: [
+      "Scheduled",
+      "On Time",
+      "Delayed",
+      "Boarding",
+      "Departed",
+      "In Air",
+      "Landed",
+      "Cancelled",
+      "Diverted"
+    ],
     default: "Scheduled",
   },
   travellerType: {
     type: String,
-    enum: ["ADULT", "CHILD", "INFANT"],
+    enum: ["OneWay", "Round Trip", "Direct Flight", "Demostic Flight ", "InterNational Flight"],
     required: true,
-    default: "ADULT",
+    default: "One Way",
   },
    reviews: [
       {

@@ -5,12 +5,12 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUserData] = useState("");
   // const [loading, setLoading] = useState(false); 
+   // const { user, token } = useAuth;
  
   const storeTokenInLS = (serverToken) => {
     localStorage.setItem("token", serverToken);
     setToken(serverToken);
   };
-
   const userAuthentication = async () => {
     if (!token) return;
     try {
@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }) => {
       console.error("Error during user authentication:", error);
     }
   };
-
   useEffect(() => {
     if (token) {
       userAuthentication();
@@ -41,12 +40,41 @@ export const AuthProvider = ({ children }) => {
   }, [token]); 
 
   const isLoggedIn = !!token;
-
   const LogoutUser = () => {
     localStorage.removeItem("token");
     setToken(null);
     setUserData(null); 
   };
+  // Booking Api 
+  const[bookings,setBookings]=useState([])
+  const userId = user.userData?.id || user.userData?._id || null;
+  useEffect(() => {
+    const fetchBookings = async () => {
+      if (!userId || !token) return;
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/bookings/user/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) throw new Error("Failed to fetch bookings");
+        const data = await response.json();
+        setBookings(data);
+        console.log("books",data)
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      }
+    };
+    // console.log('bookfetch',fetchBookings())
+    if (userId && token) fetchBookings();
+  }, [userId, token]);
+
+
 
   return (
     <AuthContext.Provider
@@ -56,6 +84,7 @@ export const AuthProvider = ({ children }) => {
         token,
         LogoutUser,
         isLoggedIn, 
+        bookings
       }}
     >
       {children}

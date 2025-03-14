@@ -11,6 +11,7 @@ const UserEditProfile = () => {
     dob: "",
   });
   const { token } = useAuth();
+
   const userUpdate = async () => {
     try {
       const response = await fetch("https://example.com/api/update", {

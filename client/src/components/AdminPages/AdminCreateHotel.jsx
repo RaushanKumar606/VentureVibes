@@ -1,7 +1,6 @@
-
 import  { useState } from "react";
 
-const AdminPostHotel = () => {
+const AdminCreateHotel = () => {
   const [hotelData, setHotelData] = useState({
     name: "",
     preNightPrice: "",
@@ -99,4 +98,4 @@ const AdminPostHotel = () => {
   );
 };
 
-export default AdminPostHotel;
+export default AdminCreateHotel;
