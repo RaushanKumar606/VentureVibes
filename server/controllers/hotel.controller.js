@@ -35,22 +35,20 @@ const createHotel = async (req, res) => {
         message: "Images are required",
       });
     }
+const kilometers = Number(req.body.kilometers);
+const persons = Number(req.body.persons);
+const pricePerNight = Number(req.body.pricePerNight);
+const rating = Number(req.body.rating);
+const amenities = req.body.ameities 
+  ? (Array.isArray(req.body.ameities) ? req.body.ameities : req.body.ameities.split(",")) 
+  : [];
+
+
 
     const {
       name,
       location,
-      latitude,
-      longitude,
-      kilometers,
       typeRoom,
-      checkIn,
-      checkOut,
-      persons,
-      adults,
-      children,
-      pricePerNight,
-      amenities,
-      rating,
       status,
       description,
     } = req.body;
@@ -62,18 +60,15 @@ const createHotel = async (req, res) => {
 
     if (
       !name ||
-      !location ||
-      !latitude ||
-      !longitude ||
+      !location ||  
       !kilometers ||
       !typeRoom ||
-      !checkIn ||
-      !checkOut ||
       !persons ||
-      !adults ||
-      !children ||
       !pricePerNight ||
-      !status
+      !amenities ||
+      !rating ||
+      !status ||
+      !description
 
     ) {
       return res
@@ -87,17 +82,12 @@ const createHotel = async (req, res) => {
     const newHotel = new Hotel({
       name,
       location,
-      latitude,
-      longitude,
       kilometers,
       typeRoom,
-      checkIn,
-      checkOut,
       persons,
-      adults,
-      children,
       pricePerNight,
-      amenities,status,
+      amenities,
+      status,
       rating,
       images:imageUrl,
       description,

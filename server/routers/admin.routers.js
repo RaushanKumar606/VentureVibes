@@ -18,4 +18,13 @@ router.route('/buses').get(userMiddleware, adminMiddleware,adminController.getBu
 router.route('/flights').get(userMiddleware, adminMiddleware,adminController.getFlight);
 router.route('/tours').get(userMiddleware, adminMiddleware, adminController.getAllTours);
 
+// total user get api 
+router.route('/total-users').get(userMiddleware, adminMiddleware, adminController.getTotelUsers);
+router.route('/total-hotels').get(userMiddleware, adminMiddleware, adminController.getTotelHotel);
+router.route('/total-flights').get(userMiddleware, adminMiddleware, adminController.getTotalFlight);
+router.route('/total-bus').get(userMiddleware, adminMiddleware, adminController.getTotelBus);
+router.route('/total-trains').get(userMiddleware, adminMiddleware, adminController.getTotalTrein);
+router.route('/total-tours').get(userMiddleware, adminMiddleware, adminController.getTotalTours);
+router.route('/total-bookings').get(userMiddleware, adminMiddleware, adminController.getTotelBooking);
+
 module.exports = router;

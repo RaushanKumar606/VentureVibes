@@ -15,16 +15,9 @@ const hotelSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  latitude: {
-    type: Number,
-    required: true,
-  },
-  longitude: {
-    type: Number,
-    required: true,
-  },
+ 
   kilometers: {
-    type: Number, // Distance from a city center or landmark
+    type: Number, 
     required: true,
   },
   typeRoom: {
@@ -32,26 +25,13 @@ const hotelSchema = new mongoose.Schema({
     enum: ["Single", "Double", "Suite", "Family", "Luxury"],
     required: true,
   },
-  checkIn: {
-    type: String, // Example: "12:00 PM"
-    required: true,
-  },
-  checkOut: {
-    type: String, // Example: "10:00 AM"
-    required: true,
-  },
+  
   persons: {
     type: Number,
     required: true,
   },
-  adults: {
-    type: Number,
-    required: true,
-  },
-  children: {
-    type: Number,
-    required: true,
-  },
+
+ 
   pricePerNight: {
     type: Number,
     required: true,
@@ -62,7 +42,10 @@ const hotelSchema = new mongoose.Schema({
       enum:["Available","Not Available"],
       required:true
   },
-
+booking:{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "Booking",
+},
   amenities: {
     type: [String], // Example: ["Free WiFi", "Swimming Pool", "Parking"]
     default: [],
@@ -74,6 +57,7 @@ const hotelSchema = new mongoose.Schema({
     default: 0,
   },
   images: { type: [String], required: true },
+
   description: {
     type: String,
   },

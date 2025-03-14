@@ -3,6 +3,8 @@ const Tour = require('../models/tour.model')
 const Flight = require('../models/flight.model')
 const Bus = require('../models/bus.model')
 const Hotel = require('../models/hotel.model')
+const Booking = require('../models/booking.model')
+const Train = require('../models/train.model')
 // *------------------------------
 // In this page  User  Hotel flight Bus Tours  Admin controller  
 
@@ -326,10 +328,112 @@ const deleteHotel = async (req, res, next) => {
     }
 };
 
+
+// *------------------------------
+// *    total user count logic by admin
+// *------------------------------
+
+const getTotelUsers = async(req,res)=>{
+    try {
+        const totalUser = await User.countDocuments();
+        res.status(200).json({totalUser});
+        
+    } catch (error) {
+        res.status(500).json({message:"Erroe fetching user count "})
+    }
+}
+
+
+// *------------------------------
+// *    total bus count logic by admin
+// *------------------------------
+
+const getTotelBus = async(req,res)=>{
+    try {
+        const totalBus = await Bus.countDocuments();
+        res.status(200).json({totalBus});
+        
+    } catch (error) {
+        res.status(500).json({message:"Erroe fetching Bus count "})
+    }
+}
+
+// *------------------------------
+// *    total flight count logic by admin
+// *------------------------------
+
+const getTotalFlight = async(req,res)=>{
+    try {
+        const totalflight = await User.countDocuments();
+        res.status(200).json({totalflight});
+        
+    } catch (error) {
+        res.status(500).json({message:"Erroe fetching filght count "})
+    }
+}
+
+// *------------------------------
+// *    total hotel count logic by admin
+// *------------------------------
+
+const getTotelHotel = async(req,res)=>{
+    try {
+        const totalHotel = await Hotel.countDocuments();
+        res.status(200).json({totalHotel});
+        
+    } catch (error) {
+        res.status(500).json({message:"Erroe fetching hotel count "})
+    }
+}
+
+// *------------------------------
+// *    total train count logic by admin
+// *------------------------------
+
+const getTotalTrein = async(req,res)=>{
+    try {
+        const totalTrain = await Train.countDocuments();
+        res.status(200).json({totalTrain});
+        
+    } catch (error) {
+        res.status(500).json({message:"Erroe fetching Train count "})
+    }
+}
+
+// *------------------------------
+// *    total tours count logic by admin
+// *------------------------------
+
+const getTotalTours = async(req,res)=>{
+    try {
+        const totalTours = await Tour.countDocuments();
+        res.status(200).json({totalTours});
+        
+    } catch (error) {
+        res.status(500).json({message:"Erroe fetching Tourse count "})
+    }
+}
+// *------------------------------
+// *    total booking count logic by admin
+// *------------------------------
+
+const getTotelBooking = async(req,res)=>{
+    try {
+        const totalBooking = await Tour.countDocuments();
+        res.status(200).json({totalBooking});
+        
+    } catch (error) {
+        res.status(500).json({message:"Erroe fetching totalBooking count "})
+    }
+}
+
+
+
 module.exports = {
     getAllUsers, updateHotel, getSingleHotel, getHotel, deleteBus, updateBus, getSingleBus, getBus,
     deleteUserById, deleteFlight, updateFlight, getSingleFlight, getFlight,
     updateUserData, deleteTourById, updateTourData, getSingleTourById, getAllTours
     , getSingleUserById,
-    deleteHotel
+    deleteHotel,getTotelUsers,getTotalTrein,getTotelHotel,getTotalFlight,getTotalTours,getTotelBooking,getTotelBus
+    
 }
