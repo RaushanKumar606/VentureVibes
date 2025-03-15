@@ -94,7 +94,6 @@ const getSingleTourById = async (req, res, next) => {
     try {
         const id = req.params.id;
         const singleData = await User.findOne({ _id: id }, { password: 0 });
-
         res.status(200).json(singleData);
     } catch (error) {
         next(error);
@@ -158,7 +157,6 @@ const getSingleFlight = async (req, res, next) => {
     try {
         const id = req.params.id;
         const singleData = await Flight.findOne({ _id: id }, { password: 0 });
-
         res.status(200).json(singleData);
     } catch (error) {
         next(error);
@@ -337,7 +335,6 @@ const getTotelUsers = async(req,res)=>{
     try {
         const totalUser = await User.countDocuments();
         res.status(200).json({totalUser});
-        
     } catch (error) {
         res.status(500).json({message:"Erroe fetching user count "})
     }
@@ -352,7 +349,6 @@ const getTotelBus = async(req,res)=>{
     try {
         const totalBus = await Bus.countDocuments();
         res.status(200).json({totalBus});
-        
     } catch (error) {
         res.status(500).json({message:"Erroe fetching Bus count "})
     }
@@ -364,9 +360,8 @@ const getTotelBus = async(req,res)=>{
 
 const getTotalFlight = async(req,res)=>{
     try {
-        const totalflight = await User.countDocuments();
+        const totalflight = await Flight.countDocuments();
         res.status(200).json({totalflight});
-        
     } catch (error) {
         res.status(500).json({message:"Erroe fetching filght count "})
     }
@@ -380,7 +375,6 @@ const getTotelHotel = async(req,res)=>{
     try {
         const totalHotel = await Hotel.countDocuments();
         res.status(200).json({totalHotel});
-        
     } catch (error) {
         res.status(500).json({message:"Erroe fetching hotel count "})
     }
@@ -394,7 +388,6 @@ const getTotalTrein = async(req,res)=>{
     try {
         const totalTrain = await Train.countDocuments();
         res.status(200).json({totalTrain});
-        
     } catch (error) {
         res.status(500).json({message:"Erroe fetching Train count "})
     }
@@ -408,7 +401,6 @@ const getTotalTours = async(req,res)=>{
     try {
         const totalTours = await Tour.countDocuments();
         res.status(200).json({totalTours});
-        
     } catch (error) {
         res.status(500).json({message:"Erroe fetching Tourse count "})
     }
@@ -421,13 +413,10 @@ const getTotelBooking = async(req,res)=>{
     try {
         const totalBooking = await Tour.countDocuments();
         res.status(200).json({totalBooking});
-        
     } catch (error) {
         res.status(500).json({message:"Erroe fetching totalBooking count "})
     }
 }
-
-
 
 module.exports = {
     getAllUsers, updateHotel, getSingleHotel, getHotel, deleteBus, updateBus, getSingleBus, getBus,

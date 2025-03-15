@@ -25,10 +25,6 @@ const getHotelById = async (req, res) => {
 // Create a new hotel
 const createHotel = async (req, res) => {
   try {
-    console.log("Request Headers:", req.headers);  
-    console.log("Request Files:", req.files); // Debugging
-    console.log("Request Body:", req.body); // Debugging
-
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
         success: false,

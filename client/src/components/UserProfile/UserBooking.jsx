@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import { useAuth } from "../Hooks/ContextApi";
+import { useAuth } from "../Hooks/ContextApi";
 const bookingsData = [
   {
     id: 1,
@@ -40,29 +40,34 @@ const bookingsData = [
 ];
 
 const UserBooking = () => {
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("All");
+  // const [search, setSearch] = useState("");
+  // const [filter, setFilter] = useState("All");
 
-  // const auth = useAuth();
-  // const { bookings, user } = auth || {};
-  // console.log(bookings);
-  // console.log(bookings[0]?.bus.departureLocation || "No bus booked");
-  // console.log(bookings[0]?.bus.busType || "No bus booked");
-  // console.log(bookings[0]?.bus.arrivalLocation || "No bus booked");
-  // console.log(bookings[0]?.user || "user id");
-  // console.log(bookings[0]?.bus.seatsAvailable || "No bus booked");
+  const { bookings} = useAuth();
+  const formatData = (isoData)=>{
+    return new
+    Date(isoData).toLocaleString("en-US",{
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour:"2-digit",
+      // second:"2-digit",
+      timeZoneName:"short"
+      
+    })
+  }
 
-  const filteredBookings = bookingsData.filter(
-    (booking) =>
-      (filter === "All" || booking.type === filter) &&
-      // booking.user === user._id &&
-      booking.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // const filteredBookings = bookings.filter(
+  //   (booking) =>
+  //     (filter === "All" || booking.type === filter) &&
+  //     // booking.user === user._id &&
+  //     booking.name.toLowerCase().includes(search.toLowerCase())
+  // );
 
   return (
     <div className="container mx-auto p-5">
       <h2 className="text-2xl font-bold mb-4">User Dashboard Bookings</h2>
-      <div className="flex justify-between mb-4">
+      {/* <div className="flex justify-between mb-4">
         <input
           type="text"
           placeholder="Search by name..."
@@ -80,7 +85,7 @@ const UserBooking = () => {
           <option value="Flight">Flight</option>
           <option value="Bus">Bus</option>
         </select>
-      </div>
+      </div> */}
       <table className="w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-200">
@@ -95,12 +100,12 @@ const UserBooking = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredBookings.map((booking) => (
-            <tr key={booking.id} className="text-center">
-              <td className="border p-2">{booking.id}</td>
-              <td className="border p-2">{booking.type}</td>
-              <td className="border p-2">{booking.name || "N/A"}</td>
-              <td className="border p-2">{booking.date || "N/A"}</td>
+          {bookings.map((booking) => (
+            <tr key={booking._id} className="text-center">
+              <td className="border p-2">{booking._id}</td>
+              <td className="border p-2">{booking.bookingType}</td>
+              <td className="border p-2">{booking.user.name || "N/A"}</td>
+              <td className="border p-2">{formatData(booking.updatedAt)}</td>
               <td className="border p-2">{booking.from || "N/A"}</td>
               <td className="border p-2">{booking.to || "N/A"}</td>
               <td className="border p-2">{booking.status}</td>

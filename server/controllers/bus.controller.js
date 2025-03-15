@@ -17,13 +17,10 @@ const createBus = async (req, res) => {
     if (!req.body || !req.file){
       return res.status(400).json({ success: false, message: "All required fields must"})
     }
-
     const { name, operator, departureTime, arrivalTime, duration, departureLocation, arrivalLocation, to, day, price, seatsAvailable, busType, status,totalSeats } = req.body;
     if (!name || !operator || !departureTime || !arrivalTime || !duration || !departureLocation || !arrivalLocation || !to || !day || !price || !seatsAvailable || !busType ||!totalSeats)  {
       return res.status(400).json({ success: false, message: "All required fields must be provided" });
     }
-
-   
     const images = req.files.map(file => ({
       url: file.path, 
       filename: file.filename,
@@ -45,7 +42,6 @@ const createBus = async (req, res) => {
       status,
       owner: req.user ? req.user._id : null,
     });
-
     await newBus.save();
     res.status(201).json({ success: true, message: "Bus created successfully", bus: newBus });
   } catch (error) {

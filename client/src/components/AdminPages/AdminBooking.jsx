@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useAuth } from "../Hooks/ContextApi";
 const initialBookings = [
   { id: 1, user: "Rahul Verma", type: "Hotel", name: "Hyatt Regency", date: "2025-03-12", from: "-", to: "-", status: "Confirmed" },
   { id: 2, user: "Anjali Sharma", type: "Flight", name: "AI-203 (Indigo)", date: "2025-03-15", from: "New York", to: "London", status: "Pending" },
@@ -8,13 +8,13 @@ const initialBookings = [
 ];
 
 const AdminBooking = () => {
-  const [bookings, setBookings] = useState(initialBookings);
+  const [booking, setBookings] = useState(initialBookings);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
-
+  const { bookings} = useAuth();
   // Update booking status
   const updateStatus = (id, newStatus) => {
-    const updatedBookings = bookings.map((booking) =>
+    const updatedBookings = booking.map((booking) =>
       booking.id === id ? { ...booking, status: newStatus } : booking
     );
     setBookings(updatedBookings);
@@ -22,15 +22,33 @@ const AdminBooking = () => {
 
   // Delete booking
   const deleteBooking = (id) => {
-    const updatedBookings = bookings.filter((booking) => booking.id !== id);
+    const updatedBookings = booking.filter((booking) => booking.id !== id);
     setBookings(updatedBookings);
   };
 
-  const filteredBookings = bookings.filter(
-    (booking) =>
-      (filter === "All" || booking.type === filter) &&
-      booking.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // const filteredBookings = bookings.filter(
+  //   (booking) =>
+  //     (filter === "All" || booking.type === filter) &&
+  //     booking.name.toLowerCase().includes(search.toLowerCase())
+  // );
+
+    const formatData = (isoData)=>{
+      return new
+      Date(isoData).toLocaleString("en-US",{
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour:"2-digit",
+        // second:"2-digit",
+        timeZoneName:"short"
+        
+      })
+    }
+    const shortId =(_id,lenght=8)=>{
+      return _id.lenght>lenght ?
+      _id.subsstring(0,lenght)+ "...":
+      _id;
+    }  ;
 
   return (
     <div className="container mx-auto p-5">
@@ -63,9 +81,10 @@ const AdminBooking = () => {
         <thead>
           <tr className="bg-gray-200">
             <th className="border p-2">Booking ID</th>
-            <th className="border p-2">User Name</th>
             <th className="border p-2">Type</th>
-            <th className="border p-2">Name</th>
+            <th className="border p-2">User Name</th>
+          
+
             <th className="border p-2">Date</th>
             <th className="border p-2">From</th>
             <th className="border p-2">To</th>
@@ -74,15 +93,15 @@ const AdminBooking = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredBookings.map((booking) => (
+          {bookings.map((booking) => (
             <tr key={booking.id} className="text-center">
-              <td className="border p-2">{booking.id}</td>
-              <td className="border p-2">{booking.user}</td>
-              <td className="border p-2">{booking.type}</td>
-              <td className="border p-2">{booking.name}</td>
-              <td className="border p-2">{booking.date}</td>
-              <td className="border p-2">{booking.from}</td>
-              <td className="border p-2">{booking.to}</td>
+              <td className="border p-2">{shortId(booking._id)}</td>
+              <td className="border p-2">{booking.bookingType}</td>
+              <td className="border p-2">{booking.user.name || "N/A"}</td>
+              <td className="border p-2">{formatData(booking.updatedAt)}</td>
+              <td className="border p-2">{booking.from || "N/A"}</td>
+              <td className="border p-2">{booking.to || "N/A"}</td>
+              {/* <td className="border p-2">{booking.status}</td> */}
               <td className={`border p-2 font-bold ${booking.status === "Confirmed" ? "text-green-500" : booking.status === "Pending" ? "text-yellow-500" : "text-red-500"}`}>
                 {booking.status}
               </td>

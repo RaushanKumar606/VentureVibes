@@ -1,6 +1,7 @@
 const Flight = require("../models/flight.model"); 
 const fs = require('fs');
 const path = require('path');
+const { nextTick } = require("process");
 
 const createFlight = async (req, res) => {
   try {
@@ -35,7 +36,6 @@ const createFlight = async (req, res) => {
     await newFlight.save();
     res.status(201).json({ success: true, message: "Flight created successfully", flight: newFlight });
   } catch (error) {
-    console.error("Flight Creation Error:", error);
     res.status(500).json({ success: false, message: "Error creating flight", error: error.message });
   }
 };

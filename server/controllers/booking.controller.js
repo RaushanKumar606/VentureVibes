@@ -51,7 +51,6 @@ const createBooking = async (req, res) => {
         await newBooking.save();
         res.status(201).json({ message: "Booking successful", booking: newBooking });
     } catch (error) {
-        console.error("Error creating booking:", error.message);
         res.status(500).json({ message: "Error creating booking", error: error.message });
     }
 };
@@ -60,6 +59,7 @@ const getUserBookings = async (req, res) => {
     try {
         const userId = req.params.userId;
         const bookings = await Booking.find({ user: userId })
+            .populate("user","name email")
             .populate("hotel")
             .populate("bus")
             .populate("flight")

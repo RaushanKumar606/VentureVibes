@@ -51,6 +51,9 @@ const trainSchema = new mongoose.Schema({
     enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     required: true,
   },
+  bookings:{type:mongoose.Schema.Types.ObjectId,
+    ref:"Booking"
+  },
   price: {
     amount: {
       type: Number,

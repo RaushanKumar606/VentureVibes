@@ -29,8 +29,7 @@ const createTour = async (req, res) => {
     });
     await newTour.save();
     res.status(201).json({ message: "Tour created successfully", tour: newTour });
-  } catch (error) {
-    console.error("Tour Creation Error:", error);  
+  } catch (error) { 
     res.status(400).json({ 
       message: "Error creating tour", 
       error: error.message || error 

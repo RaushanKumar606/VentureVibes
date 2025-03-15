@@ -47,6 +47,10 @@ const FlightSchema = new mongoose.Schema({
     ],
     default: "Scheduled",
   },
+bookings:{type:mongoose.Schema.Types.ObjectId,
+  ref:"Booking"
+},
+
   travellerType: {
     type: String,
     enum: ["OneWay", "Round Trip", "Direct Flight", "Demostic Flight ", "InterNational Flight"],

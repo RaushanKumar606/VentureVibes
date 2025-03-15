@@ -126,7 +126,6 @@ const userPasswordReset = async (req, res) => {
     await User.findByIdAndUpdate(user._id, { $set: { password: hashedPassword } });
     res.status(200).json({ message: "Password reset successfully." });
   } catch (error) {
-    console.error(error);
     res.status(400).json({ error: "Invalid or expired token." });
   }
 };

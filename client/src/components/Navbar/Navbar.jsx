@@ -42,15 +42,28 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <div className={`lg:flex items-center space-x-6 ${isMenuOpen ? "block" : "hidden"} lg:block`}>
+        {/* <div className={`lg:flex items-center space-x-6 ${isMenuOpen ? "block" : "hidden"} lg:block`}>
           <ul className="flex flex-col lg:flex-row gap-4 lg:gap-8 text-gray-700">
-            {["Home", "Bus", "Hotels", "Train", "Air", "Tours"].map((item, index) => (
+            {["/", "Bus", "Hotels", "Train", "Air", "Tours"].map((item, index) => (
               <li key={index}>
                 <a href={`/${item.toLowerCase()}`} className="hover:text-blue-600">{item}</a>
               </li>
             ))}
           </ul>
+        </div> */}
+        <div className={`lg:flex items-center space-x-6 ${isMenuOpen ? "block" : "hidden"} lg:block`}>
+          <ul>
+          <a href="/"><li>Home</li>
+          </a>
+          <a href="/hotel"><li>Hotel</li></a>
+          <a href="/bus"><li>Bus</li></a>
+          <a href="/train"><li>Train</li>
+          </a>
+          <a href="/air"><li>Air</li></a>
+          <a href="/tours"><li>Tours</li></a>
+          </ul>
         </div>
+
 
         {/* User Profile Dropdown */}
         <div className="relative">

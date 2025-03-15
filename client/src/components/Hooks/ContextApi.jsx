@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
         if (!response.ok) throw new Error("Failed to fetch bookings");
         const data = await response.json();
         setBookings(data);
-        console.log("books",data)
+        // console.log("books",data)
       } catch (error) {
         console.error("Error fetching bookings:", error);
       }

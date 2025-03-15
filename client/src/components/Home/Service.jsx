@@ -1,5 +1,5 @@
 import countery from "../Data/image.json";
-console.log("home page",countery)
+
 function Services() {
   return (
     <>
