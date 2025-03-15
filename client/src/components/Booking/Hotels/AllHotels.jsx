@@ -16,7 +16,6 @@ function AllHotels() {
       });
       const data = await response.json();
       setHotels(data);
-      console.log("all ",data)
     } catch (error) {
       console.log(error);
     }

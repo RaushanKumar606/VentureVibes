@@ -44,6 +44,7 @@ import AdminDash from './components/AdminPages/AdminDash';
 import BookingList from './components/UserProfile/BookingList';
 import SingleHotel from './components/Booking/Hotels/SingleHotel';
 import Text from './components/Pages/Text'
+import BookingPage from './components/Pages/PaymentPage';
 function App() {
  
   return (
@@ -66,6 +67,7 @@ function App() {
         <Route path="/bus" element={<BusPage/>}/>
         <Route path="/hotel" element={<HotelPage/>}/>
         <Route path="/hotel/:id" element={<SingleHotel/>}/>
+        <Route path="/payment" element={<BookingPage/>}/>
        
         {/* Admin Router  */}
         <Route  path= '/admin' element={<AdminPage/>}>
