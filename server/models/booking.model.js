@@ -78,6 +78,9 @@ const bookingSchema = new mongoose.Schema(
       enum: ["Pending", "Paid", "Cancelled", "Refunded"],
       default: "Pending",
     },
+    transactionId:{
+      type:String,
+    }
   },
   { timestamps: true }
 );
