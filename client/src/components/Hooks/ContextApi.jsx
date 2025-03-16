@@ -75,7 +75,29 @@ export const AuthProvider = ({ children }) => {
   }, [userId, token]);
 
 
-
+  // ALL BOOKING DETIELS FETCH ED FROM API
+  const [allBooking, setBooking] = useState({ booking: 0 });
+  const getAllBooking = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/admin/total-bookings",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setBooking(data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+        
+  useEffect(() => {
+    getAllBooking()
+  },[])
   return (
     <AuthContext.Provider
       value={{
@@ -84,7 +106,8 @@ export const AuthProvider = ({ children }) => {
         token,
         LogoutUser,
         isLoggedIn, 
-        bookings
+        bookings,
+        allBooking
       }}
     >
       {children}

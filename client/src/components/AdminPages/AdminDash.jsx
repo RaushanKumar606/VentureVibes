@@ -11,14 +11,7 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 import { useAuth } from "../Hooks/ContextApi";
 
 const AdminDash = () => {
-  const [stats, setStats] = useState({
-    hotels: 0,
-    flights: 0,
-    buses: 0,
-    users: 0,
-    bookings: 0,
-  });
-  
+ 
   const [allUser, setAllUser] = useState({ users: 0 });
   const [allHotel, setAllHotel] = useState({ hotels: 0 });
   const [allFlight, setAllFlight] = useState({ flights: 0 });
@@ -112,6 +105,7 @@ const AdminDash = () => {
         }
       );
       const data = await response.json();
+    console.log(data)
       setBooking(data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -157,8 +151,8 @@ const AdminDash = () => {
           <div className="flex items-center gap-2">
             <HiOutlineUserCircle className="text-3xl" />
             <div>
-              <p className="text-sm font-semibold">{user.userData.name}</p>
-              <p className="text-xs text-gray-500">{user.userData.email}</p>
+              {/* <p className="text-sm font-semibold">{user.userData.name}</p> */}
+              {/* <p className="text-xs text-gray-500">{user.userData.email}</p> */}
             </div>
           </div>
         </div>

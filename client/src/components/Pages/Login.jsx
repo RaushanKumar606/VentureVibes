@@ -3,13 +3,13 @@ import { useAuth } from "../Hooks/ContextApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { storeTokenInLS } = useAuth();
-  const {user} = useAuth
+  const { storeTokenInLS, user } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -31,12 +31,25 @@ const LoginPage = () => {
         },
         body: JSON.stringify({ email, password }),
       });
+  
+         // Check response status
+         console.log("Response Status:", response.status);
 
-      const res_data = await response.json();
-      if (response.ok) {
-        storeTokenInLS(res_data.token);
-        toast.success(`Login Successful! Welcome, ${user.name}`);
-        navigate('/');
+         // Try parsing JSON safely
+         let res_data;
+         try {
+             res_data = await response.json();
+         } catch (jsonError) {
+             console.error("Failed to parse JSON:", jsonError);
+             res_data = await response.text(); // Fallback to text response
+         }
+ 
+         console.log("Response Data:", res_data);
+
+         if (response.ok) {
+          storeTokenInLS(res_data.token);  
+          toast.success(`Login Successful! Welcome, User ID: ${res_data.userId}`); 
+          navigate('/'); 
       } else {
         toast.error(res_data.message || "Login failed. Please try again.");
       }

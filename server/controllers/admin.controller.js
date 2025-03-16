@@ -411,7 +411,7 @@ const getTotalTours = async(req,res)=>{
 
 const getTotelBooking = async(req,res)=>{
     try {
-        const totalBooking = await Tour.countDocuments();
+        const totalBooking = await Booking.countDocuments();
         res.status(200).json({totalBooking});
     } catch (error) {
         res.status(500).json({message:"Erroe fetching totalBooking count "})

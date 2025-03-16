@@ -7,9 +7,9 @@ const Logout=()=> {
     const {LogoutUser}=useAuth();
     useEffect(()=>{
         LogoutUser()
-        
-    },[LogoutUser])
+    })
     toast.error("Logout User");
+
   return <Navigate to='/login'/>;
   
 }

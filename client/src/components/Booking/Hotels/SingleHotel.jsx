@@ -1,27 +1,50 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useAuth } from "../../Hooks/ContextApi";
+import { useNavigate, useParams,Link } from "react-router-dom";
 
 function SingleHotel() {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [expandedDays, setExpandedDays] = useState({}); // State for collapsible sections
+  const [expandedDays, setExpandedDays] = useState({}); 
+  const{user,token}= useAuth();
+  const navigate = useNavigate();
+
+  const handleCheckIn = () => {
+    // if (!token?.token) {
+    //   toast.error("Authentication required to proceed!");
+    //   return navigate("/login");
+    // }
+    navigate("/payment", {
+      state: {
+        price: data?.pricePerNight,
+        product: data?.name,
+        hotelId: data?._id,
+        token:token,
+      },
+    });
+    console.log("all state",navigate)
+  };
+
+
+
   useEffect(() => {
     if (!id) {
       setError("Invalid ID provided");
       setLoading(false);
       return;
     }
+
     const fetchData = async () => {
       try {
-        console.log("Fetching data for ID:", id); // Debugging
         const response = await fetch(`http://localhost:8080/api/hotel/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
-        const result = await response.json();
-        setData(result);
+        const data = await response.json();
+        setData(data);
+
       } catch (err) {
         setError(err.message);
       } finally {
@@ -31,9 +54,6 @@ function SingleHotel() {
   
     fetchData();
   }, [id]);
-  
-  console.log("hotel data",data)
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -60,6 +80,9 @@ function SingleHotel() {
           <h2 className="text-3xl font-bold text-gray-800">{data?.name}</h2>
           <p className="text-red-500 font-semibold my-2">PerNights     /${data?.pricePerNight} </p>
           <p className="text-black-200 my-2">{data?.location}</p>
+          <bottom  className="bg-green-500 hover:bg-gerrn-600 text-white px-4 py-2 rounded transition "
+            onClick={handleCheckIn}>
+          Booking Now </bottom>
           <div className="mt-4">
             <h3 className="text-xl font-semibold text-gray-700">Inclusions</h3>
             <div className="flex items-center gap-4 mt-2">
@@ -79,7 +102,9 @@ function SingleHotel() {
                 <span className="text-gray-700 text-2xl">👣</span>
                 <p className="text-sm text-gray-600">Sightseeing</p>
               </div>
+           
             </div>
+            
           </div>
           <div className="mt-6">
             <h3 className="text-xl font-semibold text-gray-700">
