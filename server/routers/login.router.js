@@ -8,8 +8,6 @@ const router = express.Router();
 
 
 // Route to create a new user
-router.post('/login',
-    validate(loginValidationSchema),
-     loginUser);
+router.post('/login',validate(loginValidationSchema),loginUser);
 
 module.exports = router;

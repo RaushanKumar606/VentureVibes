@@ -44,12 +44,12 @@ import AdminDash from './components/AdminPages/AdminDash';
 import BookingList from './components/UserProfile/BookingList';
 import SingleHotel from './components/Booking/Hotels/SingleHotel';
 import Text from './components/Pages/Text'
-import BookingPage from './components/Pages/PaymentPage';
+import Navbar from './components/Navbar/Navbar';
 function App() {
  
   return (
     <BrowserRouter>
-    {/* <Navbar/> */}
+    <Navbar/>
        <Routes>
         <Route path="/raushan" element={<Text/>} />
         <Route path="/" element={<HomePages/>} />
@@ -67,7 +67,7 @@ function App() {
         <Route path="/bus" element={<BusPage/>}/>
         <Route path="/hotel" element={<HotelPage/>}/>
         <Route path="/hotel/:id" element={<SingleHotel/>}/>
-        <Route path="/payment" element={<BookingPage/>}/>
+        {/* <Route path="/payment" element={<BookingPage/>}/> */}
        
         {/* Admin Router  */}
         <Route  path= '/admin' element={<AdminPage/>}>

@@ -111,9 +111,9 @@ const createBooking = async (req, res) => {
 };
 
 // Get All Bookings for a User
-const getUserBookings = async (req, res) => {
+const getUserBooks = async (req, res) => {
     try {
-        const userId = req.params.userId;
+      const userId = req.user?.id || req.params.userId;
         const bookings = await Booking.find({ user: userId })
             .populate("user","name email")
             .populate("hotel")
@@ -217,4 +217,4 @@ const stripe = new Stripe(
 
 
 
-module.exports = { updatePaymentStatus, cancelBooking, getUserBookings, createBooking ,createPaymentIntent}
+module.exports = { updatePaymentStatus, cancelBooking, getUserBooks, createBooking ,createPaymentIntent}

@@ -417,12 +417,47 @@ const getTotelBooking = async(req,res)=>{
         res.status(500).json({message:"Erroe fetching totalBooking count "})
     }
 }
+// *------------------------------
+// *    Get user  booking  logic by admin
+// *------------------------------
+const getUserBookings = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { isAdmin } = req.user; 
+
+        let bookings;
+        if (isAdmin) {
+            // If the user is an admin, fetch all bookings
+            bookings = await Booking.find()
+                .populate("user", "name email")
+                .populate("hotel")
+                .populate("bus")
+                .populate("flight")
+                .populate("train");
+        } else {
+            // Otherwise, fetch bookings for the specific user
+            bookings = await Booking.find({ user: userId })
+                .populate("user", "name email")
+                .populate("hotel")
+                .populate("bus")
+                .populate("flight")
+                .populate("train");
+        }
+        if (!bookings.length) {
+            return res.status(404).json({ message: "No bookings found" });
+        }
+        res.status(200).json(bookings);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching bookings", error });
+    }
+};
+
 
 module.exports = {
     getAllUsers, updateHotel, getSingleHotel, getHotel, deleteBus, updateBus, getSingleBus, getBus,
     deleteUserById, deleteFlight, updateFlight, getSingleFlight, getFlight,
     updateUserData, deleteTourById, updateTourData, getSingleTourById, getAllTours
     , getSingleUserById,
-    deleteHotel,getTotelUsers,getTotalTrein,getTotelHotel,getTotalFlight,getTotalTours,getTotelBooking,getTotelBus
-    
+    deleteHotel,getTotelUsers,getTotalTrein,getTotelHotel,getTotalFlight,getTotalTours,getTotelBooking,getTotelBus,
+    getUserBookings
 }

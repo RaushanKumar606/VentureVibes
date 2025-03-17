@@ -12,6 +12,8 @@ router.route('/users/:id').get(userMiddleware,adminMiddleware,adminController.ge
 router.route('/users/update/:id').patch(userMiddleware,adminMiddleware,adminController.updateUserData);
 router.route('/users/delete/:id').delete(userMiddleware,adminMiddleware,adminController.deleteUserById)
 
+router.route('/users-bookings').get(userMiddleware,adminMiddleware,adminController.getUserBookings)
+
 //  Fligth,Bus,Hotel Tours admin router
 router.route('/hotels').get(userMiddleware, adminMiddleware, adminController.getHotel);
 router.route('/buses').get(userMiddleware, adminMiddleware,adminController.getBus);

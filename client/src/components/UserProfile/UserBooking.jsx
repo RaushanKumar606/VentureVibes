@@ -1,68 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../Hooks/ContextApi";
-const bookingsData = [
-  {
-    id: 1,
-    type: "Hotel",
-    name: "Hyatt Regency",
-    date: "2025-03-12",
-    from: "Adi",
-    to: "Bihar",
-    status: "Confirmed",
-  },
-  {
-    id: 2,
-    type: "Flight",
-    name: "AI-203 (Indigo)",
-    date: "2025-03-15",
-    from: "New York",
-    to: "London",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    type: "Bus",
-    name: "Greyhound",
-    date: "2025-03-18",
-    from: "Los Angeles",
-    to: "San Francisco",
-    status: "Confirmed",
-  },
-  {
-    id: 4,
-    type: "Hotel",
-    name: "Taj Hotel",
-    date: "2025-03-20",
-    from: "Arrfg",
-    to: "gsrsdv",
-    status: "Canceled",
-  },
-];
 
 const UserBooking = () => {
   // const [search, setSearch] = useState("");
   // const [filter, setFilter] = useState("All");
+  const [userBook, setUserBook] = useState([]);
+  const { user, token } = useAuth();
 
-  const { bookings} = useAuth();
-  const formatData = (isoData)=>{
-    return new
-    Date(isoData).toLocaleString("en-US",{
+  const getBook = async () => {
+    if (!user || !token) {
+      console.log("No valid user token found!");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/bookings/users/${user._id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setUserBook(data);
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      getBook();
+    } else {
+      console.error("User token is missing!");
+    }
+  }, [user]);
+
+  const formatData = (isoData) => {
+    return new Date(isoData).toLocaleString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
-      hour:"2-digit",
-      // second:"2-digit",
-      timeZoneName:"short"
-      
-    })
-  }
-
-  // const filteredBookings = bookings.filter(
-  //   (booking) =>
-  //     (filter === "All" || booking.type === filter) &&
-  //     // booking.user === user._id &&
-  //     booking.name.toLowerCase().includes(search.toLowerCase())
-  // );
+    });
+  };
 
   return (
     <div className="container mx-auto p-5">
@@ -100,7 +86,7 @@ const UserBooking = () => {
           </tr>
         </thead>
         <tbody>
-          {bookings.map((booking) => (
+          {userBook.map((booking) => (
             <tr key={booking._id} className="text-center">
               <td className="border p-2">{booking._id}</td>
               <td className="border p-2">{booking.bookingType}</td>

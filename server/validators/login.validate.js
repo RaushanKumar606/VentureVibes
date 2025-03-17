@@ -9,11 +9,12 @@ const loginValidationSchema = z.object({
   .max(30, { message: "Email must be 30 or fewer characters long" })
   .trim(),
   password: z
-    .string()
-    .min(8, { message: 'Password must be at least 8 characters long' })
-    .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter' })
-    .regex(/[!@#$%^&*]/, { message: 'Password must contain at least one special character' })
-    .regex(/\d/, { message: 'Password must contain at least one number' }),
+  .string()
+  .min(2, { message: "Password must be at least 8 characters long" })
+  .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
+  .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
+  .regex(/[!@#$%^&*(),.?":{}|<>]/, { message: "Password must contain at least one special character" })
+  .regex(/\d/, { message: "Password must contain at least one number" }),
 });
 
 module.exports = { loginValidationSchema };

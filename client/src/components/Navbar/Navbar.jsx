@@ -20,12 +20,17 @@ const Navbar = () => {
     closeDropdown();
   };
 
-  const handleLogout = () => {
-    LogoutUser();
-    localStorage.removeItem("token");
-    toast.success("Logout Successfully");
-    navigate("/");
-  };
+  const handleLogout = async () => {
+    try {
+        await LogoutUser();  
+        localStorage.removeItem("token");
+        toast.success("Logout Successfully");
+       // navigate("/login");  
+        window.location.href = "/login";
+    } catch (error) {
+        console.error("Logout failed:", error);
+    }
+};
 
   return (
     <div className="bg-white shadow-md w-full">

@@ -4,8 +4,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUserData] = useState("");
-  // const [loading, setLoading] = useState(false); 
-   // const { user, token } = useAuth;
+ 
  
   const storeTokenInLS = (serverToken) => {
     localStorage.setItem("token", serverToken);
@@ -45,35 +44,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUserData(null); 
   };
-  // Booking Api 
-  const[bookings,setBookings]=useState([])
-  const userId = user.userData?.id || user.userData?._id || null;
-  useEffect(() => {
-    const fetchBookings = async () => {
-      if (!userId || !token) return;
-      try {
-        const response = await fetch(
-          `http://localhost:8080/api/bookings/user/${userId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) throw new Error("Failed to fetch bookings");
-        const data = await response.json();
-        setBookings(data);
-        // console.log("books",data)
-      } catch (error) {
-        console.error("Error fetching bookings:", error);
-      }
-    };
-    // console.log('bookfetch',fetchBookings())
-    if (userId && token) fetchBookings();
-  }, [userId, token]);
-
+ 
 
   // ALL BOOKING DETIELS FETCH ED FROM API
   const [allBooking, setBooking] = useState({ booking: 0 });
@@ -106,7 +77,6 @@ export const AuthProvider = ({ children }) => {
         token,
         LogoutUser,
         isLoggedIn, 
-        bookings,
         allBooking
       }}
     >

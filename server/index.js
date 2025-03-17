@@ -13,11 +13,10 @@ const userUpdate = require('./routers/user.router')
 const changePassword =require('./routers/changePass.router')
 const emailSendPass=require('./routers/changePass.router')
 const userPassReset =require('./routers/changePass.router')
+const getUserBookings = require('./routers/booking.router')
 // Admin Router 
 const adminRouter = require('./routers/admin.routers')
-const singleUser = require('./routers/admin.routers')
-const updateUser = require('./routers/admin.routers')
-const deleteUser = require('./routers/admin.routers')
+
 const getHotel = require('./routers/admin.routers')
 const getFlight= require('./routers/admin.routers')
 const getBus = require('./routers/admin.routers')
@@ -42,7 +41,7 @@ const Train = require('./routers/train.router');
 const TrainById = require('./routers/train.router')
 
 // Bookiing roouter 
-bookingRoutes =require( "./routers/booking.router");
+const bookingRoutes =require( "./routers/booking.router");
 
 require('dotenv').config();
 
@@ -63,9 +62,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Admin routers
 app.use('/api/admin',adminRouter)
-app.use('/api/admin',singleUser)
-app.use('/api/admin',updateUser)
-app.use('/api/admin',deleteUser) 
+
 
 app.use('/api/admin',getHotel) 
 app.use('/api/admin',getFlight) 
