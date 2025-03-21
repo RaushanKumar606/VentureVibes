@@ -13,8 +13,6 @@ const Tours = () => {
       if (response.ok) {
         const data = await response.json();
         setTourData(Array.isArray(data) ? data : data.tours || []);
-
-        console.log(data);
       }
     } catch (error) {
       console.error("Error fetching tours:", error);

@@ -14,34 +14,40 @@ const getAllBuses = async (req, res) => {
 // Create a new bus
 const createBus = async (req, res) => {
   try {
-    if (!req.body || !req.file){
-      return res.status(400).json({ success: false, message: "All required fields must"})
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(400).json({ success: false, message: "Request body is empty!" });
     }
-    const { name, operator, departureTime, arrivalTime, duration, departureLocation, arrivalLocation, to, day, price, seatsAvailable, busType, status,totalSeats } = req.body;
-    if (!name || !operator || !departureTime || !arrivalTime || !duration || !departureLocation || !arrivalLocation || !to || !day || !price || !seatsAvailable || !busType ||!totalSeats)  {
+    const {
+      name, operator, busNumber, departureTime, arrivalTime, duration,
+      departureLocation, arrivalLocation, to, day, price, seatsAvailable,
+      busType, status, totalSeats, amenities
+    } = req.body;
+
+    if (!name || !operator || !busNumber || !departureTime || !arrivalTime || !duration ||
+        !departureLocation || !arrivalLocation || !to || !day || !price ||
+        !seatsAvailable || !busType || !totalSeats || !amenities) {
       return res.status(400).json({ success: false, message: "All required fields must be provided" });
     }
-    const images = req.files.map(file => ({
-      url: file.path, 
-      filename: file.filename,
-    }));
-    const newBus = new Bus({
+    const parsedBus = {
       name,
       operator,
-      images,
+      busType,
+      busNumber,
       departureTime,
       arrivalTime,
       duration,
       departureLocation,
-      arrivalLocation,totalSeats,
+      arrivalLocation,
       to,
       day,
-      price,
-      seatsAvailable,
-      busType,busName,amenities,
+      price: Number(price),
+      seatsAvailable: Number(seatsAvailable),
+      totalSeats: Number(totalSeats),
+      amenities: Array.isArray(amenities) ? amenities : amenities.split(","),
       status,
       owner: req.user ? req.user._id : null,
-    });
+    };
+    const newBus = new Bus(parsedBus);
     await newBus.save();
     res.status(201).json({ success: true, message: "Bus created successfully", bus: newBus });
   } catch (error) {

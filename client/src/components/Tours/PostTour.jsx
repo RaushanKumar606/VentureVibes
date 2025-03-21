@@ -1,18 +1,7 @@
 import { useState } from "react";
-import {
-  FaMapMarkerAlt,
-  FaRegCalendarAlt,
-  FaImage,
-  FaDollarSign,
-  FaPlus,
-  FaTrash,
-  FaPlane,
-  FaLocationArrow,
-  FaGlobe,
-} from "react-icons/fa";
-import { useAuth } from "../Hooks/ContextApi";
-import { toast } from "react-toastify";
-const AdminPostTour = () => {
+import { FaMapMarkerAlt, FaRegCalendarAlt, FaImage, FaDollarSign, FaPlus, FaTrash, FaPlane, FaLocationArrow ,FaGlobe} from "react-icons/fa";
+import {useAuth} from "../Hooks/ContextApi"
+const PostTour = () => {
   const [tourData, setTourData] = useState({
     title: "",
     destinations: [""],
@@ -20,12 +9,10 @@ const AdminPostTour = () => {
     duration: { days: "", nights: "" },
     price: "",
     location: "",
-    country: "",
     dayWisePlan: [{ day: 1, activity: "" }],
-    description: "",
   });
-  const { token } = useAuth();
-  // const [images, setImages] = useState([]);
+   const {token} = useAuth
+  const [images, setImages] = useState([]);
 
   // Handle input change
   const handleChange = (e) => {
@@ -44,9 +31,7 @@ const AdminPostTour = () => {
   };
 
   const removeDestination = (index) => {
-    const updatedDestinations = tourData.destinations.filter(
-      (_, i) => i !== index
-    );
+    const updatedDestinations = tourData.destinations.filter((_, i) => i !== index);
     setTourData({ ...tourData, destinations: updatedDestinations });
   };
 
@@ -63,17 +48,12 @@ const AdminPostTour = () => {
   const addDayPlan = () => {
     setTourData((prev) => ({
       ...prev,
-      dayWisePlan: [
-        ...prev.dayWisePlan,
-        { day: prev.dayWisePlan.length + 1, activity: "" },
-      ],
+      dayWisePlan: [...prev.dayWisePlan, { day: prev.dayWisePlan.length + 1, activity: "" }],
     }));
   };
 
   const removeDayPlan = (index) => {
-    const updatedDayWisePlan = tourData.dayWisePlan.filter(
-      (_, i) => i !== index
-    );
+    const updatedDayWisePlan = tourData.dayWisePlan.filter((_, i) => i !== index);
     setTourData((prev) => ({ ...prev, dayWisePlan: updatedDayWisePlan }));
   };
 
@@ -85,36 +65,50 @@ const AdminPostTour = () => {
   // Submit Form
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    Object.keys(tourData).forEach((key) => {
+      if (Array.isArray(tourData[key])) {
+        tourData[key].forEach((item) => formData.append(key, item));
+      } else if (typeof tourData[key] === "object") {
+        Object.entries(tourData[key]).forEach(([subKey, value]) =>
+          formData.append(`${key}[${subKey}]`, value)
+        );
+      } else {
+        formData.append(key, tourData[key]);
+      }
+    });
 
-    const data = {
-      ...tourData,
-      destinations: tourData.destinations,
-      duration: tourData.duration,
-      dayWisePlan: tourData.dayWisePlan,
-    };
+    images.forEach((file) => formData.append("images", file));
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/admin/create-tour`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch("http://localhost:8080/api/tours", {
+        method: "POST",
+        headers:{
+          Authorization: `Bearer ${token}`
+        },
+        body: formData,
+      });
 
       const result = await response.json();
-      if (response.ok) {
-        toast.success(`Tour create  Successful! Welcome,`);
-        setTourData(result);
+      if (result.success) {
+        alert("Tour added successfully!");
+        setTourData({
+          title: "",
+          destinations: [""],
+          bestTimeToTravel: "",
+          duration: { days: "", nights: "" },
+          price: "",
+          location: "",
+          country: "",
+          dayWisePlan: [{ day: 1, activity: "" }],
+        });
+        setImages([]);
+      } else {
+        alert("Error: " + result.message);
       }
-      
     } catch (error) {
-      toast.error(error.message || "Login failed. Please try again.");
-      alert("Something went wrong! " + error.message);
+      console.error("Error:", error);
+      alert("Something went wrong!");
     }
   };
 
@@ -138,10 +132,7 @@ const AdminPostTour = () => {
 
         {/* Destinations */}
         {tourData.destinations.map((destination, index) => (
-          <div
-            key={index}
-            className="flex items-center bg-white text-black p-2 rounded-lg"
-          >
+          <div key={index} className="flex items-center bg-white text-black p-2 rounded-lg">
             <FaMapMarkerAlt className="text-indigo-600 mx-2" />
             <input
               type="text"
@@ -152,21 +143,13 @@ const AdminPostTour = () => {
               required
             />
             {index > 0 && (
-              <button
-                type="button"
-                className="ml-2 text-red-500"
-                onClick={() => removeDestination(index)}
-              >
+              <button type="button" className="ml-2 text-red-500" onClick={() => removeDestination(index)}>
                 <FaTrash />
               </button>
             )}
           </div>
         ))}
-        <button
-          type="button"
-          onClick={addDestination}
-          className="bg-blue-500 hover:bg-blue-600 p-2 rounded-lg text-white flex items-center justify-center"
-        >
+        <button type="button" onClick={addDestination} className="bg-blue-500 hover:bg-blue-600 p-2 rounded-lg text-white flex items-center justify-center">
           <FaPlus className="mr-2" /> Add Destination
         </button>
 
@@ -198,18 +181,16 @@ const AdminPostTour = () => {
           />
         </div>
 
-        {/* Duration */}
-        <div className="flex gap-2">
+
+          {/* Duration */}
+          <div className="flex gap-2">
           <input
             type="number"
             name="days"
             placeholder="Days"
             value={tourData.duration.days}
             onChange={(e) =>
-              setTourData({
-                ...tourData,
-                duration: { ...tourData.duration, days: e.target.value },
-              })
+              setTourData({ ...tourData, duration: { ...tourData.duration, days: e.target.value } })
             }
             className="p-2 rounded-lg text-black w-1/2"
             required
@@ -220,10 +201,7 @@ const AdminPostTour = () => {
             placeholder="Nights"
             value={tourData.duration.nights}
             onChange={(e) =>
-              setTourData({
-                ...tourData,
-                duration: { ...tourData.duration, nights: e.target.value },
-              })
+              setTourData({ ...tourData, duration: { ...tourData.duration, nights: e.target.value } })
             }
             className="p-2 rounded-lg text-black w-1/2"
             required
@@ -244,8 +222,8 @@ const AdminPostTour = () => {
           />
         </div>
 
-        {/* Country */}
-        <div className="flex items-center bg-white text-black p-2 rounded-lg">
+         {/* Country */}
+         <div className="flex items-center bg-white text-black p-2 rounded-lg">
           <FaGlobe className="text-indigo-600 mx-2" />
           <input
             type="text"
@@ -258,70 +236,35 @@ const AdminPostTour = () => {
           />
         </div>
 
-        {/* Image Upload */}
-        <div className="flex items-center bg-white text-black p-2 rounded-lg">
+         {/* Image Upload */}
+         <div className="flex items-center bg-white text-black p-2 rounded-lg">
           <FaImage className="text-indigo-600 mx-2" />
-          <input
-            type="file"
-            multiple
-            onChange={handleFileChange}
-            className="w-full outline-none"
-          />
-        </div>
-
-        {/* Discription */}
-        <div className="flex items-center bg-white text-black p-2 rounded-lg">
-          <FaLocationArrow className="text-indigo-600 mx-2" />
-          <input
-            type="text"
-            name="description"
-            placeholder="description"
-            value={tourData.description}
-            onChange={handleChange}
-            className="w-full p-2 outline-none"
-            required
-          />
+          <input type="file" multiple onChange={handleFileChange} className="w-full outline-none" />
         </div>
 
         {/* Day-wise Plan */}
         {tourData.dayWisePlan.map((plan, index) => (
-          <div
-            key={index}
-            className="flex items-center bg-white text-black p-2 rounded-lg"
-          >
+          <div key={index} className="flex items-center bg-white text-black p-2 rounded-lg">
             <input
               type="text"
               placeholder={`Day ${plan.day} Activity`}
               value={plan.activity}
-              onChange={(e) =>
-                handleDayPlanChange(index, "activity", e.target.value)
-              }
+              onChange={(e) => handleDayPlanChange(index, "activity", e.target.value)}
               className="w-full p-2 outline-none"
               required
             />
             {index > 0 && (
-              <button
-                type="button"
-                className="ml-2 text-red-500"
-                onClick={() => removeDayPlan(index)}
-              >
+              <button type="button" className="ml-2 text-red-500" onClick={() => removeDayPlan(index)}>
                 <FaTrash />
               </button>
             )}
           </div>
         ))}
-        <button
-          type="button"
-          onClick={addDayPlan}
-          className="bg-blue-500 hover:bg-blue-600 p-2 rounded-lg text-white"
-        >
+        <button type="button" onClick={addDayPlan} className="bg-blue-500 hover:bg-blue-600 p-2 rounded-lg text-white">
           <FaPlus className="mr-2" /> Add Day Plan
         </button>
 
-        <button
-          type="submit"
-          className="bg-green-500 hover:bg-green-600 py-2 rounded-lg text-white text-lg font-bold"
-        >
+        <button type="submit" className="bg-green-500 hover:bg-green-600 py-2 rounded-lg text-white text-lg font-bold">
           🚀 Submit Tour
         </button>
       </form>
@@ -329,4 +272,4 @@ const AdminPostTour = () => {
   );
 };
 
-export default AdminPostTour;
+export default PostTour;

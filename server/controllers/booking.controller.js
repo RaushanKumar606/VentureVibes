@@ -111,6 +111,7 @@ const createBooking = async (req, res) => {
 };
 
 // Get All Bookings for a User
+
 const getUserBooks = async (req, res) => {
     try {
       const userId = req.user?.id || req.params.userId;
@@ -126,6 +127,8 @@ const getUserBooks = async (req, res) => {
         res.status(500).json({ message: "Error fetching bookings", error });
     }
 };
+
+
 // Cancel a Booking
 const cancelBooking = async (req, res) => {
     try {

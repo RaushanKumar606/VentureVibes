@@ -25,56 +25,41 @@ const getHotelById = async (req, res) => {
 // Create a new hotel
 const createHotel = async (req, res) => {
   try {
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Images are required",
-      });
-    }
-const kilometers = Number(req.body.kilometers);
-const persons = Number(req.body.persons);
-const pricePerNight = Number(req.body.pricePerNight);
-const rating = Number(req.body.rating);
-const amenities = req.body.ameities 
-  ? (Array.isArray(req.body.ameities) ? req.body.ameities : req.body.ameities.split(",")) 
-  : [];
+    // Convert numeric fields safely
+    const kilometers = req.body.kilometers ? Number(req.body.kilometers) : null;
+    const persons = req.body.persons ? Number(req.body.persons) : null;
+    const pricePerNight = req.body.pricePerNight ? Number(req.body.pricePerNight) : null;
+    const rating = req.body.rating ? Number(req.body.rating) : 0;
 
+    // Fix typo and handle amenities properly
+    const amenities = req.body.amenities
+      ? Array.isArray(req.body.amenities)
+        ? req.body.amenities
+        : req.body.amenities.split(",")
+      : [];
 
+    const { name, location, typeRoom, status, description } = req.body;
 
-    const {
-      name,
-      location,
-      typeRoom,
-      status,
-      description,
-    } = req.body;
-
-      //  const imageUrl = req.files.map(file=>file.path);
-      //  console.log("all image url", imageUrl);
-
-      const imageUrl = req.files.map(file => `/uploads/${file.filename}`);
-
+    // Validation for required fields
     if (
       !name ||
-      !location ||  
-      !kilometers ||
+      !location ||
+      kilometers === null ||
       !typeRoom ||
-      !persons ||
-      !pricePerNight ||
-      !amenities ||
-      !rating ||
+      persons === null ||
+      pricePerNight === null ||
+      !amenities.length || // Ensures amenities is not empty
+      rating < 0 ||
       !status ||
       !description
-
     ) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "All required fields must be provided",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "All required fields must be provided",
+      });
     }
-   
+
+    // Create new hotel
     const newHotel = new Hotel({
       name,
       location,
@@ -85,29 +70,26 @@ const amenities = req.body.ameities
       amenities,
       status,
       rating,
-      images:imageUrl,
       description,
       owner: req.user ? req.user._id : null,
     });
+
     await newHotel.save();
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "Hotel created successfully",
-        hotel: newHotel,
-      });
+    res.status(201).json({
+      success: true,
+      message: "Hotel created successfully",
+      hotel: newHotel,
+    });
   } catch (error) {
     console.error("Hotel Creation Error:", error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error creating hotel",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error creating hotel",
+      error: error.message,
+    });
   }
 };
+
 // Update a hotel by ID
 const updateHotel = async (req, res) => {
   try {

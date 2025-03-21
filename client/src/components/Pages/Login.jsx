@@ -13,11 +13,13 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
+    console.log( "all user",user)
     e.preventDefault();
     if (!email || !password) {
       setError("Please enter both email and password.");
       return;
     }
+
     try {
       setIsLoading(true);
       setError("");
@@ -28,39 +30,23 @@ const LoginPage = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-      let res_data;
-      try {
-          res_data = await response.json();
-          // Validate response data structure
-          if (!res_data || typeof res_data !== 'object') {
-              throw new Error('Invalid response format: Expected an object');
-          }
-          if (response.ok) {
-              // Validate required fields
-              if (!res_data.token) {
-                  throw new Error('Missing token in response');
-              }
-              if (!res_data.userId) {
-                  throw new Error('Missing userId in response');
-              }
-              storeTokenInLS(res_data.token);
-              toast.success(`Login Successful! Welcome, User ID: ${res_data.userId}`);
-              navigate('/');
-          } else {
-              // Handle error response
-              const errorMessage = res_data.message || 'Login failed. Please try again.';
-              toast.error(errorMessage);
-              setError(errorMessage);
-          }
-      } catch (error) {
-          const errorMessage = `Login failed: ${error.message}`;
-          toast.error(errorMessage);
-          setError(errorMessage);
+         console.log("Response Status:", response.status);
+         let res_data;
+         try {
+             res_data = await response.json();
+         } catch (jsonError) {
+             console.error("Failed to parse JSON:", jsonError);
+             res_data = await response.text(); 
+         }
+         if (response.ok) {
+          storeTokenInLS(res_data.token);  
+          toast.success(`Login Successful! Welcome, User ID: ${res_data.userId}`); 
+          navigate('/'); 
+      } else {
+        toast.error(res_data.message || "Login failed. Please try again.");
       }
     } catch (error) {
-      const errorMessage = `Network or server error: ${error.message}`;
-      setError(errorMessage);
-      toast.error(errorMessage);
+      setError(`Something went wrong. Please try again. Error: ${error.message}`);
     } finally {
       setIsLoading(false);
     }

@@ -105,7 +105,6 @@ const AdminDash = () => {
         }
       );
       const data = await response.json();
-    console.log(data)
       setBooking(data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -146,16 +145,7 @@ const AdminDash = () => {
           />
           <FiSearch className="absolute left-3 top-3 text-gray-500" />
         </div>
-        <div className="flex items-center gap-4">
-          <FiBell className="text-xl cursor-pointer" />
-          <div className="flex items-center gap-2">
-            <HiOutlineUserCircle className="text-3xl" />
-            {/* <div>
-              <p className="text-sm font-semibold">{user.userData.name}</p> 
-              <p className="text-xs text-gray-500">{user.userData.email}</p>
-            </div> */}
-          </div>
-        </div>
+        
       </div>
 
       {/* Stats Widgets */}

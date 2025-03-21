@@ -11,17 +11,65 @@ const Train = require('../models/train.model')
 // *------------------------------
 // *    Get all User logic by admin
 // *------------------------------
-const getAllUsers = async (req, res) => {
-    try {
-        const users = await User.find({}, { password: 0 });
-        if (!users || users.length === 0) {
-            return res.status(404).json({ message: "No Users Founds" })
-        }
-        return res.status(200).json(users)
-    } catch (error) {
-        next(error)
-    }
-}
+// const getAllUsers = async (req, res) => {
+//     try {
+//         const users = await User.find({}, { password: 0 });
+//         if (!users || users.length === 0) {
+//             return res.status(404).json({ message: "No Users Founds" })
+//         }
+//         return res.status(200).json(users)
+//     } catch (error) {
+//         next(error)
+//     }
+// }
+
+
+
+const getAllUsers = async (req, res, next) => {
+  try {
+      const users = await User.find({}, { password: 0 });
+
+      if (!users || users.length === 0) {
+          return res.status(404).json({ message: "No Users Found" });
+      }
+      const usersWithBookings = await Promise.all(
+          users.map(async (user) => {
+              const bookings = await Booking.find({ user: user._id })
+                  .populate("hotel")
+                  .populate("bus")
+                  .populate("flight")
+                  .populate("train");
+              const totalBookings = bookings.length;
+              const transactionIds = bookings.map(b => b.transactionId)
+
+               const totalSpent = bookings.reduce((sum, booking) => {
+                    const hotelAmount = booking.hotel?.pricePerNight || 0;
+                    const busAmount = booking.bus?.price?.amount || 0;
+                    const flightAmount = booking.flight?.minPrice?.amount || 0;
+                    const trainAmount = booking.train?.amount || 0;
+                    return sum + hotelAmount + busAmount + flightAmount + trainAmount;
+                }, 0);
+              return {
+                  _id: user._id,
+                  name: user.name,
+                  email: user.email,
+                  mobile: user.mobile,
+                  role: user.role,
+                  totalBookings,
+                  transactionIds,
+                  totalSpent,
+                  bookings, // Full booking details
+              };
+          })
+      );
+      return res.status(200).json(usersWithBookings);
+  } catch (error) {
+      next(error);
+  }
+};
+
+
+
 // *------------------------------
 // *    singleUser logic by admin
 // *------------------------------
@@ -453,11 +501,52 @@ const getUserBookings = async (req, res) => {
 };
 
 
+
+
+const createFlight = async (req, res) => {
+  try {
+    if (!req.body || !req.file){
+      return res.status(400).json({ success: false, message: "All required fields must"})
+    }
+    const { airline, minPrice, departureTime, arrivalTime, duration, flightNumber, carrier, seatsAvailable, status, travellerType ,from,to} = req.body;
+    if (!airline || !minPrice || !departureTime || !arrivalTime || !duration || !flightNumber || !carrier || !seatsAvailable || !travellerType || !from || !to) {
+      return res.status(400).json({ success: false, message: "All required fields must be provided" });
+    }
+    // const images = req.files.map(file => ({
+    //   url: file.path, 
+    //   filename: file.filename,
+    // }));
+    const imageUrl = req.files.map(file => `/uploads/${file.filename}`);
+
+    const newFlight = new Flight({
+      airline,
+      images:imageUrl,
+      minPrice,
+      from,to,
+      departureTime,
+      arrivalTime,
+      duration,
+      flightNumber,
+      carrier,
+      seatsAvailable,
+      status,
+      travellerType,
+      owner: req.user ? req.user._id : null,
+    });
+    await newFlight.save();
+    res.status(201).json({ success: true, message: "Flight created successfully", flight: newFlight });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error creating flight", error: error.message });
+  }
+};
+
+
+
 module.exports = {
     getAllUsers, updateHotel, getSingleHotel, getHotel, deleteBus, updateBus, getSingleBus, getBus,
     deleteUserById, deleteFlight, updateFlight, getSingleFlight, getFlight,
     updateUserData, deleteTourById, updateTourData, getSingleTourById, getAllTours
     , getSingleUserById,
     deleteHotel,getTotelUsers,getTotalTrein,getTotelHotel,getTotalFlight,getTotalTours,getTotelBooking,getTotelBus,
-    getUserBookings
+    getUserBookings,createFlight
 }

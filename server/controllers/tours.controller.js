@@ -1,18 +1,21 @@
 const express = require("express");
 const Tour = require('../models/tour.model');
 const mongoose = require('mongoose');
-const { cloudinary } = require('../cloudinary/cloudinary')
+
 
 // Create a new tour
+
+
 const createTour = async (req, res) => {
   try {
-    const { title, dayWisePlan, bestTimeToTravel, description, price, location, country, destinations, duration } = req.body;
-    if (!title || !dayWisePlan || !bestTimeToTravel || !description || !price || !location || !country || !destinations || !duration) {
+  
+    const { title, bestTimeToTravel, description, price, location, country } = req.body;
+    const destinations = req.body.destinations || [];
+    const duration = req.body.duration || {};
+    const dayWisePlan = req.body.dayWisePlan || [];
+
+    if (!title || !dayWisePlan.length || !bestTimeToTravel || !description || !price || !location || !country || !destinations.length || !duration.days || !duration.nights) {
       return res.status(400).json({ success: false, message: "All fields are required to create the tour" });
-    }
-    let images = [];
-    if (req.file) {
-      images.push({ url: req.file.path, filename: req.file.filename });
     }
     const newTour = new Tour({
       title,
@@ -24,48 +27,20 @@ const createTour = async (req, res) => {
       duration,
       bestTimeToTravel,
       dayWisePlan,
-      images, 
+      // images: req.files ? req.files.map(file => file.path) : [],
       owner: req.user ? req.user._id : null,
     });
+
     await newTour.save();
     res.status(201).json({ message: "Tour created successfully", tour: newTour });
-  } catch (error) { 
-    res.status(400).json({ 
-      message: "Error creating tour", 
-      error: error.message || error 
+  } catch (error) {
+    res.status(500).json({
+      message: "Error creating tour",
+      error: error.message || error,
     });
   }
 };
 
-
-// module.exports = { createTour };
-
-// const createTour = async (req, res) => {
-//   try { 
-//     const { title, description, price, country, location } = req.body;
-//     if (!title || !description || !price || !country || !location) {
-//       return res.status(400).json({ success: false, message: "All fields are required" });
-//     }
-//     let image = { url: "", filename: "" };
-//     if (req.file) {
-//       image = { url: req.file.path, filename: req.file.filename };
-//     }
-//     const newTour = new Tour({
-//       title,
-//       description,
-//       price,
-//       country,
-//       location,
-//       owner: req.user ? req.user._id : null, 
-//       image,
-//     });
-//     await newTour.save();
-//     return res.status(201).json({ success: true, data: newTour });
-//   } catch (error) {
-//     console.error("Error:", error);
-//     return res.status(500).json({ success: false, message: error.message });
-//   }
-// };
 
 // Get all tours
 const getAllTours = async (req, res) => {

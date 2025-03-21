@@ -143,7 +143,7 @@ const AdminBus = () => {
                 <td className="py-3 px-6 ">
                 <div className="flex gap-2">
                   <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
-                    <Link to={`/admin/bus/${bus._id}/edit`}>Edit</Link>
+                    <Link to={`/admin/bus/${bus._id}/update`}>Edit</Link>
                   </button>
                   <button
                     onClick={() => deleteUserById(bus._id)}

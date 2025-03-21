@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../Hooks/ContextApi";
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 function AdminUserEdit() {
   const { token } = useAuth();
@@ -10,6 +10,7 @@ function AdminUserEdit() {
     mobile: "",
     country: "",
   });
+  const navigate = useNavigate();
   const {   storeTokenInLS} = useAuth();
   const { id } = useParams(); 
   const getUserById = async () => {
@@ -25,7 +26,7 @@ function AdminUserEdit() {
       );
       const data = await response.json();
       if(response.ok){
-        getUserById({
+        setFormData({
         name:data.name,
         email:data.email,
         mobile:data.mobile,
@@ -62,6 +63,7 @@ function AdminUserEdit() {
                 storeTokenInLS(data.token); 
             }
             toast.success("Update Successfully");
+            navigate('/admin/users')
         } else {
             toast.error(data.message || "Not Updated");
         }

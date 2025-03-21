@@ -55,17 +55,17 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
-        </div> */}
+        </div>  */}
         <div className={`lg:flex items-center space-x-6 ${isMenuOpen ? "block" : "hidden"} lg:block`}>
-          <ul>
+        <ul className="flex flex-col lg:flex-row gap-4 lg:gap-8 text-gray-700">
           <a href="/"><li>Home</li>
           </a>
-          <a href="/hotel"><li>Hotel</li></a>
-          <a href="/bus"><li>Bus</li></a>
-          <a href="/train"><li>Train</li>
+          <a href="/hotel" className="hover:text-blue-600"><li>Hotel</li></a>
+          <a href="/bus" className="hover:text-blue-600"><li>Bus</li></a>
+          <a href="/train" className="hover:text-blue-600"><li>Train</li>
           </a>
-          <a href="/air"><li>Air</li></a>
-          <a href="/tours"><li>Tours</li></a>
+          <a href="/air" className="hover:text-blue-600"><li>Air</li></a>
+          <a href="/tours" className="hover:text-blue-600"><li>Tours</li></a>
           </ul>
         </div>
 

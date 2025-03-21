@@ -153,10 +153,10 @@ const {user} = useAuth();
             <FiBell className="text-xl cursor-pointer" />
             <div className="flex items-center gap-2">
               <HiOutlineUserCircle className="text-3xl" />
-              {/* <div>
+              <div>
                 <p className="text-sm font-semibold">{user.userData.name}</p>
                 <p className="text-xs text-gray-500">{user.userData.email}</p>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>

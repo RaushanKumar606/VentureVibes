@@ -4,7 +4,7 @@ import BusCusTrust from "./BusCusTrust"
 import BusList from "./BusList"
 import BusFeature from "./BusFeature"
 import BusRoute from "./BusRoute"
-import Navbar from "../../Navbar/Navbar"
+// import Navbar from "../../Navbar/Navbar"
 // import BusTravData from "./BusTravData"
 
 
@@ -12,7 +12,7 @@ import Navbar from "../../Navbar/Navbar"
 function BusPage() {
   return (
     <>
-    <Navbar/>
+    {/* <Navbar/> */}
     <HeroBus/>
     <BusCusTrust/>
     <BusList/>

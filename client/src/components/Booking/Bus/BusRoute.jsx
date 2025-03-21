@@ -1,33 +1,57 @@
-
-
-import travelData from "../../Data/TravalData.json";
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const BusRoute = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [busRouteData, setBusRouteData] = useState([]);
+
+  const getBus = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`http://localhost:8080/api/bus`);
+      if (response.ok) {
+        const data = await response.json();
+        setBusRouteData(Array.isArray(data) ? data : []);
+      } else {
+        throw new Error("Failed to fetch data");
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getBus();
+  }, []);
+
   return (
-    <div className="container mx-auto ">
+    <div className="container mx-auto">
       <h2 className="text-3xl text-center font-semibold mb-6">Top Bus Routes</h2>
 
+      {loading && <p className="text-center">Loading...</p>}
+      {error && <p className="text-center text-red-500">{error}</p>}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {travelData.map((item) => (
-          <Link to={`/item/${item.id}`} key={item.id} className="block">
-            <div className="max-w-sm mx-auto shadow-lg rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300">
-              <img
-                src={item.image}
-                alt={item.from}
-                className="w-full h-40 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-2">Buses From {item.from} To:</h3>
-                <p className="text-gray-700">{item.to.join(", ")}</p>
+        {busRouteData.map((bus) => {
+          const { _id, name, image } = bus;
+          return (
+            <Link to={`/bus/${_id}`} key={_id} className="block">
+              <div className="max-w-sm mx-auto shadow-lg rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300">
+                <img src={image} alt={name} className="w-full h-40 object-cover" />
+                <div className="p-4">
+                  <h3 className="text-lg font-bold mb-2"> {name}</h3>
+                </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
 };
 
 export default BusRoute;
-

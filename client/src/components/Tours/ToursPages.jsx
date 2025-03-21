@@ -5,7 +5,7 @@ import Footer from "../../Footer/Footer";
 function ToursPages() {
   return (
     <div>
-      <Navbar/>
+      {/* <Navbar/> */}
         <Tours/>
  
         < Footer/>

@@ -8,7 +8,7 @@ import TrainFooter from './TrainFooter'
 function TrainPage() {
   return (
    <>
-   <Navbar/>
+   {/* <Navbar/> */}
    <TrainHero/>
    <TrainCus/>
    <TrainInquiry/>

@@ -30,7 +30,20 @@ const AdminBooking = () => {
     getBooking();
   }, []);
 
-  console.log("all booink user", bookings);
+
+  // const filteredBookings = bookings.filter((booking) => {
+  //   const matchesSearch =
+  //     booking.user?.name?.toLowerCase().includes(search.toLowerCase()) ||
+  //     booking.bookingType?.toLowerCase().includes(search.toLowerCase());
+
+  //   const matchesFilter = filter === "All" || booking.bookingType === filter;
+
+  //   return matchesSearch && matchesFilter;
+  // });
+
+
+
+
 
   const formatData = (isoData) => {
     return new Date(isoData).toLocaleString("en-US", {
@@ -58,17 +71,14 @@ const AdminBooking = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <select
-          className="p-2 border rounded"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        >
+        <select className="p-2 border rounded" value={filter} onChange={(e) => setFilter(e.target.value)}>
           <option value="All">All</option>
           <option value="Hotel">Hotel</option>
           <option value="Flight">Flight</option>
           <option value="Bus">Bus</option>
         </select>
       </div>
+
 
       {/* Bookings Table */}
       <table className="w-full border-collapse border border-gray-300">
@@ -87,7 +97,7 @@ const AdminBooking = () => {
         <tbody>
   {bookings && bookings.length > 0 ? (
     bookings.map((booking) => (
-      <tr key={booking.id} className="text-center">
+      <tr key={booking._id} className="text-center">
         <td className="border p-2">{booking._id}</td>
         <td className="border p-2">{booking.bookingType}</td>
         <td className="border p-2">{booking.user?.name || "N/A"}</td>

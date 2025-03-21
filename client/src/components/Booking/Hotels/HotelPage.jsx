@@ -10,7 +10,7 @@ import PopularHotel from "./PopularHotel"
 function HotelPage() {
   return (
     <>
-      <Navbar/>
+      {/* <Navbar/> */}
     <HotelSearch/>
     <HotelChoice/>
     <AllHotels/>

@@ -1,111 +1,148 @@
-
-
 import { useState } from "react";
+import { useAuth } from "../Hooks/ContextApi";
+import{toast} from 'react-toastify';
+import {
+  FaPlane,
+  FaMapMarkerAlt,
+  FaRegCalendarAlt,
+  FaImage,
+  FaDollarSign,
+} from "react-icons/fa";
 
 const AdminPostFlight = () => {
-  const [flightData, setFlightData] = useState({
-    flightName: "",
+  const [flight, setFlight] = useState({
+    airline: "",
     from: "",
     to: "",
-    image: "",
+    minPrice: "",
     departureTime: "",
     arrivalTime: "",
-    flightNumber: "",
-    seatAvailable: "",
     duration: "",
-    price: "",
-    status: "",
-    flightType: "",
-    carrier: "",
+    flightNumber: "",
+    seatsAvailable: "",
+    status: "Scheduled",
+    travellerType: "One Way",
+    images: [],
   });
 
-  const handleChange = (e) => {
-    setFlightData({ ...flightData, [e.target.name]: e.target.value });
-  };
+  const { token } = useAuth();
 
+  const flightPost = async () => {
+    try {
+      const formData = new FormData();
+      Object.keys(flight).forEach((key) => {
+        if (key === "images") {
+          flight.images.forEach((image) => {
+            formData.append("images", image);
+          });
+        } else {
+          formData.append(key, flight[key]);
+        }
+      });
+
+      const response = await fetch(`http://localhost:8080/api/admin/create-flight`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log("✅ API Response:", data);
+
+      if (response.ok) {
+        toast.success("Flight Created Successfully!");
+      } else {
+        toast.success("Flight Created Successfully!",data.message);
+      }
+    } catch (error) {
+      toast.error("flight not create",error)
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(flightData);
-    alert("Flight Created Successfully!");
+    flightPost();
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFlight((prev) => ({
+      ...prev,
+      [name]:
+        ["seatsAvailable", "flightNumber", "duration", "minPrice"].includes(name)
+          ? Number(value) || ""
+          : value.trim() || prev[name],
+    }));
+  };
+  // const handleImageUpload = (e) => {
+  //   const files = Array.from(e.target.files);
+  //   setFlight((prev) => ({ ...prev, images: files }));
+  // };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl border-2 border-green-500 hover:shadow-2xl transition-all duration-300"
-      >
-        <h2 className="text-2xl font-bold text-center text-green-600 mb-4 border-b-2 pb-2">
-          Flight Create
-        </h2>
+    <div className="max-w-4xl mx-auto shadow-lg rounded-lg p-6 mt-10">
+      <h2 className="text-2xl font-semibold mb-4 text-center">Flight Add</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex items-center border p-2 rounded-md">
+          <FaPlane className="text-gray-500 mr-2" />
+          <input type="text" name="airline" placeholder="Airline Name" className=" p-2 outline-none" onChange={handleChange} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/** Input Fields with Hover Effects */}
-          {[
-            { label: "Flight Name", name: "flightName" },
-            { label: "Flight Number", name: "flightNumber" },
-            { label: "From", name: "from" },
-            { label: "To", name: "to" },
-            { label: "Image URL", name: "image" },
-            { label: "Available Seats", name: "seatAvailable", type: "number" },
-            { label: "Duration (Hours)", name: "duration", type: "number" },
-            { label: "Price ($)", name: "price", type: "number" },
-          ].map(({ label, name, type = "text" }) => (
-            <label key={name} className="block">
-              {label}
-              <input
-                type={type}
-                name={name}
-                onChange={handleChange}
-                className="border p-2 w-full rounded-md outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300 hover:border-green-500"
-              />
-            </label>
-          ))}
+        </div>
 
-          {/** Time Inputs */}
-          {[
-            { label: "Departure Time", name: "departureTime" },
-            { label: "Arrival Time", name: "arrivalTime" },
-          ].map(({ label, name }) => (
-            <label key={name} className="block">
-              {label}
-              <input
-                type="time"
-                name={name}
-                onChange={handleChange}
-                className="border p-2 w-full rounded-md outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300 hover:border-green-500"
-              />
-            </label>
-          ))}
+       
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex items-center border p-2 rounded-md">
+            <FaRegCalendarAlt className="text-gray-500 mr-2" />
+            <input type="datetime-local" name="departureTime" className=" p-2 outline-none" onChange={handleChange} />
+          </div>
+          <div className="flex items-center border p-2 rounded-md">
+            <FaRegCalendarAlt className="text-gray-500 mr-2" />
+            <input type="datetime-local" name="arrivalTime" className=" p-2 outline-none" onChange={handleChange} />
+          </div>
+        </div>
 
-          {/** Select Dropdowns with Hover Effects */}
-          {[
-            { label: "Status", name: "status", options: ["Available", "Unavailable"] },
-            { label: "Flight Type", name: "flightType", options: ["A", "B", "C"] },
-            { label: "Carrier", name: "carrier", options: ["Oper", "Mar"] },
-          ].map(({ label, name, options }) => (
-            <label key={name} className="block">
-              {label}
-              <select
-                name={name}
-                onChange={handleChange}
-                className="border p-2 w-full rounded-md outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300 hover:bg-green-100"
-              >
-                {options.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </label>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex items-center border p-2 rounded-md">
+            <FaMapMarkerAlt className="text-gray-500 mr-2" />
+            <input type="text" name="status" placeholder="Status" className="w-full p-2 outline-none" onChange={handleChange} />
+          </div>
+          <div className="flex items-center border p-2 rounded-md">
+            <FaMapMarkerAlt className="text-gray-500 mr-2" />
+            <input type="number" name="seatsAvailable" placeholder="Seats Available" className="w-full p-2 outline-none" onChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex items-center border p-2 rounded-md">
+            <FaMapMarkerAlt className="text-gray-500 mr-2" />
+            <input type="number" name="flightNumber" placeholder="Flight Number" className="w-full p-2 outline-none" onChange={handleChange} />
+          </div>
+          <div className="flex items-center border p-2 rounded-md">
+            <FaMapMarkerAlt className="text-gray-500 mr-2" />
+            <input type="number" name="duration" placeholder="Duration (mins)" className="w-full p-2 outline-none" onChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex items-center border p-2 rounded-md">
+            <FaDollarSign className="text-gray-500 mr-2" />
+            <input type="number" name="minPrice" placeholder="Minimum Price" className="w-full p-2 outline-none" onChange={handleChange} />
+          </div>
+          <div className="flex items-center border p-2 rounded-md">
+            <FaMapMarkerAlt className="text-gray-500 mr-2" />
+            <input type="text" name="travellerType" placeholder="Travel Type" className="w-full p-2 outline-none" onChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="flex items-center border p-2 rounded-md">
+          <FaImage className="text-gray-500 mr-2" />
+          {/* <input type="file" multiple onChange={handleImageUpload} className="w-full p-2 outline-none" /> */}
+        </div>
+        <div className="flex space-x-2 overflow-x-auto">
+          {flight.images.map((img, index) => (
+            <img key={index} src={URL.createObjectURL(img)} alt="Preview" className="w-16 h-16 rounded-md" />
           ))}
         </div>
 
-        {/** Submit Button with Hover Effect */}
-        <button
-          type="submit"
-          className="mt-4 w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 hover:scale-105 transition-transform duration-300"
-        >
+        <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
           Submit
         </button>
       </form>
@@ -113,6 +150,4 @@ const AdminPostFlight = () => {
   );
 };
 
-
-
-export default AdminPostFlight
+export default AdminPostFlight;

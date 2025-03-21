@@ -1,102 +1,137 @@
-
-import  { useState } from "react";
-
-const AdminPostHotel = () => {
+import { useState } from "react";
+import {
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  OutlinedInput,
+  Chip,
+  Box,
+} from "@mui/material";
+import { toast } from "react-toastify";
+import {useAuth} from "../Hooks/ContextApi"
+const AdminCreateHotel = () => {
   const [hotelData, setHotelData] = useState({
     name: "",
-    preNightPrice: "",
-    roomType: "",
-    killometer: "",
-    amenities: "",
-    rating: "",
-    person: "",
-    status: "",
     location: "",
-    images: "",
+    kilometers: "",
+    typeRoom: "Single",
+    persons: "",
+    pricePerNight: "",
+    status: "Available",
+    amenities: [],
+    rating: "",
     description: "",
   });
+ 
+  const {token} = useAuth()
 
   const handleChange = (e) => {
     setHotelData({ ...hotelData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(hotelData);
-    alert("Hotel Created Successfully!");
+  const handleMultiSelect = (e) => {
+    setHotelData({ ...hotelData, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      ...hotelData,
+      kilometers: Number(hotelData.kilometers),
+      persons: Number(hotelData.persons),
+      pricePerNight: Number(hotelData.pricePerNight),
+      rating: Number(hotelData.rating),
+    };
+
+    try {
+      const response = await fetch("http://localhost:8080/api/admin/create-hotel", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        toast.success("Hotel created successfully!");
+        setHotelData({
+          name: "",
+          location: "",
+          kilometers: "",
+          typeRoom: "Single",
+          persons: "",
+          pricePerNight: "",
+          status: "Available",
+          amenities: [],
+          rating: "",
+          description: "",
+        });
+      } else {
+        toast.error(result.message || "Error creating hotel");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Something went wrong!");
+    }
+  };
+
+  const roomTypes = ["Single", "Double", "Suite", "Family", "Luxury"];
+  const amenitiesList = ["Free WiFi", "Swimming Pool", "Parking", "Gym", "Breakfast Included"];
+
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-lg w-96 border-2 border-black"
-      >
-        <h2 className="text-xl font-bold text-center mb-4 border-b-2 pb-2">
-          Create Hotel
-        </h2>
+    <Box sx={{ maxWidth: 600, mx: "auto", p: 3, boxShadow: 3, borderRadius: 2, bgcolor: "white" }}>
+      <h2 style={{ textAlign: "center", marginBottom: "16px" }}>🏨 Add New Hotel</h2>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <TextField label="Hotel Name" name="name" value={hotelData.name} onChange={handleChange} required />
+        <TextField label="Location" name="location" value={hotelData.location} onChange={handleChange} required />
+        <TextField type="number" label="Kilometers from City Center" name="kilometers" value={hotelData.kilometers} onChange={handleChange} required />
+        <TextField type="number" label="Persons Allowed" name="persons" value={hotelData.persons} onChange={handleChange} required />
+        <TextField type="number" label="Price Per Night" name="pricePerNight" value={hotelData.pricePerNight} onChange={handleChange} required />
 
-        <div className="grid grid-cols-2 gap-4">
-          <label>
-            Name
-            <input type="text" name="name" onChange={handleChange} className="border p-1 w-full" />
-          </label>
-          <label>
-            PreNightPrice
-            <input type="number" name="preNightPrice" onChange={handleChange} className="border p-1 w-full" />
-          </label>
+        <FormControl>
+          <InputLabel>Room Type</InputLabel>
+          <Select name="typeRoom" value={hotelData.typeRoom} onChange={handleChange}>
+            {roomTypes.map((type) => (
+              <MenuItem key={type} value={type}>{type}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-          <label>
-            Room Type
-            <input type="text" name="roomType" onChange={handleChange} className="border p-1 w-full" />
-          </label>
-          <label>
-            Kilometers
-            <input type="number" name="killometer" onChange={handleChange} className="border p-1 w-full" />
-          </label>
+        <FormControl>
+          <InputLabel>Amenities</InputLabel>
+          <Select multiple name="amenities" value={hotelData.amenities} onChange={handleMultiSelect} input={<OutlinedInput />} renderValue={(selected) => (
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>{selected.map((value) => <Chip key={value} label={value} />)}</Box>
+          )}>
+            {amenitiesList.map((amenity) => (
+              <MenuItem key={amenity} value={amenity}>{amenity}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-          <label>
-            Amenities
-            <input type="text" name="amenities" onChange={handleChange} className="border p-1 w-full" />
-          </label>
-          <label>
-            Rating
-            <input type="number" name="rating" onChange={handleChange} className="border p-1 w-full" />
-          </label>
+        <TextField type="number" label="Rating (0-5)" name="rating" value={hotelData.rating} onChange={handleChange} required />
 
-          <label>
-            Person
-            <input type="number" name="person" onChange={handleChange} className="border p-1 w-full" />
-          </label>
-          <label>
-            Status
-            <select name="status" onChange={handleChange} className="border p-1 w-full">
-              <option value="Available">Available</option>
-              <option value="Unavailable">Unavailable</option>
-            </select>
-          </label>
+        <TextField multiline rows={3} label="Description" name="description" value={hotelData.description} onChange={handleChange} required />
 
-          <label>
-            Location
-            <input type="text" name="location" onChange={handleChange} className="border p-1 w-full" />
-          </label>
-          <label>
-            Images (URL)
-            <input type="text" name="images" onChange={handleChange} className="border p-1 w-full" />
-          </label>
+        <FormControl>
+          <InputLabel>Status</InputLabel>
+          <Select name="status" value={hotelData.status} onChange={handleChange}>
+            <MenuItem value="Available">Available</MenuItem>
+            <MenuItem value="Not Available">Not Available</MenuItem>
+          </Select>
+        </FormControl>
 
-          <label className="col-span-2">
-            Description
-            <textarea name="description" onChange={handleChange} className="border p-1 w-full"></textarea>
-          </label>
-        </div>
-
-        <button type="submit" className="mt-4 w-full bg-blue-500 text-white p-2 rounded">
-          Submit
-        </button>
+        <Button type="submit" variant="contained" color="primary" fullWidth>
+          🚀 Create Hotel
+        </Button>
       </form>
-    </div>
+    </Box>
   );
 };
 
-export default AdminPostHotel;
+export default AdminCreateHotel;

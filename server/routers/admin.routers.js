@@ -1,10 +1,17 @@
 const express = require('express');
 const adminController = require('../controllers/admin.controller');
-// const { getAllUsers,updateUserData,deleteUserById ,getSingleUserById,getHotel} = require('../controllers/admin.controller');
+const { createTour,deleteTour }=require('../controllers/tours.controller')
+const hotelController = require('../controllers/hotel.controller');
+const busController=require('../controllers/bus.controller')
+const flightController = require('../controllers/flight.controller')
 const { userMiddleware } = require('../middleware/user.middleware');
 const { adminMiddleware } = require('../middleware/admin.middleware');
 
 const router = express.Router();
+// const multer = require("multer");
+// const {storage}= require('../cloudinary/cloudinary')
+// const upload = multer({storage})\
+const upload = require('../middleware/multer.middleware')
 
 // Define the route with userMiddleware, adminMiddleware, and getAllUsers
 router.route('/users').get(userMiddleware, adminMiddleware,adminController.getAllUsers);
@@ -12,9 +19,30 @@ router.route('/users/:id').get(userMiddleware,adminMiddleware,adminController.ge
 router.route('/users/update/:id').patch(userMiddleware,adminMiddleware,adminController.updateUserData);
 router.route('/users/delete/:id').delete(userMiddleware,adminMiddleware,adminController.deleteUserById)
 
+// how many user booking  this router 
 router.route('/users-bookings').get(userMiddleware,adminMiddleware,adminController.getUserBookings)
 
-//  Fligth,Bus,Hotel Tours admin router
+// Admin All post Flight
+router.route('/create-flight').post(userMiddleware,adminMiddleware,upload.single('image'),flightController.createFlight)
+router.route('/update-flight/:id').patch(adminMiddleware,flightController.updateFlight)
+router.route('/delete/:id').delete(userMiddleware,adminMiddleware,flightController.deleteFlight)
+
+// admin tours
+router.route("/create-tour").post( upload.array('images', 5),userMiddleware, createTour);
+router.route('/create-tour/:id').delete(userMiddleware,deleteTour);
+
+// Admin hotel
+router.route('/create-hotel').post(userMiddleware, upload.array('images', 5), hotelController.createHotel); 
+router.route("/update-hotel/:id").patch(userMiddleware,hotelController.updateHotel);    
+router.route("/delete/:id").delete( adminMiddleware,userMiddleware,hotelController.deleteHotel); 
+
+// Admin bus create
+router.route('/create-bus').post(userMiddleware,upload.array('images', 2),busController.createBus)
+router.route('/create-bus/:id').get(userMiddleware,busController.getBusById)
+router.route('/create-bus/update/:id').patch(userMiddleware,busController.updateBus)
+router.route('/delete/:id').delete(adminMiddleware,busController.deleteBus)
+
+// Get Fligth,Bus,Hotel Tours admin router
 router.route('/hotels').get(userMiddleware, adminMiddleware, adminController.getHotel);
 router.route('/buses').get(userMiddleware, adminMiddleware,adminController.getBus);
 router.route('/flights').get(userMiddleware, adminMiddleware,adminController.getFlight);

@@ -1,8 +1,7 @@
 import { useAuth } from "../Hooks/ContextApi";
 const BookingList = () => {
   const { bookings } = useAuth();
-  console.log("booking deatiels", bookings);
-
+ 
   return (
     <div>
       <h2>Your Bookings</h2>

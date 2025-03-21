@@ -1,42 +1,57 @@
 const Flight = require("../models/flight.model"); 
-const fs = require('fs');
-const path = require('path');
-const { nextTick } = require("process");
 
 const createFlight = async (req, res) => {
   try {
-    if (!req.body || !req.file){
-      return res.status(400).json({ success: false, message: "All required fields must"})
-    }
-    const { airline, minPrice, departureTime, arrivalTime, duration, flightNumber, carrier, seatsAvailable, status, travellerType ,from,to} = req.body;
-    if (!airline || !minPrice || !departureTime || !arrivalTime || !duration || !flightNumber || !carrier || !seatsAvailable || !travellerType || !from || !to) {
-      return res.status(400).json({ success: false, message: "All required fields must be provided" });
-    }
-    // const images = req.files.map(file => ({
-    //   url: file.path, 
-    //   filename: file.filename,
-    // }));
-    const imageUrl = req.files.map(file => `/uploads/${file.filename}`);
-
-    const newFlight = new Flight({
+    const {
       airline,
-      images:imageUrl,
       minPrice,
-      from,to,
       departureTime,
       arrivalTime,
       duration,
       flightNumber,
-      carrier,
       seatsAvailable,
       status,
       travellerType,
+      from,
+      to,
+    } = req.body;
+
+    if (!airline || !minPrice || !departureTime || !arrivalTime || !duration || !flightNumber || !seatsAvailable || !travellerType || !from || !to) {
+      return res.status(400).json({
+        success: false,
+        message: "All required fields must be provided.",
+      });
+    }console.dir(req.body, { depth: null });
+
+    const newFlight = new Flight({
+      airline,
+      minPrice: Number(minPrice),
+      from,
+      to,
+      departureTime,
+      arrivalTime,
+      duration: Number(duration),
+      flightNumber,
+      seatsAvailable: Number(seatsAvailable),
+      status,
+      travellerType,
+      // image: req.file.path, 
       owner: req.user ? req.user._id : null,
     });
+
     await newFlight.save();
-    res.status(201).json({ success: true, message: "Flight created successfully", flight: newFlight });
+    res.status(201).json({
+      success: true,
+      message: "Flight created successfully",
+      flight: newFlight,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error creating flight", error: error.message });
+    console.error("Error creating flight:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error creating flight",
+      error: error.stack, 
+    });
   }
 };
 

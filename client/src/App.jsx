@@ -45,6 +45,9 @@ import BookingList from './components/UserProfile/BookingList';
 import SingleHotel from './components/Booking/Hotels/SingleHotel';
 import Text from './components/Pages/Text'
 import Navbar from './components/Navbar/Navbar';
+import PostTour from './components/Tours/PostTour';
+import BusSingle from './components/Booking/Bus/BusSingle';
+import FlightDetails from './components/Booking/Flight/FlightDetails';
 function App() {
  
   return (
@@ -64,10 +67,13 @@ function App() {
         <Route path="/tours/:id" element={<SingleTure />} />
         <Route path="/train" element={<TrainPage />} />
         <Route path="/air" element={<FlightPages />} />
+        <Route path="/air/:id" element={<FlightDetails />} />
         <Route path="/bus" element={<BusPage/>}/>
+        <Route path="/bus/:id" element={<BusSingle/>}/>
         <Route path="/hotel" element={<HotelPage/>}/>
         <Route path="/hotel/:id" element={<SingleHotel/>}/>
         {/* <Route path="/payment" element={<BookingPage/>}/> */}
+        <Route path="/postTour" element={<PostTour />} />
        
         {/* Admin Router  */}
         <Route  path= '/admin' element={<AdminPage/>}>
@@ -83,10 +89,10 @@ function App() {
         <Route path="/admin/create-hotel" element={<AdminPostHotel/>}/>
         <Route path="/admin/create-flight" element={<AdminPostFlight/>}/>
         <Route path="/admin/create-bus" element={<AdminPostBus/>}/>
-        <Route path="/admin/hotel/:id/edit" element={<AdminHotelUpdate/>}/>
-        <Route path="/admin/tour/:id/edit" element={<AdminTourUpdate/>}/>
-        <Route path="/admin/bus/:id/edit" element={<AdminBusUpdate/>}/>
-        <Route path="/admin/flight/:id/edit" element={<AdminFlightUpdate/>}/>
+        <Route path="/admin/hotel/:id/update" element={<AdminHotelUpdate/>}/>
+        <Route path="/admin/tour/:id/update" element={<AdminTourUpdate/>}/>
+        <Route path="/admin/bus/:id/update" element={<AdminBusUpdate/>}/>
+        <Route path="/admin/flight/:id/update" element={<AdminFlightUpdate/>}/>
         <Route path="/admin/booking" element={<AdminBooking/>}/>
     
 
