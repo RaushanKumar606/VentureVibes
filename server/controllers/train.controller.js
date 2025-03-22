@@ -14,7 +14,49 @@ const getAllTrains = async (req, res) => {
 // Create a new train
 const createTrain = async (req, res) => {
   try {
-    const train = new Train(req.body);
+    const {
+      name,
+      number,
+      prnNumber,
+      operater,
+      departureTime,
+      arrivalTime,
+      duration,
+      departureStation,
+      arrivalStation,
+      to,
+      day,
+      price,
+      seatsAvailable,
+      trainType,
+      status,
+    } = req.body;
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: " No images uploaded!" });
+    }
+    let imageUrl = null;
+    const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
+    if (cloudinaryResponse) {
+      imageUrl = cloudinaryResponse.secure_url;
+    }
+    const train = new Train({
+      name,
+      number,
+      prnNumber,
+      operater,
+      departureTime,
+      arrivalTime,
+      duration,
+      departureStation,
+      arrivalStation,
+      to,
+      day,
+      price,
+      seatsAvailable,
+      trainType,
+      status,
+      image:imageUrl
+    });
     await train.save();
     res.status(201).json({ message: "Train created successfully", train });
   } catch (error) {

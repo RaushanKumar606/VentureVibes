@@ -17,6 +17,17 @@ const createTour = async (req, res) => {
     if (!title || !dayWisePlan.length || !bestTimeToTravel || !description || !price || !location || !country || !destinations.length || !duration.days || !duration.nights) {
       return res.status(400).json({ success: false, message: "All fields are required to create the tour" });
     }
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: " No images uploaded!" });
+    }
+      let imageUrls = [];
+        for (let file of req.files) {
+          const cloudinaryResponse = await uploadOnCloudinary(file.path);
+          if (cloudinaryResponse) {
+            imageUrls.push(cloudinaryResponse.secure_url);
+          }
+        }
+    
     const newTour = new Tour({
       title,
       description,
@@ -27,7 +38,7 @@ const createTour = async (req, res) => {
       duration,
       bestTimeToTravel,
       dayWisePlan,
-      // images: req.files ? req.files.map(file => file.path) : [],
+      images: imageUrls,
       owner: req.user ? req.user._id : null,
     });
 

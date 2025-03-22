@@ -5,16 +5,16 @@ const busSchema = new mongoose.Schema({
   operator: { type: String, required: true },
   busNumber: { type: String, required: true, unique: true },
   
-  images: { type: [String], required: false }, // Not required
+  image: { type: String, required: false }, 
 
-  departureTime: { type: String, required: true }, // e.g., "10:30 AM"
-  arrivalTime: { type: String, required: true }, // e.g., "03:00 PM"
-  duration: { type: Number, required: true }, // Duration in minutes
+  departureTime: { type: String, required: true }, 
+  arrivalTime: { type: String, required: true }, 
+  duration: { type: Number, required: true }, 
 
   departureLocation: { type: String, required: true },
   arrivalLocation: { type: String, required: true },
 
-  to: { type: [String], required: true }, // Removed `enum` to allow flexibility
+  to: { type: [String], required: true },
   day: { 
     type: [String], 
     enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], 

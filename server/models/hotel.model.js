@@ -8,7 +8,7 @@ const hotelSchema = new mongoose.Schema({
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Assuming a User model
+    ref: "User", 
     required: true,
   },
   location: {

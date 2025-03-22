@@ -12,13 +12,15 @@ const SignupPage = () => {
     password: "",
   });
 
-  // const storetokenInLS = useAuth();
   const navigate = useNavigate();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
+  const handleImageChange = (e) => {
+    setUserData({ ...userData, image: e.target.files[0] });
+  };
+
 
   const formSubmit = async (e) => {
     e.preventDefault();
@@ -26,14 +28,13 @@ const SignupPage = () => {
     const response = await fetch(`http://localhost:8080/api/signup`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
       body: JSON.stringify(userData),
     });
 
     const res_data = await response.json();
     if (response.ok) {
-      // storetokenInLS(res_data.token);
       toast.success("Register Successful");
       navigate("/login");
     } else {
@@ -69,6 +70,18 @@ const SignupPage = () => {
               </div>
             </div>
           ))}
+
+<div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Profile Image</label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="w-full border border-gray-300 p-2 rounded-lg"
+            />
+          </div>
+
 
           <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
             Signup

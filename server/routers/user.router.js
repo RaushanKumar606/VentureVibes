@@ -3,11 +3,10 @@ const { createUser, user,updateUser } = require('../controllers/user.controller'
 const { validate } = require('../middleware/validate.middleware');
 const { userValidationSchema } = require('../validators/user_validate');
 const {userMiddleware} = require('../middleware/user.middleware.js');
-
 const router = express.Router();
 
-router.route('/signup')
-  .post(validate(userValidationSchema), createUser);  
+const upload = require("../middleware/multer.middleware");
+router.route('/signup').post(upload.single('image'),createUser);  
 
 router.route('/update').patch(userMiddleware,updateUser)
 

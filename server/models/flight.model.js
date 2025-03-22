@@ -10,7 +10,7 @@ const FlightSchema = new mongoose.Schema({
     type:String,
     required:true,
   },
-  // image: { type: String, required: true },
+  image: { type: String, required: true },
   minPrice: {
     type: Number, required: true 
   },

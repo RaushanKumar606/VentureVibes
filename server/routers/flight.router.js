@@ -2,7 +2,6 @@ const express = require('express');
 const flightController = require('../controllers/flight.controller')
 const {userMiddleware} = require('../middleware/user.middleware.js');
 const { adminMiddleware } = require('../middleware/admin.middleware');
-const upload = require('../middleware/multer.middleware');
 const router = express.Router();
 // const {getAllFlights,createFlight,getFlightById,updateFlight,deleteFlight}=require('../controllers/flight.controller')
 

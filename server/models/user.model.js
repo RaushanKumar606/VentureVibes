@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
   },
+  image:{
+    type:String,
+    default:false,
+  },
   bookings:{type:mongoose.Schema.Types.ObjectId,
     ref:"Booking"
   },
@@ -22,7 +26,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function (v) {
-        return /^\d{10}$/.test(v); // Validates a 10-digit number
+        return /^\d{10}$/.test(v); 
       },
       message: (props) => `${props.value} is not a valid 10-digit number!`,
     },
@@ -32,10 +36,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  // dob: {
-  //   type: Date, // Date format
-  //   default: false, 
-  // },
+
   isAdmin: {
     type: Boolean, 
     default: false, 
@@ -88,7 +89,6 @@ userSchema.pre('save', async function(next) {
 return bcrypt.compare(password,this.password)
   }
 
-// Create the User Model
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

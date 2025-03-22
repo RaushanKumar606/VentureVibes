@@ -3,10 +3,6 @@ const { deleteTour,updateTour,getTourById,getAllTours,createTour }=require('../c
 const {userMiddleware} = require('../middleware/user.middleware.js');
 // const { toursSchemaValidation } = require('../validators/tour.validate.js');
 
-const multer = require("multer");
-const {storage}= require('../cloudinary/cloudinary')
-const upload = multer({storage})
-
 
 const router = express.Router();
 router.route('/tours').get(  getAllTours);

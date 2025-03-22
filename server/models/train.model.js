@@ -18,7 +18,7 @@ const trainSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  logoUrl: {
+  image: {
     type: String,
   },
   departureTime: {
@@ -55,14 +55,8 @@ const trainSchema = new mongoose.Schema({
     ref:"Booking"
   },
   price: {
-    amount: {
       type: Number,
       required: true,
-    },
-    currencyCode: {
-      type: String,
-      required: true,
-    },
   },
   seatsAvailable: {
     type: Number,

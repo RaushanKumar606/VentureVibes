@@ -1,6 +1,6 @@
 
 const User = require('../models/user.model');
-
+const bcrypt = require('bcrypt');
 // **---------------------**
 // Login user Logic (for generating JWT token on login)
 // **---------------------**
@@ -16,8 +16,9 @@ const loginUser = async (req, res) => {
         return res.status(400).json({ message: 'Invalide email or password please try again' });
       }
       const token = await userExist.generateToken();
-      const user = await userExist.comparePassword(password) 
-      if (!user) {
+      const isPasswordCorrect = await bcrypt.compare(password, userExist.password);
+
+      if (!isPasswordCorrect) {
         return res.status(400).json({ message: 'Invalide credentials' });
       }
       res.status(200).json({

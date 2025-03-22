@@ -6,12 +6,8 @@ const busController=require('../controllers/bus.controller')
 const flightController = require('../controllers/flight.controller')
 const { userMiddleware } = require('../middleware/user.middleware');
 const { adminMiddleware } = require('../middleware/admin.middleware');
-
+const upload = require("../middleware/multer.middleware");
 const router = express.Router();
-// const multer = require("multer");
-// const {storage}= require('../cloudinary/cloudinary')
-// const upload = multer({storage})\
-const upload = require('../middleware/multer.middleware')
 
 // Define the route with userMiddleware, adminMiddleware, and getAllUsers
 router.route('/users').get(userMiddleware, adminMiddleware,adminController.getAllUsers);
@@ -28,16 +24,16 @@ router.route('/update-flight/:id').patch(adminMiddleware,flightController.update
 router.route('/delete/:id').delete(userMiddleware,adminMiddleware,flightController.deleteFlight)
 
 // admin tours
-router.route("/create-tour").post( upload.array('images', 5),userMiddleware, createTour);
+router.route("/create-tour").post( userMiddleware,upload.single('image'), createTour);
 router.route('/create-tour/:id').delete(userMiddleware,deleteTour);
 
 // Admin hotel
-router.route('/create-hotel').post(userMiddleware, upload.array('images', 5), hotelController.createHotel); 
+router.route('/create-hotel').post(userMiddleware, upload.single('image'), hotelController.createHotel); 
 router.route("/update-hotel/:id").patch(userMiddleware,hotelController.updateHotel);    
 router.route("/delete/:id").delete( adminMiddleware,userMiddleware,hotelController.deleteHotel); 
 
 // Admin bus create
-router.route('/create-bus').post(userMiddleware,upload.array('images', 2),busController.createBus)
+router.route('/create-bus').post(userMiddleware,upload.single('image'),busController.createBus)
 router.route('/create-bus/:id').get(userMiddleware,busController.getBusById)
 router.route('/create-bus/update/:id').patch(userMiddleware,busController.updateBus)
 router.route('/delete/:id').delete(adminMiddleware,busController.deleteBus)

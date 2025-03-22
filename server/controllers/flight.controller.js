@@ -1,8 +1,8 @@
-const Flight = require("../models/flight.model"); 
-
+const Flight = require("../models/flight.model");
+const uploadOnCloudinary = require("../utils/cloudinary");
 const createFlight = async (req, res) => {
   try {
-    const {
+    let {
       airline,
       minPrice,
       departureTime,
@@ -15,13 +15,30 @@ const createFlight = async (req, res) => {
       from,
       to,
     } = req.body;
-
-    if (!airline || !minPrice || !departureTime || !arrivalTime || !duration || !flightNumber || !seatsAvailable || !travellerType || !from || !to) {
+    departureTime = new Date(departureTime);
+    arrivalTime = new Date(arrivalTime);
+    if (isNaN(departureTime.getTime()) || isNaN(arrivalTime.getTime())) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Invalid date format for departure or arrival time. Use 'YYYY-MM-DDTHH:mm:ssZ' format."
+      });
+    }
+    if (!req.file) {
+      return res.status(400).json({ message: " No image uploaded!" });
+    }
+    if (!airline || !minPrice || !duration || !flightNumber || !seatsAvailable || !travellerType || !from || !to) {
       return res.status(400).json({
         success: false,
-        message: "All required fields must be provided.",
+        message: " All required fields must be provided.",
       });
-    }console.dir(req.body, { depth: null });
+    }
+    console.dir(req.body, { depth: null });
+
+    let imageUrl = null;
+    const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
+    if (cloudinaryResponse) {
+      imageUrl = cloudinaryResponse.secure_url;
+    }
 
     const newFlight = new Flight({
       airline,
@@ -35,7 +52,7 @@ const createFlight = async (req, res) => {
       seatsAvailable: Number(seatsAvailable),
       status,
       travellerType,
-      // image: req.file.path, 
+      image: imageUrl,
       owner: req.user ? req.user._id : null,
     });
 
@@ -50,7 +67,7 @@ const createFlight = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error creating flight",
-      error: error.stack, 
+      error: error.stack,
     });
   }
 };
@@ -61,7 +78,13 @@ const getAllFlights = async (req, res) => {
     const flights = await Flight.find();
     res.status(200).json({ success: true, flights });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error fetching flights", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Error fetching flights",
+        error: error.message,
+      });
   }
 };
 
@@ -70,24 +93,50 @@ const getFlightById = async (req, res) => {
   try {
     const flight = await Flight.findById(req.params.id);
     if (!flight) {
-      return res.status(404).json({ success: false, message: "Flight not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Flight not found" });
     }
     res.status(200).json({ success: true, flight });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error fetching flight", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Error fetching flight",
+        error: error.message,
+      });
   }
 };
 
 // ✅ Update a Flight
 const updateFlight = async (req, res) => {
   try {
-    const updatedFlight = await Flight.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    const updatedFlight = await Flight.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
     if (!updatedFlight) {
-      return res.status(404).json({ success: false, message: "Flight not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Flight not found" });
     }
-    res.status(200).json({ success: true, message: "Flight updated successfully", flight: updatedFlight });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Flight updated successfully",
+        flight: updatedFlight,
+      });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error updating flight", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Error updating flight",
+        error: error.message,
+      });
   }
 };
 
@@ -96,11 +145,21 @@ const deleteFlight = async (req, res) => {
   try {
     const deletedFlight = await Flight.findByIdAndDelete(req.params.id);
     if (!deletedFlight) {
-      return res.status(404).json({ success: false, message: "Flight not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Flight not found" });
     }
-    res.status(200).json({ success: true, message: "Flight deleted successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Flight deleted successfully" });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error deleting flight", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Error deleting flight",
+        error: error.message,
+      });
   }
 };
 

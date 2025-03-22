@@ -1,6 +1,7 @@
 const Hotel = require("../models/hotel.model");
 const fs = require('fs');
 const path = require('path');
+const uploadOnCloudinary = require("../utils/cloudinary");
 // Get all hotels
 const getHotels = async (req, res) => {
   try {
@@ -22,46 +23,36 @@ const getHotelById = async (req, res) => {
   }
 };
 
-// Create a new hotel
 const createHotel = async (req, res) => {
   try {
-    // Convert numeric fields safely
-    const kilometers = req.body.kilometers ? Number(req.body.kilometers) : null;
-    const persons = req.body.persons ? Number(req.body.persons) : null;
-    const pricePerNight = req.body.pricePerNight ? Number(req.body.pricePerNight) : null;
+ 
+    const amenities = req.body.amenities ? req.body.amenities.split(",") : [];
+    const kilometers = Number(req.body.kilometers);
+    const persons = Number(req.body.persons);
+    const pricePerNight = Number(req.body.pricePerNight);
     const rating = req.body.rating ? Number(req.body.rating) : 0;
 
-    // Fix typo and handle amenities properly
-    const amenities = req.body.amenities
-      ? Array.isArray(req.body.amenities)
-        ? req.body.amenities
-        : req.body.amenities.split(",")
-      : [];
+    if (!req.file || req.file.length === 0) {
+      return res.status(400).json({ message: " No images uploaded!" });
+    }
+    // Upload images to Cloudinary
+    let imageUrls = null;
+    const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
+      if (cloudinaryResponse) {
+        imageUrls = cloudinaryResponse.secure_url;
+      }
+    
 
     const { name, location, typeRoom, status, description } = req.body;
 
-    // Validation for required fields
-    if (
-      !name ||
-      !location ||
-      kilometers === null ||
-      !typeRoom ||
-      persons === null ||
-      pricePerNight === null ||
-      !amenities.length || // Ensures amenities is not empty
-      rating < 0 ||
-      !status ||
-      !description
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "All required fields must be provided",
-      });
+    // Validate required fields
+    if (!name || !location || !kilometers || !typeRoom || !persons || !pricePerNight || !status || !description) {
+      return res.status(400).json({ success: false, message: " All required fields must be provided" });
     }
 
-    // Create new hotel
     const newHotel = new Hotel({
       name,
+      owner: req.user._id, 
       location,
       kilometers,
       typeRoom,
@@ -71,22 +62,13 @@ const createHotel = async (req, res) => {
       status,
       rating,
       description,
-      owner: req.user ? req.user._id : null,
+      images: imageUrls,
     });
-
     await newHotel.save();
-    res.status(201).json({
-      success: true,
-      message: "Hotel created successfully",
-      hotel: newHotel,
-    });
+    res.status(201).json({ success: true, message: " Hotel created successfully", hotel: newHotel });
   } catch (error) {
-    console.error("Hotel Creation Error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Error creating hotel",
-      error: error.message,
-    });
+    console.error(" Error creating hotel:", error);
+    res.status(500).json({ success: false, message: "Error creating hotel", error: error.message });
   }
 };
 

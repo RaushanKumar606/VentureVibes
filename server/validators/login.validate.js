@@ -6,7 +6,7 @@ const loginValidationSchema = z.object({
   .string({ required_error: "Email is required" })
   .email({ message: "Invalid email address" }) // This checks for valid email format
   .min(2, { message: "Email must be 5 or more characters long" })
-  .max(30, { message: "Email must be 30 or fewer characters long" })
+  // .max(30, { message: "Email must be 30 or fewer characters long" })
   .trim(),
   password: z
   .string()
