@@ -1,91 +1,44 @@
-// import { useState, useEffect } from "react";
-// import countery from "../Data/image.json";
-
-// function Hero() {
-//   const [currentIndex, setCurrentIndex] = useState(0);
-
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setCurrentIndex((prevIndex) => (prevIndex + 1) % countery.length);
-//     }, 5000); // Change image every 8 seconds
-
-//     return () => clearInterval(interval);
-//   }, [countery.length]);
-
-//   return (
-//     <div className="hero-container">
-//       <div className="hero-section">
-//         {countery.map((item, index) => (
-//           <div
-//             key={item.key}
-//             className={`hero-slide ${currentIndex === index ? "active" : ""}`}
-//           >
-//             <img src={item.imageSrc} alt={item.title} />
-//             <h3 className="hero-title">{item.title}</h3>
-//             <bottom className="booking">Book Now</bottom>
-//           </div>
-//         ))}
-        
-//       </div>
-//       <div className="hero-dots">
-//         {countery.map((_, index) => (
-//           <span
-//             key={index}
-//             onClick={() => setCurrentIndex(index)}
-//             className={`hero-dot ${currentIndex === index ? "active" : ""}`}
-//           ></span>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Hero;
-
-
-
-
-
 
 import { useState, useEffect } from "react";
-import countery from "../Data/image.json";
-
-function Hero() {
+import image1 from "../Images/Image1.jpg"
+import image2 from "../Images/Image2.jpg"
+import image3 from "../Images/Image3.jpg"
+import image4 from "../Images/Images.jpg"
+import image5 from "../Images/travel-world.jpg"
+import image6 from "../Images/indonosiya.jpg"
+// import image7 from "../Images/downloade1.jpg"
+// import image8 from "../Images/downloade.jpg"
+// import image9 from "../Images/hotel.png"
+// import image10 from "../Images/mandir.jpg"
+const imageData = [image1,image2,image3,image4,image5,image6]
+    function Hero() {
+ 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % countery.length);
-    }, 5000); // Change image every 5 seconds
-
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % imageData.length);
+    }, 3000);
     return () => clearInterval(interval);
-  }, [countery.length]);
+  }, [imageData.length]);
 
   return (
-    <div className="hero-container w-full relative overflow-hidden">
-      <div className="hero-section flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-        {countery.map((item, index) => (
-          <div
-            key={item.key || index}
-            className="hero-slide w-full h-96 flex flex-col items-center justify-center text-center bg-gray-100 shadow-md"
-          >
-            <img src={item.imageSrc} alt={item.title} className="w-full h-full object-cover" />
-            <h3 className="hero-title text-2xl font-bold text-gray-800 mt-4">{item.title}</h3>
-            <button className="booking bg-blue-600 text-white px-4 py-2 mt-4 rounded-lg hover:bg-blue-700 transition">Book Now</button>
-          </div>
-        ))}
-      </div>
-      <div className="hero-dots flex justify-center mt-4">
-        {countery.map((_, index) => (
-          <span
+    <div className="h-screen w-screen flex justify-center items-center bg-gray-100">
+      <div className="relative w-full h-full overflow-hidden">
+        {imageData.map((image, index) => (
+          <img
             key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`hero-dot w-4 h-4 mx-2 rounded-full cursor-pointer ${currentIndex === index ? "bg-blue-600" : "bg-gray-400"}`}
-          ></span>
+            src={image}
+            alt="Sliding Image"
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+              index === currentIndex ? "opacity-100" : "opacity-0"
+            }`}
+          />
         ))}
       </div>
     </div>
   );
 }
+
 
 export default Hero;

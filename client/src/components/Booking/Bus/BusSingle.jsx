@@ -15,6 +15,9 @@ const BusSingle = () => {
       }
       const data = await response.json();
       setBusData(Array.isArray(data) ? data : [data]); // Ensure it's an array
+        if(response.ok){
+          console.log(data)
+        }
     } catch (error) {
       setError(error.message);
     } finally {
@@ -30,32 +33,29 @@ const BusSingle = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="container w-full  ">
+    <div className="max-w-6xl mx-auto p-4">  
       {busData.map((bus) => (
         <div
           key={bus._id}
-          className="max-w-lg  bg-white shadow-lg  overflow-hidden border border-gray-300 p-5 my-5"
         >
       
-          <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-600">
+      <div className="w-full h-60 bg-gray-200 flex items-center justify-center rounded-md">
             <span>Bus Image</span>
           </div>
-
     
           <div className="p-4">
             <h2 className="text-xl font-semibold">{bus.name}</h2>
 
+
+            <p className="text-sm normal">From: {bus.departureLocation}</p>
+              <p className="text-sm normal">To: {bus.arrivalLocation}</p>
+            
             <p className="font-bold mt-2">
               Departure Time: <span className="font-normal">{bus.departureTime}</span>
             </p>
             <p className="font-bold">
               Arrival Time: <span className="font-normal">{bus.arrivalTime}</span>
             </p>
-
-              <p className="text-sm text-gray-700">From: {bus.departureLocation}</p>
-              <p className="text-sm text-gray-700">To: {bus.arrivalLocation}</p>
-            
-
             <p className="mt-2">
               <span className="font-bold">Price:</span> ${bus.price}
             </p>
