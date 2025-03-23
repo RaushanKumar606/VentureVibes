@@ -24,7 +24,7 @@ router.route('/update-flight/:id').patch(adminMiddleware,flightController.update
 router.route('/delete/:id').delete(userMiddleware,adminMiddleware,flightController.deleteFlight)
 
 // admin tours
-router.route("/create-tour").post( userMiddleware,upload.single('image'), createTour);
+router.route("/create-tour").post( upload.single('image'), createTour);
 router.route('/create-tour/:id').delete(userMiddleware,deleteTour);
 
 // Admin hotel

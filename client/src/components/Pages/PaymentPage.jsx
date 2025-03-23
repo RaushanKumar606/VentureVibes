@@ -1,336 +1,198 @@
 
-// import {useState,useEffect} from "react"
-// import { toast } from "react-toastify";
-// import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-// ;
-// import { useLocation, useNavigate } from "react-router-dom";
-// import {useAuth} from "../Hooks/ContextApi"
-// function PaymentPage() {
-    
-//     const stripe = useStripe();
-//     const elements = useElements();
-//     const location = useLocation();
-//     const navigate = useNavigate();
-//     // const [book, setBook] = useAuth();
-
-//     const [ book,setBook] = useAuth();
-    
-//     const [loading, setLoading] = useState(false);
-//     const [amount, setAmount] = useState(0);
-//     const [title, setTitle] = useState("");
-//     const [token, setToken] = useState("");
-//     const [customerName, setCustomerName] = useState("");
-//     const [customerAddress, setCustomerAddress] = useState({
-//       line1: "",
-//       city: "",
-//       state: "",
-//       postalCode: "",
-//       country: "",
-//     });
-//  // Fetch product title and price dynamically from location state
-//  useEffect(() => {
-//   if (location?.state) {
-//     setAmount(location.state.price || 0);
-//     setTitle(location.state.product || "Product");
-//     setToken(location.state.token || "undefine token");
-//   }
-// }, [location]);
-
-// const handleCountryCodeConversion = (country) => {
-//   const countryMapping = {
-//     India: "IN",
-//   };
-//   return countryMapping[country] || country;
-// };
-
-// const handlePayment = async (e) => {
-//   e.preventDefault();
-//   if (!stripe || !elements) {
-//     toast.error("Stripe has not loaded yet. Please try again.");
-//     return;
-//   }
-//   if (
-//     !customerName ||
-//     !customerAddress.line1 ||
-//     !customerAddress.city ||
-//     !customerAddress.country
-//   ) {
-//     toast.error("Please fill out all the required fields.");
-//     return;
-//   }
-//   const convertedCountry = handleCountryCodeConversion(
-//     customerAddress.country
-//   );
-//   setLoading(true);
-
-//   try {
-//     // Create a payment intent on the server
-//     const response = await fetch("http://localhost:8080/api/booking/create-payment-intent", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         amount: amount * 100,
-//         currency: "usd",
-//         description: `Payment for ${title}`,
-//         customerName,
-//         customerAddress: { ...customerAddress, country: convertedCountry },
-//       }),
-//     });
-//     const clientSecret = response.clientSecret;
-
-//     // Confirm the payment on the client
-//     const { paymentIntent, error } = await stripe.confirmCardPayment(
-//       clientSecret,
-//       {
-//         payment_method: {
-//           card: elements.getElement(CardElement),
-//           billing_details: {
-//             name: customerName,
-//             address: {
-//               line1: customerAddress.line1,
-//               city: customerAddress.city,
-//               state: customerAddress.state,
-//               postal_code: customerAddress.postalCode,
-//               country: convertedCountry,
-//             },
-//           },
-//         },
-//       }
-//     );
-
-//     if (error) {
-//       toast.error(`Payment failed: ${error.message}`);
-//       setLoading(false);
-//       return;
-//     }
-
-//     if (paymentIntent.status === "succeeded") {
-//       // After payment success, create the booking
-//       const bookingData = {
-//         token: token, // Replace with actual userId
-//         hostelId: location.state.hostelId,
-//         bookingDate: new Date(), // Set the booking date
-//         transactionId: paymentIntent.id,
-//       };
-
-//       console.log("Booking Data Sent:", bookingData);
-
-//       await fetch(`http://localhost:8080/api/bookings/create`,{
-//           method: "POST",
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//         },
-//         body: JSON.stringify(bookingData),
-//       });
-//       if(!bookingData.ok){
-//         toast.error(`Failed to create booking:`);
-//       }
-//       const updatedBooking = [
-//         ...book,
-//         { title, amount, customerName, hostelId: location.state?.hostelId },
-//       ];
-//       setBook(updatedBooking);
-//       localStorage.setItem("booking", JSON.stringify(updatedBooking));
-//       // Redirect to orders
-//       toast.success("Payment and booking successful!");
-//       setTimeout(()=>{
-//         navigate("/user/dashboard");
-//       },1500)
-     
-//     }
-//   } catch (error) {
-//     console.error("Error processing payment:", error.message);
-//     toast.error("Payment failed. Please try again.");
-//   } finally {
-//     setLoading(false);
-//   }
-// };
-  
-//     return (
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
-//     //     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-//     //       <div className="w-96 p-6 bg-white rounded-lg shadow-lg">
-//     //         <h2 className="text-center text-lg font-semibold mb-4">Booking Payment</h2>
-    
-//     //         <form  onSubmit={handleSumbit}   className="space-y-3">
-//     //           <label className="block text-sm font-medium">Full Name</label>
-//     //           <input type="text" className="w-full p-2 border rounded-md" onChange={handerChange} />
-              
-//     //           <label className="block text-sm font-medium">Gmail</label>
-//     //           <input type="email" className="w-full p-2 border rounded-md"  onChange={handerChange}/>
-              
-//     //           <label className="block text-sm font-medium">Address Line</label>
-//     //           <input type="text" className="w-full p-2 border rounded-md" onChange={handerChange} />
-    
-//     //           <div className="flex space-x-4">
-//     //             <div className="flex-1">
-//     //               <label className="block text-sm font-medium">City</label>
-//     //               <input type="text" className="w-full p-2 border rounded-md" onChange={handerChange}/>
-//     //             </div>
-//     //             <div className="flex-1">
-//     //               <label className="block text-sm font-medium font-bold">State</label>
-//     //               <input type="text" className="w-full p-2 border rounded-md" onChange={handerChange}/>
-//     //             </div>
-//     //           </div>
-              
-//     //           <label className="block text-sm font-medium">Country</label>
-//     //           <input type="text" className="w-full p-2 border rounded-md" onChange={handerChange} />
-              
-//     //           <label className="block text-sm font-medium">Card Number</label>
-//     //           <input type="text" className="w-full p-2 border rounded-md" onChange={handerChange} />
-    
-//     //           <div className="flex justify-between mt-3">
-//     //             <button className="px-3 py-2 bg-blue-500 text-white rounded-md">Phone Pay</button>
-//     //             <button className="px-3 py-2 bg-blue-500 text-white rounded-md">Paytm</button>
-//     //             <button className="px-3 py-2 bg-blue-500 text-white rounded-md">Google Pay</button>
-//     //           </div>
-    
-//     //           <button className="w-full mt-4 py-2 bg-green-500 text-white rounded-md">Pay Now</button>
-//     //         </form>
-//     //       </div>
-//     //     </div>
-//     //   );
-//     // };
-  
+function PaymentPage() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { price, title, hotelId, bookingType, token } = location.state || {};
+  const [loading, setLoading] = useState(false);
+  const [customerName, setCustomerName] = useState("");
+  const [customerAddress, setCustomerAddress] = useState({
+    line1: "",
+    city: "",
+    state: "",
+    postalCode: "",
+    country: "",
+  });
 
 
-//     <div className="p-8">
-//     <h1 className="text-2xl font-semibold mb-4">Payment</h1>
+  const loadRazorpayScript = async () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+  const handlePayment = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-//     {/* Display product title and price */}
-//     <div className="bg-gray-100 p-4 rounded-md mb-4 shadow-md">
-//       <h2 className="text-xl font-medium text-gray-800">{title}</h2>
-//       <p className="text-lg text-gray-600">
-//         Price:{" "}
-//         <span className="text-green-600 font-semibold">
-//           {amount.toLocaleString("en-US", {
-//             style: "currency",
-//             currency: "USD",
-//           })}
-//         </span>
-//       </p>
-//     </div>
+    try {
+        const res = await fetch("http://localhost:8080/api/bookings/create-payment-intent", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({
+                amount: price * 1,
+                currency: "INR",
+                receipt: `receipt_${Date.now()}`
+            }),
+        });
 
-//     <form onSubmit={handlePayment} className="space-y-4">
-//       <div className="flex flex-col">
-//         <label htmlFor="name" className="text-gray-700 mb-2">
-//           Full Name
-//         </label>
-//         <input
-//           type="text"
-//           id="name"
-//           value={customerName}
-//           onChange={(e) => setCustomerName(e.target.value)}
-//           className="p-3 border rounded-md"
-//           placeholder={user.userData?.name}
-//           required
-//         />
-//       </div>
-//       <div className="flex flex-col">
-//         <label htmlFor="address" className="text-gray-700 mb-2">
-//           Address Line 1
-//         </label>
-//         <input
-//           type="text"
-//           id="address"
-//           value={customerAddress.line1}
-//           onChange={(e) =>
-//             setCustomerAddress({ ...customerAddress, line1: e.target.value })
-//           }
-//           className="p-3 border rounded-md"
-//           placeholder="Enter address"
-//           required
-//         />
-//       </div>
-//       <div className="flex flex-col">
-//         <label htmlFor="city" className="text-gray-700 mb-2">
-//           City
-//         </label>
-//         <input
-//           type="text"
-//           id="city"
-//           value={customerAddress.city}
-//           onChange={(e) =>
-//             setCustomerAddress({ ...customerAddress, city: e.target.value })
-//           }
-//           className="p-3 border rounded-md"
-//           placeholder="Enter city"
-//           required
-//         />
-//       </div>
-//       <div className="flex flex-col">
-//         <label htmlFor="state" className="text-gray-700 mb-2">
-//           State
-//         </label>
-//         <input
-//           type="text"
-//           id="state"
-//           value={customerAddress.state}
-//           onChange={(e) =>
-//             setCustomerAddress({ ...customerAddress, state: e.target.value })
-//           }
-//           className="p-3 border rounded-md"
-//           placeholder="Enter state"
-//         />
-//       </div>
-//       <div className="flex flex-col">
-//         <label htmlFor="postalCode" className="text-gray-700 mb-2">
-//           Postal Code
-//         </label>
-//         <input
-//           type="text"
-//           id="postalCode"
-//           value={customerAddress.postalCode}
-//           onChange={(e) =>
-//             setCustomerAddress({
-//               ...customerAddress,
-//               postalCode: e.target.value,
-//             })
-//           }
-//           className="p-3 border rounded-md"
-//           placeholder="Enter postal code"
-//         />
-//       </div>
-//       <div className="flex flex-col">
-//         <label htmlFor="country" className="text-gray-700 mb-2">
-//           Country
-//         </label>
-//         <input
-//           type="text"
-//           id="country"
-//           value={customerAddress.country}
-//           onChange={(e) =>
-//             setCustomerAddress({
-//               ...customerAddress,
-//               country: e.target.value,
-//             })
-//           }
-//           className="p-3 border rounded-md"
-//           placeholder="Enter country (e.g., India)"
-//           required
-//         />
-//       </div>
-//       <div className="flex flex-col">
-//         <label htmlFor="card" className="text-gray-700 mb-2">
-//           Card Details
-//         </label>
-//         <CardElement id="card" className="p-3 border rounded-md" />
-//       </div>
-//       <button
-//         type="submit"
-//         disabled={!stripe || loading}
-//         className={`px-6 py-3 text-white rounded-lg ${
-//           loading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
-//         }`}
-//       >
-//         {loading ? "Processing..." : "Pay Now"}
-//       </button>
-//     </form>
-//   </div>
-// );
-// };
-    
-// export default PaymentPage
+        const data = await res.json();
+        if (!data.success) {
+            toast.error("Failed to create payment order");
+            setLoading(false);
+            return;
+        }
+
+        const options = {
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID, 
+            amount: price * 1,
+            currency: "INR",
+            name: "World Tour",
+            description: `Payment for ${title}`,
+            order_id: data.order.id,
+            handler: async function (response) {
+                toast.success("Payment successful!");
+
+                // 🌟 FIX: Send the correct ID based on bookingType
+                let bookingData = { 
+                    bookingType: bookingType, 
+                    transactionId: response.razorpay_payment_id,
+                    bookingDate: new Date(),
+                    hotelId:hotelId
+                };
+
+                if (location.state.bookingType === "Hotel") {
+                    bookingData.hotel = location.state.hotelId;
+                } else if (location.state.bookingType === "Bus") {
+                    bookingData.bus = location.state.busId;
+                } else if (location.state.bookingType === "Flight") {
+                    bookingData.flight = location.state.flightId;
+                } else if (location.state.bookingType === "Train") {
+                    bookingData.train = location.state.trainId;
+                }
+
+                const bookingRes = await fetch("http://localhost:8080/api/bookings/create", {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(bookingData),
+                });
+
+                const bookingResponse = await bookingRes.json();
+                if (bookingResponse.message === "Booking successful") {
+                    toast.success("Booking confirmed!");
+                } else {
+                    toast.error("Booking failed!");
+                }
+
+                // Redirect user to dashboard
+                setTimeout(() => navigate("/user/dashboard"), 1500);
+            },
+            prefill: {
+                name: customerName,
+                email: "roshankumarsingh964@gmail.com",
+                contact: "8102891606",
+            },
+            theme: { color: "#3399cc" },
+        };
+
+        const razorpayLoaded = await loadRazorpayScript();
+        if (!razorpayLoaded) {
+            toast.error("Failed to load Razorpay");
+            setLoading(false);
+            return;
+        }
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+    } catch (error) {
+        console.error("Payment failed:", error);
+        toast.error("Payment failed. Please try again.");
+    } finally {
+        setLoading(false);
+    }
+};
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-semibold mb-4">Payment</h1>
+
+      {/* Display product title and price */}
+      <div className="bg-gray-100 p-4 rounded-md mb-4 shadow-md">
+        <h2 className="text-xl font-medium text-gray-800">{title}</h2>
+        <p className="text-lg text-gray-600">
+          Price:{" "}
+          <span className="text-green-600 font-semibold">
+            {price.toLocaleString("en-IN", {
+              style: "currency",
+              currency: "INR",
+            })}
+          </span>
+        </p>
+      </div>
+
+      <form onSubmit={handlePayment} className="space-y-4">
+        <div className="flex flex-col">
+          <label htmlFor="name" className="text-gray-700 mb-2">
+            Full Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+            className="p-3 border rounded-md"
+            required
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="address" className="text-gray-700 mb-2">
+            Address Line 1
+          </label>
+          <input
+            type="text"
+            id="address"
+            value={customerAddress.line1}
+            onChange={(e) => setCustomerAddress({ ...customerAddress, line1: e.target.value })}
+            className="p-3 border rounded-md"
+            required
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="city" className="text-gray-700 mb-2">
+            City
+          </label>
+          <input
+            type="text"
+            id="city"
+            value={customerAddress.city}
+            onChange={(e) => setCustomerAddress({ ...customerAddress, city: e.target.value })}
+            className="p-3 border rounded-md"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={loading}
+          className={`px-6 py-3 text-white rounded-lg ${loading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"}`}
+        >
+          {loading ? "Processing..." : "Pay Now"}
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export default PaymentPage;

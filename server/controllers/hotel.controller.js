@@ -26,12 +26,15 @@ const getHotelById = async (req, res) => {
 const createHotel = async (req, res) => {
   try {
  
-    const amenities = req.body.amenities ? req.body.amenities.split(",") : [];
+    
     const kilometers = Number(req.body.kilometers);
     const persons = Number(req.body.persons);
     const pricePerNight = Number(req.body.pricePerNight);
     const rating = req.body.rating ? Number(req.body.rating) : 0;
-
+    let amenities = req.body.amenities;
+    if (!Array.isArray(amenities)) {
+      amenities = amenities ? amenities.split(",") : []; // Convert CSV string to array
+    }
     if (!req.file || req.file.length === 0) {
       return res.status(400).json({ message: " No images uploaded!" });
     }

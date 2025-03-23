@@ -48,6 +48,7 @@ import Navbar from './components/Navbar/Navbar';
 import PostTour from './components/Tours/PostTour';
 import BusSingle from './components/Booking/Bus/BusSingle';
 import FlightDetails from './components/Booking/Flight/FlightDetails';
+import PaymentPage from './components/Pages/PaymentPage';
 function App() {
  
   return (
@@ -72,7 +73,7 @@ function App() {
         <Route path="/bus/:id" element={<BusSingle/>}/>
         <Route path="/hotel" element={<HotelPage/>}/>
         <Route path="/hotel/:id" element={<SingleHotel/>}/>
-        {/* <Route path="/payment" element={<BookingPage/>}/> */}
+        <Route path="/payment" element={<PaymentPage/>}/>
         <Route path="/postTour" element={<PostTour />} />
        
         {/* Admin Router  */}

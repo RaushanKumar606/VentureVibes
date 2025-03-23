@@ -18,12 +18,12 @@ const toursSchema = new Schema({
         type: String,
         required: true
     },
-    duration: [
+    duration: 
         {
           days: { type: Number, required: true },
           nights: { type: Number, required: true }
         }
-      ],
+      ,
  
     images: { type: [String], required: true },
     description: {

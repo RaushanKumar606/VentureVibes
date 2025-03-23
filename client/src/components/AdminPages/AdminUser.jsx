@@ -104,7 +104,7 @@ function AdminUser() {
               <div key={user._id} className="bg-white shadow-md rounded-lg p-6">
                 <div className="flex items-center gap-4 flex-wrap">
                   <img
-                    src={user.profilePic || "https://via.placeholder.com/50"}
+                    src={user.image || "https://via.placeholder.com/50"}
                     alt="User Avatar"
                     className="w-14 h-14 rounded-full border"
                   />

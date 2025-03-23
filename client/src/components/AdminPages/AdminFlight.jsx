@@ -160,7 +160,7 @@ const AdminFlight = () => {
               <tr key={index} className="border-b hover:bg-gray-100 transition duration-300">
                 <td className="py-3 px-6 flex items-center">
                   <img
-                    src={flight.airline?.logoUrl || "https://via.placeholder.com/50"}
+                     src={flight.image || "https://via.placeholder.com/50"}
                     alt={flight.airline?.name || "No Image"}
                     className="w-10 h-10 object-cover rounded-lg mr-2"
                   />

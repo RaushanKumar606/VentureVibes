@@ -9,8 +9,9 @@ const AdminHotel = () => {
   // const [filter, setFilter] = useState("All");
 
   const filteredHotels = hotel.filter(
-    (hotel) => hotel.name.toLowerCase().includes(search.toLowerCase()) ||
-               hotel.location.toLowerCase().includes(search.toLowerCase())
+    (hotel) =>
+      hotel.name.toLowerCase().includes(search.toLowerCase()) ||
+      hotel.location.toLowerCase().includes(search.toLowerCase())
   );
 
   // const filteredHotels = hotel.filter(
@@ -18,7 +19,6 @@ const AdminHotel = () => {
   //     (filter === "All" || hotel.type === filter) &&
   //     hotel.name.toLowerCase().includes(search.toLowerCase())
   // );
-
 
   const fetchHotel = async () => {
     try {
@@ -32,6 +32,7 @@ const AdminHotel = () => {
       if (response.ok) {
         const hotelData = await response.json();
         setHotel(hotelData);
+        console.log(hotelData);
       }
     } catch (error) {
       console.log(error); // Fixed typo from `console.lpg`
@@ -77,16 +78,14 @@ const AdminHotel = () => {
         </div>
 
         <div className="flex flex-wrap gap-3 md:gap-6">
-        <button className="bg-green-500 hover:bg-green-600 text-black px-4 py-2 rounded-lg border border-gray-300 shadow-md bg-">
+          <button className="bg-green-500 hover:bg-green-600 text-black px-4 py-2 rounded-lg border border-gray-300 shadow-md bg-">
             <Link to={`/admin/create-hotel`}>+AddHotel</Link>
-            
           </button>
           <button className="text-black px-4 py-2 rounded-lg border border-gray-300 shadow-md">
             View Table
           </button>
           <button className="text-black px-4 py-2 rounded-lg border border-gray-300 shadow-md">
             Filter
-
             {/* <select
           className="p-2 border rounded"
           value={filter}
@@ -114,8 +113,7 @@ const AdminHotel = () => {
             <th className="py-3 px-6 text-left">Night Price</th>
             <th className="py-3 px-6 text-left">Location</th>
             <th className="py-3 px-6 text-left">Status</th>
-            <th className="py-3 px-6 text-left"> Rooms 
-              Available</th>
+            <th className="py-3 px-6 text-left"> Rooms Available</th>
             <th className="py-3 px-6 text-left">Review</th>
             <th className="py-3 px-6 text-left text-center">Action</th>
           </tr>
@@ -130,10 +128,11 @@ const AdminHotel = () => {
                 <td className="py-3 px-6">
                   <img
                     src={
-                      hotel.images?.[0]?.url ||
-                      "https://via.placeholder.com/100"
+                      hotel.images?.length > 0
+                        ? hotel.images[0] // Access the first image in the array
+                        : "https://via.placeholder.com/100"
                     }
-                    alt={hotel.name || "No Image"}
+                    alt={  "No Image"}
                     className="w-14 h-14 rounded-full border"
                   />
                 </td>
@@ -144,19 +143,19 @@ const AdminHotel = () => {
                 <td className="py-3 px-6">{hotel.status}</td>
                 <td className="py-3 px-6 text-center">{hotel.roomAvilable}</td>
                 <td className="py-3 px-6 space-x-3">{hotel.rating} ⭐</td>
-                <td className="py-3 px-6"> 
-                <div className="flex gap-2">
-                  <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
-                    <Link to={`/admin/hotel/${hotel._id}/edit`}>Edit</Link>
-                  </button>
-                  <button
-                    onClick={() => deleteUserById(hotel._id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
-                  >
-                    Delete
-                  </button>
+                <td className="py-3 px-6">
+                  <div className="flex gap-2">
+                    <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
+                      <Link to={`/admin/hotel/${hotel._id}/edit`}>Edit</Link>
+                    </button>
+                    <button
+                      onClick={() => deleteUserById(hotel._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
+                    >
+                      Delete
+                    </button>
                   </div>
-                  </td>
+                </td>
               </tr>
             ))
           ) : (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Hooks/ContextApi";
-import { useNavigate, useParams,Link } from "react-router-dom";
+import { useNavigate, useParams, } from "react-router-dom";
 
 function SingleHotel() {
   const { id } = useParams();
@@ -8,7 +8,7 @@ function SingleHotel() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [expandedDays, setExpandedDays] = useState({}); 
-  const{user,token}= useAuth();
+  const{token}= useAuth();
   const navigate = useNavigate();
 
   const handleCheckIn = () => {
@@ -19,15 +19,13 @@ function SingleHotel() {
     navigate("/payment", {
       state: {
         price: data?.pricePerNight,
-        product: data?.name,
+        title: data?.name,
         hotelId: data?._id,
         token:token,
+        bookingType: "Hotel",
       },
     });
-    console.log("all state",navigate)
   };
-
-
 
   useEffect(() => {
     if (!id) {
@@ -78,7 +76,7 @@ function SingleHotel() {
 
         <div className="md:w-1/2 p-6">
           <h2 className="text-3xl font-bold text-gray-800">{data?.name}</h2>
-          <p className="text-red-500 font-semibold my-2">PerNights     /${data?.pricePerNight} </p>
+          <p className="text-red-500 font-semibold my-2">PerNights/${data?.pricePerNight} </p>
           <p className="text-black-200 my-2">{data?.location}</p>
           <bottom  className="bg-green-500 hover:bg-gerrn-600 text-white px-4 py-2 rounded transition "
             onClick={handleCheckIn}>

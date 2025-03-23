@@ -27,6 +27,7 @@ const AdminBus = () => {
       if (response.ok) {
         const busData = await response.json();
         setBuses(busData);
+       
       }
     } catch (error) {
       console.error("Error fetching buses:", error);
@@ -115,9 +116,7 @@ const AdminBus = () => {
                 {/* Bus Image with Fallback */}
                 <td className="py-3 px-6">
                   <img
-                    src={
-                      bus.images?.[0]?.url || "https://via.placeholder.com/100"
-                    }
+                   src={bus.image || "https://via.placeholder.com/50"}
                     alt={bus.name || "No Image"}
                     className="w-16 h-16 object-cover rounded-lg"
                   />
