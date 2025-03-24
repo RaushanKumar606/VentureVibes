@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 function PaymentPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { price, title, hotelId, bookingType, token } = location.state || {};
+  const { price, title,  product_Id, bookingType, token } = location.state || {};
   const [loading, setLoading] = useState(false);
   const [customerName, setCustomerName] = useState("");
   const [customerAddress, setCustomerAddress] = useState({
@@ -17,8 +17,7 @@ function PaymentPage() {
     postalCode: "",
     country: "",
   });
-
-
+  // console.log( price, title, product_Id, bookingType,  )
   const loadRazorpayScript = async () => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -31,7 +30,6 @@ function PaymentPage() {
   const handlePayment = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
         const res = await fetch("http://localhost:8080/api/bookings/create-payment-intent", {
             method: "POST",
@@ -52,7 +50,6 @@ function PaymentPage() {
             setLoading(false);
             return;
         }
-
         const options = {
             key: import.meta.env.VITE_RAZORPAY_KEY_ID, 
             amount: price * 1,
@@ -63,22 +60,21 @@ function PaymentPage() {
             handler: async function (response) {
                 toast.success("Payment successful!");
 
-                // 🌟 FIX: Send the correct ID based on bookingType
                 let bookingData = { 
                     bookingType: bookingType, 
                     transactionId: response.razorpay_payment_id,
                     bookingDate: new Date(),
-                    hotelId:hotelId
+                    product_Id: product_Id
                 };
 
-                if (location.state.bookingType === "Hotel") {
-                    bookingData.hotel = location.state.hotelId;
-                } else if (location.state.bookingType === "Bus") {
-                    bookingData.bus = location.state.busId;
-                } else if (location.state.bookingType === "Flight") {
-                    bookingData.flight = location.state.flightId;
-                } else if (location.state.bookingType === "Train") {
-                    bookingData.train = location.state.trainId;
+                if (bookingType === "Hotel") {
+                    bookingData.hotel = location.state. product_Id;
+                } else if (bookingType === "Bus") {
+                    bookingData.bus = location.state. product_Id;
+                } else if (bookingType === "Flight") {
+                    bookingData.flight = location.state. product_Id;
+                } else if (bookingType === "Train") {
+                    bookingData.train = location.state. product_Id;
                 }
 
                 const bookingRes = await fetch("http://localhost:8080/api/bookings/create", {
@@ -96,8 +92,6 @@ function PaymentPage() {
                 } else {
                     toast.error("Booking failed!");
                 }
-
-                // Redirect user to dashboard
                 setTimeout(() => navigate("/user/dashboard"), 1500);
             },
             prefill: {
@@ -128,8 +122,6 @@ function PaymentPage() {
   return (
     <div className="p-8">
       <h1 className="text-2xl font-semibold mb-4">Payment</h1>
-
-      {/* Display product title and price */}
       <div className="bg-gray-100 p-4 rounded-md mb-4 shadow-md">
         <h2 className="text-xl font-medium text-gray-800">{title}</h2>
         <p className="text-lg text-gray-600">

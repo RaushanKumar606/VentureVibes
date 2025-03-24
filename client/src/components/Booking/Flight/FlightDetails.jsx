@@ -1,11 +1,25 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../Hooks/ContextApi";
 
 const FlightDetails = () => {
   const [flight, setFlight] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const {token} = useAuth()
+  const navigate = useNavigate();
+  const handleCheck=()=>{
+    navigate('/payment',{
+      state:{
+        price: flight.minPrice,
+        title: flight.airline,
+        product_Id: flight._id,
+        bookingType: "Flight",
+        token:token
+      }
+    })
+  }
 
   const fetchFlight = async () => {
     try {
@@ -14,7 +28,7 @@ const FlightDetails = () => {
         throw new Error("Failed to fetch data");
       }
       const data = await response.json();
-      setFlight(data.flight); // Correctly setting the flight object
+      setFlight(data.flight); 
       console.log(data);
     } catch (error) {
       setError(error.message);
@@ -68,6 +82,7 @@ const FlightDetails = () => {
       </div>
      <div className="div"> <bottom
         className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition mt-5"
+        onClick={handleCheck}
       >
         Book now
       </bottom></div>

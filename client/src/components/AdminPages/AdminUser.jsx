@@ -13,7 +13,7 @@ import {
 
 function AdminUser() {
   const [users, setUsers] = useState([]);
-  const [search, setSearch] = useState(""); // State for search query
+  const [search, setSearch] = useState("");
   const { token } = useAuth();
 
   const fetchUsers = async () => {
@@ -27,7 +27,7 @@ function AdminUser() {
       if (response.ok) {
         const userData = await response.json();
         setUsers(userData);
-        console.log(userData)
+        // console.log(userData)
       }
     } catch (error) {
       console.log(error);

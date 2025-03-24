@@ -28,9 +28,9 @@ const getAllUsers = async (req, res, next) => {
 
                const totalSpent = bookings.reduce((sum, booking) => {
                     const hotelAmount = booking.hotel?.pricePerNight || 0;
-                    const busAmount = booking.bus?.price?.amount || 0;
-                    const flightAmount = booking.flight?.minPrice?.amount || 0;
-                    const trainAmount = booking.train?.amount || 0;
+                    const busAmount = booking.bus?.price || 0;
+                    const flightAmount = booking.flight?.minPrice|| 0;
+                    const trainAmount = booking.train?.price || 0;
                     return sum + hotelAmount + busAmount + flightAmount + trainAmount;
                 }, 0);
               return {

@@ -78,43 +78,57 @@ const AdminPostTour = () => {
   };
 
   // Handle file change (multiple images)
-  const handleFileChange = (e) => {
-    setImages([...e.target.files]);
+  const handleImageChange = (e) => {
+    if (e.target.files.length > 0) {
+      setTourData({ ...tourData, image: e.target.files[0] }); 
+    }
   };
-
   // Submit Form
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const data = {
-      ...tourData,
-      destinations: tourData.destinations,
-      duration: tourData.duration,
-      dayWisePlan: tourData.dayWisePlan,
-    };
-
+  
+    const formData = new FormData();
+    formData.append("title", tourData.title);
+    formData.append("bestTimeToTravel", tourData.bestTimeToTravel);
+    formData.append("description", tourData.description);
+    formData.append("price", tourData.price);
+    formData.append("location", tourData.location);
+    formData.append("country", tourData.country);
+    formData.append("destinations", JSON.stringify(tourData.destinations));
+    formData.append("duration", JSON.stringify(tourData.duration));
+    formData.append("dayWisePlan", JSON.stringify(tourData.dayWisePlan));
+    if (tourData.image) {
+      formData.append("image", tourData.image);
+    }
+  
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/admin/create-tour`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(data),
-        }
-      );
-
+      const response = await fetch(`http://localhost:8080/api/admin/create-tour`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+        body: formData,
+      });
+  
       const result = await response.json();
       if (response.ok) {
-        toast.success(`Tour create  Successful! Welcome,`);
-        setTourData(result);
+        toast.success(`Tour created successfully!`);
+        setTourData({
+          title: "",
+          destinations: [""],
+          bestTimeToTravel: "",
+          duration: { days: "", nights: "" },
+          price: "",
+          location: "",
+          country: "",
+          dayWisePlan: [{ day: 1, activity: "" }],
+          description: "",
+        });
+      } else {
+        toast.error(result.message || "Something went wrong!");
       }
-      
     } catch (error) {
-      toast.error(error.message || "Login failed. Please try again.");
-      alert("Something went wrong! " + error.message);
+      toast.error(error.message || "Request failed. Please try again.");
     }
   };
 
@@ -263,8 +277,9 @@ const AdminPostTour = () => {
           <FaImage className="text-indigo-600 mx-2" />
           <input
             type="file"
-            multiple
-            onChange={handleFileChange}
+            name="image"
+            accept="image/*"
+            onChange={handleImageChange}
             className="w-full outline-none"
           />
         </div>

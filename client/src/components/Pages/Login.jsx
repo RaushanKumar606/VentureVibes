@@ -40,7 +40,7 @@ const LoginPage = () => {
          }
          if (response.ok) {
           storeTokenInLS(res_data.token);  
-          toast.success(`Login Successful! Welcome, User ID: ${res_data.userId}`); 
+          toast.success(` Welcome, User `); 
           navigate('/'); 
       } else {
         toast.error(res_data.message || "Login failed. Please try again.");

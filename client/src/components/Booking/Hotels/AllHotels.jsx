@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react";
-// import travelData from "../../Data/TravalData.json";
 import { Link } from "react-router-dom";
 
 function AllHotels() {
   const [hotels, setHotels] = useState([]);
-  // const [search, setSearch] = useState("");
-  // const [filteredHotels, setFilteredHotels] = useState([]);
-  // const [sort, setSort] = useState("price");
-  // const [sortDirection, setSortDirection] = useState("asc");
 
   const getHotel = async () => {
     try {
@@ -34,8 +29,12 @@ function AllHotels() {
           <Link to={`/hotel/${item._id}`} key={item._id} className="block">
             <div className="max-w-sm mx-auto shadow-lg rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300">
               <img
-                src={item.image}
-                alt={item.from}
+                src={
+                  item.images && item.images.length > 0
+                    ? item.images[0]
+                    : "default-image.jpg"
+                }
+                alt={item.name}
                 className="w-full h-40 object-cover"
               />
               <div className="p-4">

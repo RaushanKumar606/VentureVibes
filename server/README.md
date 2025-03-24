@@ -28,3 +28,39 @@ Before running the server, ensure you have the following installed:
    ```bash
    git clone https://github.com/RaushanKumar606/VentureVibes.git
    cd venturevibes-backend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {/* <div className="all-tours-container">
+        {tourData.map((tour) => {
+          const { _id, title, price, country, images } = tour;
+          return (
+            <Link to={`/tours/${_id}`} key={_id}>
+              <div className="tour-card">
+                <img
+                  src={tour.images?.[0] || "fallback-image.jpg"}
+                  alt={title}
+                  className="tour-image"
+                />
+                <h3 className="tour-title">{title}</h3>
+                <p className="tour-price">${price}</p>
+                <p className="tour-country">{country}</p>
+              </div>
+            </Link>
+          );
+        })}
+      </div> */}

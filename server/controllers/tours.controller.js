@@ -6,15 +6,12 @@ const uploadOnCloudinary=require('../utils/cloudinary')
 // Create a new tour
 const createTour = async (req, res) => {
   try {
-    console.log("Request Body:", req.body); // Debugging
-
+    // console.log("Request Body:", req.body); 
+    // console.log("Uploaded File:", req.file);
     const { title, bestTimeToTravel, description, price, location, country } = req.body;
-
-    // ✅ Parse JSON fields properly
     let destinations = [];
     let duration = {};
     let dayWisePlan = [];
-
     try {
       destinations = req.body.destinations ? JSON.parse(req.body.destinations) : [];
       duration = req.body.duration ? JSON.parse(req.body.duration) : {};
@@ -23,23 +20,18 @@ const createTour = async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid JSON format in form-data fields" });
     }
 
-    // ✅ Validate Required Fields
-    if (!title || !bestTimeToTravel || !description || !price || !location || !country || !destinations.length || !duration.days || !duration.nights || !dayWisePlan.length) {
+    if (!title || !bestTimeToTravel || !description || !price || !location || !country || !destinations || !dayWisePlan) {
       return res.status(400).json({ success: false, message: "All fields are required to create the tour" });
     }
-
-    // ✅ Handle Image Upload (Single File)
     if (!req.file) {
       return res.status(400).json({ message: "No image uploaded!" });
     }
-
     let imageUrl = null;
     const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
     if (cloudinaryResponse) {
       imageUrl = cloudinaryResponse.secure_url;
     }
 
-    // ✅ Create and Save New Tour
     const newTour = new Tour({
       title,
       description,
@@ -50,7 +42,7 @@ const createTour = async (req, res) => {
       duration,
       bestTimeToTravel,
       dayWisePlan,
-      images: imageUrl, // Store image as an array
+      images: imageUrl, 
       owner: req.user ? req.user._id : null,
     });
 

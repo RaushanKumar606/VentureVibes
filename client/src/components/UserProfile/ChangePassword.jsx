@@ -51,7 +51,7 @@ function ChangePassword() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow-lg bg-gray-100">
+    <div className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow-lg bg-gradient-to-b from-blue-900 to-blue-950">
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
         Change Password
       </h2>

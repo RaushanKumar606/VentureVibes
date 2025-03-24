@@ -29,9 +29,9 @@ const UserProfile = () => {
     return <div className="text-center text-lg font-semibold">Loading...</div>;
   }
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100  bg-gradient-to- to-blue-500">
       {/* Main Content */}
-      <main className="flex-1 p-6 overflow-auto">
+      <main className="flex-1 p-6 overflow-auto ">
         {/* Top Bar */}
         {/* <div className="flex justify-between items-center mb-6">
           <div className="relative w-full max-w-md">
@@ -55,7 +55,7 @@ const UserProfile = () => {
         </div> */}
 
         <div>
-          <table className="w-full border-collapse border border-gray-300">
+          <table className="w-full border-collapse border border-gray-300 ">
             <thead>
               <tr className="bg-gray-100 bg-green-300">
                 <th className="border border-gray-300 p-3 text-left font-semibold ">

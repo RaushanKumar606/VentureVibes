@@ -1,11 +1,10 @@
 import './Tours.css'
-import {Tours} from './Tours'
-import Navbar from "../Navbar/Navbar";
+import Tours from './Tours'
 import Footer from "../../Footer/Footer";
 function ToursPages() {
   return (
     <div>
-      {/* <Navbar/> */}
+   
         <Tours/>
  
         < Footer/>

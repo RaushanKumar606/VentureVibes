@@ -6,8 +6,7 @@ import {
   FiBriefcase,
   FiBook,
 } from "react-icons/fi";
-import { FiSearch, FiBell } from "react-icons/fi";
-import { HiOutlineUserCircle } from "react-icons/hi";
+import { FiSearch } from "react-icons/fi";
 import { useAuth } from "../Hooks/ContextApi";
 
 const AdminDash = () => {
@@ -19,7 +18,7 @@ const AdminDash = () => {
   const [allBooking, setBooking] = useState({ booking: 0 });
   const [tour, setTour] = useState({ tours: 0 });
   const [recentBookings, setRecentBookings] = useState([]);
-  // yaha pe jo user abhi abhi booking kiya hai uska data aayega uska logic likhana baki hai thik
+
 
   const { token, user } = useAuth();
 
@@ -40,7 +39,6 @@ const AdminDash = () => {
       console.error("Error fetching users:", error);
     }
   };
- 
   const getAllFlight = async () => {
     try {
       const response = await fetch(
@@ -92,7 +90,6 @@ const AdminDash = () => {
       console.error("Error fetching users:", error);
     }
   };
-
   const getAllBooking = async () => {
     try {
       const response = await fetch(
@@ -110,7 +107,6 @@ const AdminDash = () => {
       console.error("Error fetching users:", error);
     }
   };
- 
   const GetAllTours = async () => {
     try {
       const response = await fetch(
@@ -128,9 +124,31 @@ const AdminDash = () => {
       console.error("Error fetching users:", error);
     }
   };
+  // const getBooking = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:8080/api/admin/users-bookings`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       setRecentBookings(data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+ 
+
   useEffect(() => {
     GetAllTours(), getAllHotel(), getAllBus(),
-    getAllBooking(), getAllFlight(),  getAllUser();
+    getAllBooking(), getAllFlight(),  getAllUser()
+    //  getBooking();
   }, []);
 
   return (
@@ -148,7 +166,6 @@ const AdminDash = () => {
         
       </div>
 
-      {/* Stats Widgets */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <StatCard
           title="Total Users"
@@ -188,7 +205,6 @@ const AdminDash = () => {
         />
       </div>
 
-      {/* Recent Bookings Table */}
       <div className="bg-white p-4 rounded-lg shadow-md">
         <h3 className="text-xl font-semibold mb-4">Recent Bookings</h3>
         <table className="w-full border-collapse">
@@ -200,7 +216,7 @@ const AdminDash = () => {
             </tr>
           </thead>
           <tbody>
-            {recentBookings.length > 0 ? (
+            {recentBookings && recentBookings.length > 0 ? ( 
               recentBookings.map((booking, index) => (
                 <tr key={index} className="border-b hover:bg-gray-100">
                   <td className="py-2 px-4">{booking.user}</td>

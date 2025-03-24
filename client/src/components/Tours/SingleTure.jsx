@@ -45,7 +45,7 @@ function SingleTour() {
       <div className="max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg flex flex-col md:flex-row mt-10">
         <div className="md:w-1/2">
           <img
-            src={data?.image?.url || "https://via.placeholder.com/150"}
+          src={data.images && data.images.length > 0 ? data.images[0] : "default-image.jpg"}
             alt={data?.title || "Tour Image"}
             className="w-full h-auto rounded-lg mt-10"
           />

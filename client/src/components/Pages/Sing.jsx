@@ -18,36 +18,46 @@ const SignupPage = () => {
     setUserData({ ...userData, [name]: value });
   };
   const handleImageChange = (e) => {
-    setUserData({ ...userData, image: e.target.files });
+    if (e.target.files.length > 0) {
+      setUserData({ ...userData, image: e.target.files[0] }); 
+    }
   };
 
   const formSubmit = async (e) => {
     e.preventDefault();
+  
     const formData = new FormData();
-  formData.append("name", userData.name);
-  formData.append("email", userData.email);
-  formData.append("number", userData.number);
-  formData.append("country", userData.country);
-  formData.append("password", userData.password);
-  if (userData.image ) {
-    formData.append("image", userData.image); 
-  }
-
-
-    const response = await fetch(`http://localhost:8080/api/signup`, {
-      method: "POST",
-      body: formData,
-    });
-
-    const res_data = await response.json();
-    if (response.ok) {
-      toast.success("Register Successful");
-      navigate("/login");
+    formData.append("name", userData.name);
+    formData.append("email", userData.email);
+    formData.append("number", userData.number);
+    formData.append("country", userData.country);
+    formData.append("password", userData.password);
+  
+    if (userData.image) {
+      formData.append("image", userData.image); // Append only if image exists
     } else {
-      toast.error(res_data.message);
+      toast.error("Please select an image.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:8080/api/signup`, {
+        method: "POST",
+        body: formData,
+      });
+  
+      const res_data = await response.json();
+      if (response.ok) {
+        toast.success("Register Successful");
+        navigate("/login");
+      } else {
+        toast.error(res_data.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong!",error);
     }
   };
-
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">

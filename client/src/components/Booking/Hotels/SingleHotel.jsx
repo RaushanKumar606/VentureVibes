@@ -12,15 +12,11 @@ function SingleHotel() {
   const navigate = useNavigate();
 
   const handleCheckIn = () => {
-    // if (!token?.token) {
-    //   toast.error("Authentication required to proceed!");
-    //   return navigate("/login");
-    // }
     navigate("/payment", {
       state: {
         price: data?.pricePerNight,
         title: data?.name,
-        hotelId: data?._id,
+        product_Id: data?._id,
         token:token,
         bookingType: "Hotel",
       },
@@ -42,7 +38,6 @@ function SingleHotel() {
         }
         const data = await response.json();
         setData(data);
-
       } catch (err) {
         setError(err.message);
       } finally {
@@ -68,8 +63,8 @@ function SingleHotel() {
       <div className="max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg flex flex-col md:flex-row mt-10">
         <div className="md:w-1/2">
           <img
-            src={data?.image?.url || "https://via.placeholder.com/150"}
-            alt={data?.title || "Hotel Image"}
+           src={data.images && data.images.length > 0 ? data.images[0] : "default-image.jpg"}
+           alt={data.name}
             className="w-full h-auto rounded-lg mt-10"
           />
         </div>

@@ -33,7 +33,7 @@ const Navbar = () => {
 };
 
   return (
-    <div className="bg-white shadow-md w-full">
+    <div className="bg-gradient-to-r from-blue-500 to-purple-500 shadow-md w-full shadow-md w-full">
       <nav className="container mx-auto flex justify-between items-center p-4">
         {/* Logo */}
         <div className="flex items-center gap-3">
@@ -58,15 +58,26 @@ const Navbar = () => {
         </div>  */}
         <div className={`lg:flex items-center space-x-6 ${isMenuOpen ? "block" : "hidden"} lg:block`}>
         <ul className="flex flex-col lg:flex-row gap-4 lg:gap-8 text-gray-700">
-          <a href="/"><li>Home</li>
-          </a>
-          <a href="/hotel" className="hover:text-blue-600"><li>Hotel</li></a>
-          <a href="/bus" className="hover:text-blue-600"><li>Bus</li></a>
-          <a href="/train" className="hover:text-blue-600"><li>Train</li>
-          </a>
-          <a href="/air" className="hover:text-blue-600"><li>Air</li></a>
-          <a href="/tours" className="hover:text-blue-600"><li>Tours</li></a>
-          </ul>
+  <a href="/" className="hover:text-blue-600 font-semibold transition duration-300 hover:-translate-y-1">
+    <li>Home</li>
+  </a>
+  <a href="/hotel" className="hover:text-blue-600 font-semibold transition duration-300 hover:-translate-y-1">
+    <li>Hotel</li>
+  </a>
+  <a href="/bus" className="hover:text-blue-600 font-semibold transition duration-300 hover:-translate-y-1">
+    <li>Bus</li>
+  </a>
+  <a href="/train" className="hover:text-blue-600 font-semibold transition duration-300 hover:-translate-y-1">
+    <li>Train</li>
+  </a>
+  <a href="/air" className="hover:text-blue-600 font-semibold transition duration-300 hover:-translate-y-1">
+    <li>Air</li>
+  </a>
+  <a href="/tours" className="hover:text-blue-600 font-semibold transition duration-300 hover:-translate-y-1">
+    <li>Tours</li>
+  </a>
+</ul>
+
         </div>
 
 

@@ -1,5 +1,4 @@
-// import { useState } from "react";
-import { HiOutlineUserCircle } from "react-icons/hi";
+import { useState,useEffect } from "react";
 import { FiSearch ,FiBell,FiLogOut } from "react-icons/fi";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { FaRegCalendarCheck, FaFileInvoice } from "react-icons/fa";
@@ -9,12 +8,36 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../Hooks/ContextApi";
 const UserData = () => {
   // const [activeTab, setActiveTab] = useState("Dashboard");
-const {user} = useAuth();
-// console.log("userdata",user.UserData.image)
+
+  const [user, setUser] = useState(null);
+  // console.log("userdata",user.userData.image)
+  const { token } = useAuth();
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/user`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const userData = await response.json();
+        setUser(userData);
+        // console.log("set data user ",userData)
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchUser();
+  }, []);
+
+
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md p-5 flex flex-col justify-between">
+<div className="flex h-screen bg-gradient-to-b from-blue-900 to-blue-950">
+            <aside className="w-64 bg-gradient-to-b from-gray-800 to-gray-900shadow-md p-5 flex flex-col justify-between ">
         <div>
           <h2 className="text-2xl font-bold text-gray-800 mb-5">My Account</h2>
           <nav className="space-y-4">
@@ -57,7 +80,7 @@ const {user} = useAuth();
         </div>
 
         <div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-5">Tour Booking</h2>
+          <h2 className="text-2xl font-bold text-white mb-5">Tour Booking</h2>
           <nav className="space-y-4">
             <NavLink
               to="/user/bookings"
@@ -137,10 +160,7 @@ const {user} = useAuth();
         </div>
       </aside>
 
-
-      {/* Main Content */}
       <main className="flex-1 p-6 overflow-auto">
-        {/* Top Bar */}
         <div className="flex justify-between items-center mb-6">
           <div className="relative w-full max-w-md ml-5">
             <input
@@ -150,16 +170,20 @@ const {user} = useAuth();
             />
             <FiSearch className="absolute left-3 top-3 text-gray-500" />
           </div>
-          <div className="flex items-center gap-4 mr-5">
+          {/* <div className="flex items-center gap-4 mr-5">
             <FiBell className="text-xl cursor-pointer" />
             <div className="flex items-center gap-2">
-              <HiOutlineUserCircle className="text-3xl" />
-              {/* <div>
+            <img
+                    src={user.userData.image || "https://via.placeholder.com/50"}
+                    alt="User Avatar"
+                    className="w-14 h-14 rounded-full border"
+                  />
+              <div>
                 <p className="text-sm font-semibold">{user.userData.name}</p>
                 <p className="text-xs text-gray-500">{user.userData.email}</p>
-              </div> */}
+              </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <Outlet />
       </main>
