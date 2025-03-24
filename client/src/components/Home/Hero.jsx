@@ -1,16 +1,13 @@
 
 import { useState, useEffect } from "react";
 import image1 from "../Images/Image1.jpg"
-import image2 from "../Images/Image2.jpg"
+
 import image3 from "../Images/Image3.jpg"
 import image4 from "../Images/Images.jpg"
 import image5 from "../Images/travel-world.jpg"
 import image6 from "../Images/indonosiya.jpg"
-// import image7 from "../Images/downloade1.jpg"
-// import image8 from "../Images/downloade.jpg"
-// import image9 from "../Images/hotel.png"
-// import image10 from "../Images/mandir.jpg"
-const imageData = [image1,image2,image3,image4,image5,image6]
+
+const imageData = [image1,image3,image4,image5,image6]
     function Hero() {
  
   const [currentIndex, setCurrentIndex] = useState(0);
