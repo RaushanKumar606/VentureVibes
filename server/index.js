@@ -99,6 +99,12 @@ app.use('/api',Train)
 // Booking
 app.use("/api/bookings", bookingRoutes);
 app.use('api/',review)
+ app.get('/',(req,res)=>{
+  res.send({
+    activeStatus:true,
+    error:false,
+  })
+ })
 
 const PORT1 = process.env.PORT || 5000;
 
