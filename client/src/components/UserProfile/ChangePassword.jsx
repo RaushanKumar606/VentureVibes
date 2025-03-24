@@ -25,7 +25,7 @@ function ChangePassword() {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/api/changePassword", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/changePassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

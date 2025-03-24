@@ -31,7 +31,7 @@ function PaymentPage() {
     e.preventDefault();
     setLoading(true);
     try {
-        const res = await fetch("http://localhost:8080/api/bookings/create-payment-intent", {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/bookings/create-payment-intent`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -77,7 +77,7 @@ function PaymentPage() {
                     bookingData.train = location.state. product_Id;
                 }
 
-                const bookingRes = await fetch("http://localhost:8080/api/bookings/create", {
+                const bookingRes = await fetch(`${import.meta.env.VITE_BASE_URL}/api/bookings/create`, {
                     method: "POST",
                     headers: {
                         Authorization: `Bearer ${token}`,

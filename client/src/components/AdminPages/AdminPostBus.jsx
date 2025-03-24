@@ -82,7 +82,7 @@ const AdminCreateBus = () => {
     formData.append("image", busData.image);
   }
     try {
-      const response = await fetch("http://localhost:8080/api/admin/create-bus", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/admin/create-bus`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

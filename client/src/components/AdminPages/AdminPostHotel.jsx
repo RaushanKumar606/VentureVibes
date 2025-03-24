@@ -62,7 +62,7 @@ const AdminCreateHotel = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/admin/create-hotel",
+        `${import.meta.env.VITE_BASE_URL}/api/admin/create-hotel`,
         {
           method: "POST",
           headers: {

@@ -14,7 +14,7 @@ const UserEditProfile = () => {
 
   const userUpdate = async () => {
     try {
-      const response = await fetch("https://example.com/api/update", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/update`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

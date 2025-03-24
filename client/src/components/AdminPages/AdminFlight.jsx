@@ -20,7 +20,7 @@ const AdminFlight = () => {
   // Fetch flights from API
   const fetchFlights = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/admin/flights", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/admin/flights`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ const AdminFlight = () => {
   const deleteUserById = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/admin/flight/delete/${id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/admin/flight/delete/${id}`,
         {
           method: "DELETE",
           headers: {

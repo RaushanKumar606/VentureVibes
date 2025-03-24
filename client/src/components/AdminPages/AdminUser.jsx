@@ -18,7 +18,7 @@ function AdminUser() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/admin/users`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/admin/users`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -37,7 +37,7 @@ function AdminUser() {
   const deleteUserById = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/admin/users/delete/${id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/admin/users/delete/${id}`,
         {
           method: "DELETE",
           headers: {

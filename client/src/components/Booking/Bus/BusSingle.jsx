@@ -25,7 +25,7 @@ const BusSingle = () => {
 
   const getById = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/bus/${id}`);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/bus/${id}`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }

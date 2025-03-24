@@ -9,7 +9,7 @@ function SingleTour() {
   const [expandedDays, setExpandedDays] = useState({}); // State for collapsible sections
 
   useEffect(() => {
-    const apiUrl = `http://localhost:8080/api/tours/${id}`;
+    const apiUrl = `${import.meta.env.VITE_BASE_URL}/api/tours/${id}`;
 
     const fetchData = async () => {
       try {

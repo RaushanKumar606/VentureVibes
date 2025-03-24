@@ -43,7 +43,6 @@ import AdminBooking from './components/AdminPages/AdminBooking';
 import AdminDash from './components/AdminPages/AdminDash';
 import BookingList from './components/UserProfile/BookingList';
 import SingleHotel from './components/Booking/Hotels/SingleHotel';
-import Text from './components/Pages/Text'
 import Navbar from './components/Navbar/Navbar';
 import PostTour from './components/Tours/PostTour';
 import BusSingle from './components/Booking/Bus/BusSingle';
@@ -55,7 +54,7 @@ function App() {
     <BrowserRouter>
     <Navbar/>
        <Routes>
-        <Route path="/raushan" element={<Text/>} />
+      
         <Route path="/" element={<HomePages/>} />
         <Route path="/bookingList" element={<BookingList />} />
         <Route path="/login" element={<LoginPage />} />
@@ -75,7 +74,7 @@ function App() {
         <Route path="/hotel/:id" element={<SingleHotel/>}/>
         <Route path="/payment" element={<PaymentPage/>}/>
         <Route path="/postTour" element={<PostTour />} />
-       
+      
         {/* Admin Router  */}
         <Route  path= '/admin' element={<AdminPage/>}>
         <Route path="/admin/dashboard" element={<AdminDash />} />

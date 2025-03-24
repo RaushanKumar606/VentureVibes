@@ -6,6 +6,19 @@ export const AuthProvider = ({ children }) => {
   const [user, setUserData] = useState("");
  
  
+
+// DARK MODE
+const [darkMode, setDarkMode] = useState(
+  localStorage.getItem("darkMode") === "true"
+);
+
+useEffect(() => {
+  localStorage.setItem("darkMode", darkMode);
+  if (darkMode) {
+    document.body.classList.toggle("dark", darkMode);
+  }
+}, [darkMode]);
+
   const storeTokenInLS = (serverToken) => {
     localStorage.setItem("token", serverToken);
     setToken(serverToken);
@@ -77,7 +90,8 @@ export const AuthProvider = ({ children }) => {
         token,
         LogoutUser,
         isLoggedIn, 
-        allBooking
+        allBooking,
+        darkMode, setDarkMode
       }}
     >
       {children}

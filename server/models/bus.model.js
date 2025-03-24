@@ -46,7 +46,7 @@ const busSchema = new mongoose.Schema({
 
   reviews: [
     {
-      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      user: { type: mongoose.Schema.Types.ObjectId, ref: "Review" },
       message: { type: String, required: true }, 
       createdAt: { type: Date, default: Date.now }
     }

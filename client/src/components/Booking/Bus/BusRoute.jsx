@@ -10,7 +10,7 @@ const BusRoute = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`http://localhost:8080/api/bus`);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/bus`);
       if (response.ok) {
         const data = await response.json();
         setBusRouteData(Array.isArray(data) ? data : []);

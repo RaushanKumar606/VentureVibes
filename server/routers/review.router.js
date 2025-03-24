@@ -4,6 +4,6 @@ const {userMiddleware} = require('../middleware/user.middleware.js');
 const router = express.Router()
 
 router.route('/review').get(allReview);
-router.route('/review').post(userMiddleware,createReview);
+router.route('/create-review').post(userMiddleware,createReview);
 router.route('/review/:id/:reviewId').delete(deleteReview);
 module.exports = router;

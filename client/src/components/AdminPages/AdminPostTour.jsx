@@ -102,7 +102,7 @@ const AdminPostTour = () => {
     }
   
     try {
-      const response = await fetch(`http://localhost:8080/api/admin/create-tour`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/admin/create-tour`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`, 

@@ -7,7 +7,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/user`, {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/user`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

@@ -16,7 +16,7 @@ function AdminUserEdit() {
   const getUserById = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/admin/users/${id}`,
+        `${import.meta.env.VITE_BASE_URL}/admin/users/${id}`,
         {
           method: "GET",
           headers: {

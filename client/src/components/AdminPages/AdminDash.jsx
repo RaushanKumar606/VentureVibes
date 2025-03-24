@@ -25,7 +25,7 @@ const AdminDash = () => {
   const getAllUser = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/admin/total-users",
+        `${import.meta.env.VITE_BASE_URL}/api/admin/total-users`,
         {
           method: "GET",
           headers: {
@@ -42,7 +42,7 @@ const AdminDash = () => {
   const getAllFlight = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/admin/total-flights",
+        `${import.meta.env.VITE_BASE_URL}/api/admin/total-flights`,
         {
           method: "GET",
           headers: {
@@ -59,7 +59,7 @@ const AdminDash = () => {
   const getAllBus = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/admin/total-bus",
+        `${import.meta.env.VITE_BASE_URL}/api/admin/total-bus`,
         {
           method: "GET",
           headers: {
@@ -76,7 +76,7 @@ const AdminDash = () => {
   const getAllHotel = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/admin/total-hotels",
+        `${import.meta.env.VITE_BASE_URL}/api/admin/total-hotels`,
         {
           method: "GET",
           headers: {
@@ -93,7 +93,7 @@ const AdminDash = () => {
   const getAllBooking = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/admin/total-bookings",
+        `${import.meta.env.VITE_BASE_URL}/api/admin/total-bookings`,
         {
           method: "GET",
           headers: {
@@ -110,7 +110,7 @@ const AdminDash = () => {
   const GetAllTours = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/admin/total-tours",
+        `${import.meta.env.VITE_BASE_URL}/api/admin/total-tours`,
         {
           method: "GET",
           headers: {

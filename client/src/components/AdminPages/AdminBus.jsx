@@ -37,7 +37,7 @@ const AdminBus = () => {
   const deleteUserById = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/admin/bus/delete/${id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/admin/bus/delete/${id}`,
         {
           method: "DELETE",
           headers: {

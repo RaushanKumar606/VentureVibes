@@ -1,4 +1,5 @@
 import Footer from "../../Footer/Footer";
+import UnderConstruction from "../Pages/UnderConstruction";
 // import Navbar from "../Navbar/Navbar";
 import About from "./About";
 import Blogs from "./Blogs";
@@ -17,6 +18,7 @@ function HomePages() {
 
       <About />
       <OverView/>
+      <UnderConstruction/>
       <Footer />
     </>
   );

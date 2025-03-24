@@ -10,7 +10,7 @@ const AdminBooking = () => {
   const getBooking = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/admin/users-bookings`,
+        `${import.meta.env.VITE_BASE_URL}/api/admin/users-bookings`,
         {
           method: "GET",
           headers: {

@@ -11,6 +11,7 @@ const loginRouter =require('./routers/login.router')
 // const userData =  require('./routers/user.router');
 // const userUpdate = require('./routers/user.router')
 const changePassword =require('./routers/changePass.router')
+const review = require("./routers/review.router")
 // const emailSendPass=require('./routers/changePass.router')
 // const userPassReset =require('./routers/changePass.router')
 // const getUserBookings = require('./routers/booking.router')
@@ -97,6 +98,7 @@ app.use('/api',Train)
 // app.use('/api',TrainById)
 // Booking
 app.use("/api/bookings", bookingRoutes);
+app.use('api/',review)
 
 const PORT1 = process.env.PORT || 5000;
 

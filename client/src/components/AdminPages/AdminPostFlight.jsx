@@ -40,7 +40,7 @@ const AdminPostFlight = () => {
         }
       });
 
-      const response = await fetch(`http://localhost:8080/api/admin/create-flight`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/admin/create-flight`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

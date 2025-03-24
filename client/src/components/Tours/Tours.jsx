@@ -5,7 +5,7 @@ const Tours = () => {
   const [tour, setTourData] = useState([]);
   const getTours = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/tours`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/tours`, {
         method: "GET",
       });
       if (response.ok) {

@@ -7,7 +7,7 @@ import BusRoute from "./BusRoute"
 // import Navbar from "../../Navbar/Navbar"
 // import BusTravData from "./BusTravData"
 
-
+import UnderConstruction from "../../Pages/UnderConstruction";
 
 function BusPage() {
   return (
@@ -18,6 +18,7 @@ function BusPage() {
     <BusList/>
     <BusRoute/>
     {/* <BusTravData/> */}
+    <UnderConstruction/>
     <BusFeature/>
 
     </>

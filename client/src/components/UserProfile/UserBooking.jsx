@@ -15,7 +15,7 @@ const UserBooking = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/bookings/users/${user._id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/bookings/users/${user._id}`,
         {
           method: "GET",
           headers: {

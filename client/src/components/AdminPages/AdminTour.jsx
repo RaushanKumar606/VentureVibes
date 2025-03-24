@@ -24,7 +24,7 @@ const AdminTour = () => {
   const deleteUserById = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/admin/tours/delete/${id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/admin/tours/delete/${id}`,
         {
           method: "DELETE",
           headers: {

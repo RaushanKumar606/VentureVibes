@@ -81,7 +81,7 @@ const PostTour = () => {
     images.forEach((file) => formData.append("images", file));
 
     try {
-      const response = await fetch("http://localhost:8080/api/tours", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/tours`, {
         method: "POST",
         headers:{
           Authorization: `Bearer ${token}`

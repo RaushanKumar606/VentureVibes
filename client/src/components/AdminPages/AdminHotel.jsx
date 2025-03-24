@@ -22,7 +22,7 @@ const AdminHotel = () => {
 
   const fetchHotel = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/admin/hotels", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/admin/hotels`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -42,7 +42,7 @@ const AdminHotel = () => {
   const deleteUserById = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/admin/hotel/delete/${id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/admin/hotel/delete/${id}`,
         {
           method: "DELETE",
           headers: {

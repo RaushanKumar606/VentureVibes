@@ -6,7 +6,7 @@ function AllHotels() {
 
   const getHotel = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/hotels", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/hotels`, {
         method: "GET",
       });
       const data = await response.json();

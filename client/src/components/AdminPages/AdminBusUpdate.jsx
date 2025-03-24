@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "../Hooks/ContextApi";
-import { Navigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {toast} from 'react-toastify'
 import {
   TextField,
@@ -37,7 +37,7 @@ import {
   const { id } = useParams(); 
   const updateBus = async()=>{
     try {
-      const response = await fetch(`http://localhost:8080/admin/create-bus/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/admin/create-bus/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -84,7 +84,7 @@ import {
   const handleSumbit =async (e)=>{
    e.preventDefault();
    try {
-    const response = await fetch(`http://localhost:8080/admin/create-bus/update/${id}`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/admin/create-bus/update/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
