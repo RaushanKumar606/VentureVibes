@@ -48,7 +48,7 @@ require('dotenv').config();
 
 const corsOption = 
 { 
-  origin: ["http://localhost:5173","https://venture-alpha.vercel.app"],
+  origin: ["https://venture-alpha.vercel.app"], //"http://localhost:5173"
    methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
     credentials: true 
   };
