@@ -23,7 +23,7 @@ require('dotenv').config();
 
 const corsOption = 
 { 
-  origin: ["https://travelings-world.netlify.app/", "http://localhost:5173"],
+  origin: ["https://main--travelings-world.netlify.app/", "http://localhost:5173"],
    methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
     credentials: true 
   };
