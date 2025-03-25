@@ -9,7 +9,6 @@ const upload = require("../middleware/multer.middleware");
 router.route('/signup').post(upload.single('image'),createUser);  
 
 router.route('/update').patch(userMiddleware,updateUser)
-
 router.route('/user')
   .get(userMiddleware, user);  
 

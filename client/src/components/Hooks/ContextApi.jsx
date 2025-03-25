@@ -4,7 +4,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUserData] = useState("");
- 
+  
  
 
 // DARK MODE
@@ -26,7 +26,7 @@ useEffect(() => {
   const userAuthentication = async () => {
     if (!token) return;
     try {
-      const response = await fetch("http://localhost:8080/api/user", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/user`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -39,10 +39,10 @@ useEffect(() => {
         console.error("Token is invalid or expired. Logging out...");
         LogoutUser();
       } else {
-        console.error("Failed to authenticate user");
+        // console.error("Failed to authenticate user");
       }
     } catch (error) {
-      console.error("Error during user authentication:", error);
+      // console.error("Error during user authentication:", error);
     }
   };
   useEffect(() => {
@@ -64,7 +64,7 @@ useEffect(() => {
   const getAllBooking = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/admin/total-bookings",
+        `${import.meta.env.VITE_BASE_URL}/api/admin/total-bookings`,
         {
           method: "GET",
           headers: {
@@ -75,7 +75,8 @@ useEffect(() => {
       const data = await response.json();
       setBooking(data);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      // console.error("Error fetching users:", error);
+      
     }
   };
         
