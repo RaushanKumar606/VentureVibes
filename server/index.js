@@ -24,9 +24,8 @@ require('dotenv').config();
 const corsOption = 
 { 
   origin: ["https://stately-sfogliatella-0dd300.netlify.app",
-     "http://localhost:5173"
-    ],
-   methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
+    "http://localhost:5173"
+   ],   methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
     credentials: true 
   };
 
