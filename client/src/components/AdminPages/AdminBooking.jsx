@@ -6,7 +6,7 @@ const AdminBooking = () => {
   const { token } = useAuth();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
- 
+
   const getBooking = async () => {
     try {
       const response = await fetch(
@@ -30,7 +30,6 @@ const AdminBooking = () => {
     getBooking();
   }, []);
 
-
   // const filteredBookings = bookings.filter((booking) => {
   //   const matchesSearch =
   //     booking.user?.name?.toLowerCase().includes(search.toLowerCase()) ||
@@ -40,10 +39,6 @@ const AdminBooking = () => {
 
   //   return matchesSearch && matchesFilter;
   // });
-
-
-
-
 
   const formatData = (isoData) => {
     return new Date(isoData).toLocaleString("en-US", {
@@ -71,14 +66,17 @@ const AdminBooking = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <select className="p-2 border rounded" value={filter} onChange={(e) => setFilter(e.target.value)}>
+        <select
+          className="p-2 border rounded"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
           <option value="All">All</option>
           <option value="Hotel">Hotel</option>
           <option value="Flight">Flight</option>
           <option value="Bus">Bus</option>
         </select>
       </div>
-
 
       {/* Bookings Table */}
       <table className="w-full border-collapse border border-gray-300">
@@ -88,56 +86,74 @@ const AdminBooking = () => {
             <th className="border p-2">Type</th>
             <th className="border p-2">User Name</th>
             <th className="border p-2">Date</th>
+            {/* <th className="border p-2">Location</th> */}
             <th className="border p-2">From</th>
             <th className="border p-2">To</th>
+            <th className="border p-2">Location</th>
             <th className="border p-2">Status</th>
             <th className="border p-2">Actions</th>
           </tr>
         </thead>
         <tbody>
-  {bookings && bookings.length > 0 ? (
-    bookings.map((booking) => (
-      <tr key={booking._id} className="text-center">
-        <td className="border p-2">{booking._id}</td>
-        <td className="border p-2">{booking.bookingType}</td>
-        <td className="border p-2">{booking.user?.name || "N/A"}</td>
-        <td className="border p-2">{formatData(booking.updatedAt)}</td>
-        <td className="border p-2">{booking.from || "N/A"}</td>
-        <td className="border p-2">{booking.to || "N/A"}</td>
-        <td
-          className={`border p-2 font-bold ${
-            booking.status === "Confirmed"
-              ? "text-green-500"
-              : booking.status === "Pending"
-              ? "text-yellow-500"
-              : "text-red-500"
-          }`}
-        >
-          {booking.status}
-        </td>
-        <td className="border p-2 flex justify-center space-x-2">
-          <select className="border p-1 rounded">
-            <option value="Confirmed">Confirmed</option>
-            <option value="Pending">Pending</option>
-            <option value="Canceled">Canceled</option>
-          </select>
-          <button className="bg-red-500 text-white px-3 py-1 rounded">
-            Delete
-          </button>
-        </td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan="8" className="text-center p-4">
-        No bookings available.
-      </td>
-    </tr>
-  )}
-</tbody>
+          {bookings && bookings.length > 0 ? (
+            bookings.map((booking) => (
+              <tr key={booking._id} className="text-center">
+                <td className="border p-2">{booking._id}</td>
+                <td className="border p-2">{booking.bookingType}</td>
+                <td className="border p-2">{booking.user?.name || "N/A"}</td>
+                <td className="border p-2">{formatData(booking.updatedAt)}</td>
 
+                <td className="border p-2">
+                  {booking.bookingType === "Bus"
+                    ? booking.bus?.departureLocation || "N/A"
+                    : booking.bookingType === "Flight"
+                    ? booking.flight?.from || "N/A"
+                    : booking.bookingType === "Hotel"
+                    }
+                </td>
+                <td className="border p-2">
+                  {booking.bookingType === "Bus"
+                    ? booking.bus?.arrivalLocation || "N/A"
+                    : booking.bookingType === "Flight"
+                    ? booking.flight?.to || "N/A"
+                    : booking.bookingType === "Hotel"
+                    }
+                </td>
+                <td className="border p-2">
+            {booking.bookingType === "Hotel" ? booking.hotel?.location || "N/A" : "-"}
+          </td>
+                <td
+                  className={`border p-2 font-bold ${
+                    booking.status === "Confirmed"
+                      ? "text-green-500"
+                      : booking.status === "Pending"
+                      ? "text-yellow-500"
+                      : "text-red-500"
+                  }`}
+                >
+                  {booking.status}
+                </td>
+                <td className="border p-2 flex justify-center space-x-2">
+                  <select className="border p-1 rounded">
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Canceled">Canceled</option>
+                  </select>
+                  <button className="bg-red-500 text-white px-3 py-1 rounded">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="8" className="text-center p-4">
+                No bookings available.
+              </td>
+            </tr>
+          )}
+        </tbody>
       </table>
-    
     </div>
   );
 };

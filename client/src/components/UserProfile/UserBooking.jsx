@@ -73,43 +73,67 @@ const UserBooking = () => {
         </select>
       </div> */}
       <table className="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border p-2">Booking ID</th>
-            <th className="border p-2">Type</th>
-            <th className="border p-2">Name</th>
-            <th className="border p-2">Date</th>
-            <th className="border p-2">From</th>
-            <th className="border p-2">To</th>
-            <th className="border p-2">Status</th>
-            <th className="border p-2">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {userBook.map((booking) => (
-            <tr key={booking._id} className="text-center">
-              <td className="border p-2">{booking._id}</td>
-              <td className="border p-2">{booking.bookingType}</td>
-              <td className="border p-2">{booking.user.name || "N/A"}</td>
-              <td className="border p-2">{formatData(booking.updatedAt)}</td>
-              <td className="border p-2">{booking.from || "N/A"}</td>
-              <td className="border p-2">{booking.to || "N/A"}</td>
-              <td className="border p-2">{booking.status}</td>
+  <thead>
+    <tr className="bg-gray-200">
+      <th className="border p-2">Booking ID</th>
+      <th className="border p-2">Type</th>
+      <th className="border p-2">Name</th>
+      <th className="border p-2">Date</th>
+      <th className="border p-2">From</th>
+      <th className="border p-2">To</th>
+      <th className="border p-2">Location</th> {/* New Column for Hotel Location */}
+      <th className="border p-2">Status</th>
+      <th className="border p-2">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {userBook.map((booking) => (
+      <tr key={booking._id} className="text-center">
+        <td className="border p-2">{booking._id}</td>
+        <td className="border p-2">{booking.bookingType}</td>
+        <td className="border p-2">{booking.user.name || "N/A"}</td>
+        <td className="border p-2">{formatData(booking.updatedAt)}</td>
 
-              <td className="border p-2">
-                <button className="bg-blue-500 text-white px-3 py-1 rounded mr-2">
-                  View
-                </button>
-                {booking.paymentStatus !== "Canceled" && (
-                  <button className="bg-red-500 text-white px-3 py-1 rounded">
-                    Cancel
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        {/* From Column */}
+        <td className="border p-2">
+          {booking.bookingType === "Bus"
+            ? booking.bus?.departureLocation || "N/A"
+            : booking.bookingType === "Flight"
+            ? booking.flight?.from || "N/A"
+            : "N/A"}
+        </td>
+
+        {/* To Column */}
+        <td className="border p-2">
+          {booking.bookingType === "Bus"
+            ? booking.bus?.arrivalLocation || "N/A"
+            : booking.bookingType === "Flight"
+            ? booking.flight?.to || "N/A"
+            : "N/A"}
+        </td>
+
+        {/* Location Column for Hotel */}
+        <td className="border p-2">
+          {booking.bookingType === "Hotel" ? booking.hotel?.location || "N/A" : "-"}
+        </td>
+
+        <td className="border p-2">{booking.status}</td>
+
+        <td className="border p-2">
+          <button className="bg-blue-500 text-white px-3 py-1 rounded mr-2">
+            View
+          </button>
+          {booking.paymentStatus !== "Canceled" && (
+            <button className="bg-red-500 text-white px-3 py-1 rounded">
+              Cancel
+            </button>
+          )}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
     </div>
   );
 };
