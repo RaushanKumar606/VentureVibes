@@ -88,7 +88,7 @@ const UserBooking = () => {
   </thead>
   <tbody>
     {userBook.map((booking) => (
-      <tr key={booking._id} className="text-center">
+      <tr key={booking._id} className="text-center text-white">
         <td className="border p-2">{booking._id}</td>
         <td className="border p-2">{booking.bookingType}</td>
         <td className="border p-2">{booking.user.name || "N/A"}</td>

@@ -31,7 +31,7 @@ function PaymentPage() {
     e.preventDefault();
     setLoading(true);
     try {
-        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/bookings/create-payment-intent`, {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/api/bookings/create-payment-intent`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
