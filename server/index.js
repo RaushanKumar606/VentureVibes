@@ -18,6 +18,7 @@ const Hotel = require('./routers/hotel.router');
 const Bus = require('./routers/bus.router');
 const Train = require('./routers/train.router');
 const bookingRoutes =require( "./routers/booking.router");
+const  Chatbot = require('./routers/chatbot');
 
 require('dotenv').config();
 
@@ -48,6 +49,7 @@ app.use('/api',Bus)
 app.use('/api',Train)
 app.use("/api/bookings", bookingRoutes);
 app.use('api/',review)
+app.use('/api',Chatbot)
  app.get('/',(req,res)=>{
   res.send({
     activeStatus:true,

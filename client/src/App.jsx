@@ -48,11 +48,13 @@ import PostTour from './components/Tours/PostTour';
 import BusSingle from './components/Booking/Bus/BusSingle';
 import FlightDetails from './components/Booking/Flight/FlightDetails';
 import PaymentPage from './components/Pages/PaymentPage';
+import Chatbot from './components/ChatBot/ChatBot';
 function App() {
  
   return (
     <BrowserRouter>
     <Navbar/>
+    <Chatbot/>
        <Routes>
       
         <Route path="/" element={<HomePages/>} />
