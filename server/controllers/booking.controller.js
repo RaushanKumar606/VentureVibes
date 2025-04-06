@@ -111,6 +111,8 @@ const createPaymentIntent = async (req, res) => {
   });
   try {
     const { amount, currency, receipt } = req.body;
+    console.log(req.body)
+    
 
     if (!amount || !currency || !receipt) {
       return res.status(400).json({ message: "Amount, currency, and receipt are required" });
@@ -122,11 +124,10 @@ const createPaymentIntent = async (req, res) => {
       receipt:`receipt_${Date.now()}`
       
     };
-
     const order = await razorpay.orders.create(options);
     res.status(200).json({ success: true, order });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to create payment order", error: error.message });
+    res.status(500).json({ success: false, message: "Failed to  payment order", error: error.message });
   }
 };
 

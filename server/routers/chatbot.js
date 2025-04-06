@@ -1,9 +1,10 @@
-const express = require('express')
-const getChatbotResponse = require('../controllers/Chatbot.js')
+// const express = require('express')
+// const getChatbotResponse = require('../controllers/Chatbot.js')
 
 
-const router = express.Router();
+// const router = express.Router();
 
-router.post("/chat", getChatbotResponse);
+// router.post("/chat", getChatbotResponse);
 
-export default router;
+
+// module.exports = router;

@@ -46,7 +46,7 @@ function PaymentPage() {
 
         const data = await res.json();
         if (!data.success) {
-            toast.error("Failed to create payment order");
+            toast.error(data.message);
             setLoading(false);
             return;
         }
