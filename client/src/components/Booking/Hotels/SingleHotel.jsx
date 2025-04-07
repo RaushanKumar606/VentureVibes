@@ -7,7 +7,10 @@ function SingleHotel() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [expandedDays, setExpandedDays] = useState({}); 
+  const [newReview, setNewReview] = useState("");
+const [newRating, setNewRating] = useState();
+const [submitting, setSubmitting] = useState(false);
+
   const{token}= useAuth();
   const navigate = useNavigate();
 
@@ -47,16 +50,51 @@ function SingleHotel() {
   
     fetchData();
   }, [id]);
+
+
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    if (!newReview || !newRating) return alert("Please fill all fields");
+  
+    setSubmitting(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/create-review`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          reviews: newReview,
+          rating: newRating,
+          modelType: "hotel",
+          produce_Id: data._Id
+        })
+      });
+  
+      const result = await response.json();
+      if (response.ok) {
+        setData(prev => ({
+          ...prev,
+          reviews: [...prev.reviews, result.review]
+        }));
+        setNewReview("");
+        setNewRating(0);
+      } else {
+        alert(result.message || "Failed to add review");
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+  
+
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-
-  // Function to toggle the collapse state
-  const toggleDay = (day) => {
-    setExpandedDays((prev) => ({
-      ...prev,
-      [day]: !prev[day],
-    }));
-  };
 
   return (
     <>
@@ -115,166 +153,62 @@ function SingleHotel() {
         </div>
       </div>
 
-      {/* Itinerary Section */}
-      <div className="max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg flex flex-col md:flex-row gap-8 mt-10">
-        <div className="md:w-2/3">
-          <div className="mt-4 space-y-6">
-            {/* Day 1 */}
-            <div className="border-l-4 border-orange-500 pl-6">
-              <div
-                className="flex justify-between items-center cursor-pointer"
-                onClick={() => toggleDay("day1")}
-              >
-                <h3 className="text-orange-600 font-bold">Day 1</h3>
-                <span className="text-orange-600">
-                  {expandedDays["day1"] ? "▲" : "▼"}
-                </span>
-              </div>
-              {expandedDays["day1"] && (
-                <>
-                  <p className="font-semibold text-gray-700">
-                    Delhi - Haridwar - Rajaji National Park
-                  </p>
-                 
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Arrival Transfer
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Hotel Stay
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Lunch
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Dinner
-                    </span>
-                  </div>
-                  <p className="">
-                    Morning drive to haridwar, and check into wildlife resort
-                    near Rajaji National Park. "Rajaji National park" is spread
-                    over an area of 820.42 sq. km. in three Districts -
-                    Dehradun, Haridwar & Pauri Garhwal of Uttarakhand. it has
-                    got the largest area representing Shivalik Ecosystem. Imp
-                    animals one can locate in Rajaji National Park are Tiger,
-                    Leopard, Himalayan Bear, Chital, hog deer, barking deer,
-                    Sambar deer, wild boar, antelopes such as the Nilgai, Goral,
-                    Jackal, Hyena, Jungle Cat, Leopard Cat, Civets, Himalayan
-                    Yellow-Throated Marten, Sloth Bears, Pythons, King Cobra,
-                    Common Krait, Indian Cobra and the Monitor Lizard. After
-                    lunch we will take you for a safari into the national park.
-                    Overnight stay at wildlife resort
-                  </p>
-                </>
-              )}
-            </div>
-
-            {/* Day 2 */}
-            <div className="border-l-4 border-orange-500 pl-6">
-              <div
-                className="flex justify-between items-center cursor-pointer"
-                onClick={() => toggleDay("day2")}
-              >
-                <h3 className="text-orange-600 font-bold">Day 2</h3>
-                <span className="text-orange-600">
-                  {expandedDays["day2"] ? "▲" : "▼"}
-                </span>
-              </div>
-              {expandedDays["day2"] && (
-                <>
-                  <p className="font-semibold text-gray-700">
-                    Rajaji National Park
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Breakfast
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Sightseeing Tour
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Hotel Stay
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Dinner
-                    </span>
-                  </div>
-                  <p className="">
-                    Morning drive to haridwar, and check into wildlife resort
-                    near Rajaji National Park. "Rajaji National park" is spread
-                    over an area of 820.42 sq. km. in three Districts -
-                    Dehradun, Haridwar & Pauri Garhwal of Uttarakhand. it has
-                    got the largest area representing Shivalik Ecosystem. Imp
-                    animals one can locate in Rajaji National Park are Tiger,
-                    Leopard, Himalayan Bear, Chital, hog deer, barking deer,
-                    Sambar deer, wild boar, antelopes such as the Nilgai, Goral,
-                    Jackal, Hyena, Jungle Cat, Leopard Cat, Civets, Himalayan
-                    Yellow-Throated Marten, Sloth Bears, Pythons, King Cobra,
-                    Common Krait, Indian Cobra and the Monitor Lizard. After
-                    lunch we will take you for a safari into the national park.
-                    Overnight stay at wildlife resort
-                  </p>
-                </>
-              )}
-            </div>
-
-            {/* Day 3 */}
-            <div className="border-l-4 border-orange-500 pl-6">
-              <div
-                className="flex justify-between items-center cursor-pointer"
-                onClick={() => toggleDay("day3")}
-              >
-                <h3 className="text-orange-600 font-bold">Day 3</h3>
-                <span className="text-orange-600">
-                  {expandedDays["day3"] ? "▲" : "▼"}
-                </span>
-              </div>
-              {expandedDays["day3"] && (
-                <>
-                  <p className="font-semibold text-gray-700">
-                    Rajaji National Park - Delhi
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Breakfast
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Departure Transfer
-                    </span>
-                  </div>
-                  <p className="">
-                    Morning drive to haridwar, and check into wildlife resort
-                    near Rajaji National Park. "Rajaji National park" is spread
-                    over an area of 820.42 sq. km. in three Districts -
-                    Dehradun, Haridwar & Pauri Garhwal of Uttarakhand. it has
-                    got the largest area representing Shivalik Ecosystem. Imp
-                    animals one can locate in Rajaji National Park are Tiger,
-                    Leopard, Himalayan Bear, Chital, hog deer, barking deer,
-                    Sambar deer, wild boar, antelopes such as the Nilgai, Goral,
-                    Jackal, Hyena, Jungle Cat, Leopard Cat, Civets, Himalayan
-                    Yellow-Throated Marten, Sloth Bears, Pythons, King Cobra,
-                    Common Krait, Indian Cobra and the Monitor Lizard. After
-                    lunch we will take you for a safari into the national park.
-                    Overnight stay at wildlife resort
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
+      <div className="mt-10">
+  <h3 className="text-xl font-semibold text-gray-700 mb-4">User Reviews</h3>
+  {data.reviews && data.reviews.length > 0 ? (
+    <div className="space-y-4">
+      {data.reviews.map((review, index) => (
+        <div key={index} className="bg-gray-100 p-4 rounded-lg shadow">
+          <p className="text-gray-800 font-medium">⭐ {review.rating}5</p>
+          <p className="text-gray-700">{review.reviews}</p>
+          <p className="text-sm text-gray-500 mt-1">
+            — {review.author?.name || "Anonymous"}
+          </p>
         </div>
+      ))}
+    </div>
+  ) : (
+    <p className="text-gray-500">No reviews yet.</p>
+  )}
+</div>
 
-        {/* Inquiry Form */}
-        <div className="md:w-1/3 bg-gray-100 p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-bold text-gray-800">
-            📍 Fill Enquiry Form Below
-          </h2>
-          <input
-            type="text"
-            placeholder="Your Full Name"
-            className="w-full px-4 py-2 border rounded-md mt-4"
-          />
-        </div>
-      </div>
+
+<div className="mt-10">
+  <h3 className="text-xl font-semibold text-gray-700 mb-2">Leave a Review</h3>
+  <form onSubmit={handleSubmitReview} className="space-y-4 bg-gray-100 p-4 rounded-lg shadow">
+    <div>
+      <label className="block text-gray-700 font-medium mb-1">Rating (1 to 5):</label>
+      <input
+        type="number"
+        min="1"
+        max="5"
+        value={newRating}
+        onChange={(e) => setNewRating(Number(e.target.value))}
+        className="w-full border p-2 rounded"
+      />
+    </div>
+    <div>
+      <label className="block text-gray-700 font-medium mb-1">Your Review:</label>
+      <textarea
+        value={newReview}
+        onChange={(e) => setNewReview(e.target.value)}
+        className="w-full border p-2 rounded"
+        rows="4"
+      ></textarea>
+    </div>
+    <button
+      type="submit"
+      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+      disabled={submitting}
+    >
+      {submitting ? "Submitting..." : "Submit Review"}
+    </button>
+  </form>
+</div>
+
+
+    
+     
     </>
   );
 }

@@ -41,8 +41,6 @@ const allReview = async (req, res) => {
 // **---------------------**
 const createReview = async (req, res) => {
     try {
-        console.log("Request received:", req.body);
-        console.log("User:", req.user);
 
         const { reviews, rating, modelType, produce_Id } = req.body;
         if (!reviews || !rating || !modelType || !produce_Id) {

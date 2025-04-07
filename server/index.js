@@ -48,7 +48,7 @@ app.use('/api',Hotel)
 app.use('/api',Bus)
 app.use('/api',Train)
 app.use("/api/bookings", bookingRoutes);
-app.use('api/',review)
+app.use('/api',review)
 // app.use('/api',Chatbot)
  app.get('/',(req,res)=>{
   res.send({
