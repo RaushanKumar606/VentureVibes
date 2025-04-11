@@ -45,7 +45,11 @@ function SingleTour() {
       <div className="max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg flex flex-col md:flex-row mt-10">
         <div className="md:w-1/2">
           <img
-          src={data.images && data.images.length > 0 ? data.images[0] : "default-image.jpg"}
+            src={
+              data.images && data.images.length > 0
+                ? data.images[0]
+                : "default-image.jpg"
+            }
             alt={data?.title || "Tour Image"}
             className="w-full h-auto rounded-lg mt-10"
           />
@@ -53,7 +57,20 @@ function SingleTour() {
 
         <div className="md:w-1/2 p-6">
           <h2 className="text-3xl font-bold text-gray-800">{data?.title}</h2>
-          <p className="text-red-500 font-semibold my-2">2 Nights - 3 Days</p>
+          <p className="text-red-500 font-semibold my-2">
+            {data.duration?.nights} Nights - {data.duration?.days} Days
+          </p>
+          <p className="text-sm text-gray-600 mb-5">
+            Price:{" "}
+            <span className="font-medium text-black">
+              ${data?.price?.toLocaleString()}
+            </span>
+          </p>
+
+          <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded shadow">
+            Book Now
+          </button>
+
           <div className="mt-4">
             <h3 className="text-xl font-semibold text-gray-700">Inclusions</h3>
             <div className="flex items-center gap-4 mt-2">
@@ -91,165 +108,48 @@ function SingleTour() {
         </div>
       </div>
 
+      {/* Destination name  */}
+      <div className="flex flex-wrap gap-2 mt-4">
+        {data.destinations.map((place, idx) => (
+          <span
+            key={idx}
+            className="px-3 py-1 border rounded-full text-blue-600 text-sm bg-blue-50"
+          >
+            📍 {place}
+          </span>
+        ))}
+      </div>
+
       {/* Itinerary Section */}
-      <div className="max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg flex flex-col md:flex-row gap-8 mt-10">
-        <div className="md:w-2/3">
-          <div className="mt-4 space-y-6">
-            {/* Day 1 */}
-            <div className="border-l-4 border-orange-500 pl-6">
+      <div className="mt-4 space-y-6">
+        {data.dayWisePlan.map((day, index) => {
+          const dayKey = `day${index + 1}`;
+          return (
+            <div
+              key={day._id || index}
+              className="border-l-4 border-orange-500 pl-6"
+            >
               <div
                 className="flex justify-between items-center cursor-pointer"
-                onClick={() => toggleDay("day1")}
+                onClick={() => toggleDay(dayKey)}
               >
-                <h3 className="text-orange-600 font-bold">Day 1</h3>
+                <h3 className="text-orange-600 font-bold">Day {day.day}</h3>
                 <span className="text-orange-600">
-                  {expandedDays["day1"] ? "▲" : "▼"}
+                  {expandedDays[dayKey] ? "▲" : "▼"}
                 </span>
               </div>
-              {expandedDays["day1"] && (
+              {expandedDays[dayKey] && (
                 <>
-                  <p className="font-semibold text-gray-700">
-                    Delhi - Haridwar - Rajaji National Park
-                  </p>
+                  <p className="font-semibold text-gray-700">   <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
+                      Activity
+                    </span>{day.activity}</p>
                  
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Arrival Transfer
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Hotel Stay
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Lunch
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Dinner
-                    </span>
-                  </div>
-                  <p className="">
-                    Morning drive to haridwar, and check into wildlife resort
-                    near Rajaji National Park. "Rajaji National park" is spread
-                    over an area of 820.42 sq. km. in three Districts -
-                    Dehradun, Haridwar & Pauri Garhwal of Uttarakhand. it has
-                    got the largest area representing Shivalik Ecosystem. Imp
-                    animals one can locate in Rajaji National Park are Tiger,
-                    Leopard, Himalayan Bear, Chital, hog deer, barking deer,
-                    Sambar deer, wild boar, antelopes such as the Nilgai, Goral,
-                    Jackal, Hyena, Jungle Cat, Leopard Cat, Civets, Himalayan
-                    Yellow-Throated Marten, Sloth Bears, Pythons, King Cobra,
-                    Common Krait, Indian Cobra and the Monitor Lizard. After
-                    lunch we will take you for a safari into the national park.
-                    Overnight stay at wildlife resort
-                  </p>
+                
                 </>
               )}
             </div>
-
-            {/* Day 2 */}
-            <div className="border-l-4 border-orange-500 pl-6">
-              <div
-                className="flex justify-between items-center cursor-pointer"
-                onClick={() => toggleDay("day2")}
-              >
-                <h3 className="text-orange-600 font-bold">Day 2</h3>
-                <span className="text-orange-600">
-                  {expandedDays["day2"] ? "▲" : "▼"}
-                </span>
-              </div>
-              {expandedDays["day2"] && (
-                <>
-                  <p className="font-semibold text-gray-700">
-                    Rajaji National Park
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Breakfast
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Sightseeing Tour
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Hotel Stay
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Dinner
-                    </span>
-                  </div>
-                  <p className="">
-                    Morning drive to haridwar, and check into wildlife resort
-                    near Rajaji National Park. "Rajaji National park" is spread
-                    over an area of 820.42 sq. km. in three Districts -
-                    Dehradun, Haridwar & Pauri Garhwal of Uttarakhand. it has
-                    got the largest area representing Shivalik Ecosystem. Imp
-                    animals one can locate in Rajaji National Park are Tiger,
-                    Leopard, Himalayan Bear, Chital, hog deer, barking deer,
-                    Sambar deer, wild boar, antelopes such as the Nilgai, Goral,
-                    Jackal, Hyena, Jungle Cat, Leopard Cat, Civets, Himalayan
-                    Yellow-Throated Marten, Sloth Bears, Pythons, King Cobra,
-                    Common Krait, Indian Cobra and the Monitor Lizard. After
-                    lunch we will take you for a safari into the national park.
-                    Overnight stay at wildlife resort
-                  </p>
-                </>
-              )}
-            </div>
-
-            {/* Day 3 */}
-            <div className="border-l-4 border-orange-500 pl-6">
-              <div
-                className="flex justify-between items-center cursor-pointer"
-                onClick={() => toggleDay("day3")}
-              >
-                <h3 className="text-orange-600 font-bold">Day 3</h3>
-                <span className="text-orange-600">
-                  {expandedDays["day3"] ? "▲" : "▼"}
-                </span>
-              </div>
-              {expandedDays["day3"] && (
-                <>
-                  <p className="font-semibold text-gray-700">
-                    Rajaji National Park - Delhi
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Breakfast
-                    </span>
-                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
-                      Departure Transfer
-                    </span>
-                  </div>
-                  <p className="">
-                    Morning drive to haridwar, and check into wildlife resort
-                    near Rajaji National Park. "Rajaji National park" is spread
-                    over an area of 820.42 sq. km. in three Districts -
-                    Dehradun, Haridwar & Pauri Garhwal of Uttarakhand. it has
-                    got the largest area representing Shivalik Ecosystem. Imp
-                    animals one can locate in Rajaji National Park are Tiger,
-                    Leopard, Himalayan Bear, Chital, hog deer, barking deer,
-                    Sambar deer, wild boar, antelopes such as the Nilgai, Goral,
-                    Jackal, Hyena, Jungle Cat, Leopard Cat, Civets, Himalayan
-                    Yellow-Throated Marten, Sloth Bears, Pythons, King Cobra,
-                    Common Krait, Indian Cobra and the Monitor Lizard. After
-                    lunch we will take you for a safari into the national park.
-                    Overnight stay at wildlife resort
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Inquiry Form */}
-        <div className="md:w-1/3 bg-gray-100 p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-bold text-gray-800">
-            📍 Fill Enquiry Form Below
-          </h2>
-          <input
-            type="text"
-            placeholder="Your Full Name"
-            className="w-full px-4 py-2 border rounded-md mt-4"
-          />
-        </div>
+          );
+        })}
       </div>
     </>
   );

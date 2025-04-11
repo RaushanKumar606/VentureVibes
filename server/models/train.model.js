@@ -72,18 +72,13 @@ const trainSchema = new mongoose.Schema({
     enum: ["Scheduled", "Delayed", "Cancelled", "Completed"],
     default: "Scheduled",
   },
-  reviews: [
-        {
-          user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Review",
-          },
-          createdAt: {
-            type: Date,
-            default: Date.now,
-          },
-        },
-      ],
+ 
+   reviews: [
+     {
+       type: mongoose.Schema.Types.ObjectId, ref: "Review" ,
+       createdAt: { type: Date, default: Date.now }
+     }
+   ],
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

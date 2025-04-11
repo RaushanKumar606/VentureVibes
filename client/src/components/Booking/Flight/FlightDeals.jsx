@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../Hooks/ContextApi";
 
 const FlightDeals = () => {
   const [flightData, setFlightDeals] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
+ const {user} = useAuth()
   const getFlight = async () => {
     try {
       const response = await fetch(`http://localhost:8080/api/flight`, {
@@ -43,10 +44,16 @@ const FlightDeals = () => {
       )}
 
 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {flightData.map((bus) => {
-          const { _id, airline, image } = bus;
+        {flightData.map((flight) => {
+          const { _id, airline, image } = flight;
           return (
-            <Link to={`/air/${_id}`} key={_id} className="block">
+            <Link to={`/air/${_id}`} key={_id} 
+            state={{
+              product_Id: flight._id,
+              modelType: 'flight',
+             userId : user?.userData?._id || "null"
+            }}
+            className="block">
               <div className="max-w-sm mx-auto shadow-lg rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300">
                 <img src={image} alt={airline} className="w-full h-40 object-cover" />
                 <div className="p-4">

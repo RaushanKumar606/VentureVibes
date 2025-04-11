@@ -11,45 +11,98 @@ const Review = require('../models/reviews.model');
 // **---------------------**
 const allReview = async (req, res) => {
     try {
-        const tourReviews = await Tours.find().populate("reviews");
-        const hotelReviews = await Hotel.find().populate("reviews");
-        const busReviews = await Bus.find().populate("reviews");
-        const flightReviews = await Flight.find().populate("reviews");
-        const trainReviews = await Train.find().populate("reviews");
-
-        const allReviews = [
-            ...tourReviews.map(tour => tour.reviews).flat(),
-            ...hotelReviews.map(hotel => hotel.reviews).flat(),
-            ...busReviews.map(bus => bus.reviews).flat(),
-            ...flightReviews.map(flight => flight.reviews).flat(),
-            ...trainReviews.map(train => train.reviews).flat()
-        ];
-
-        if (allReviews.length === 0) {
-            return res.status(404).json({ message: "No reviews found" });
+        const { modelType } = req.query;
+    
+        const populateOptions = {
+          path: "reviews",
+          populate: {
+            path: "author",
+            select: "name _id image",
+          },
+        };
+    
+        const formatReviews = (items, type) =>
+          items.flatMap((item) =>
+            item.reviews.map((review) => ({
+              _id: review._id,
+              userId: review.author?._id,
+              userName: review.author?.name,
+              userImage: review.author?.image,
+              comment: review.comment,
+              rating: review.rating,
+              product_Id:review.product_Id,
+              source: type,
+            }))
+          );
+    
+        let allReviews = [];
+    
+        if (modelType) {
+          let Model;
+          switch (modelType.toLowerCase()) {
+            case "tour":
+              Model = Tours;
+              break;
+            case "hotel":
+              Model = Hotel;
+              break;
+            case "bus":
+              Model = Bus;
+              break;
+            case "flight":
+              Model = Flight;
+              break;
+            case "train":
+              Model = Train;
+              break;
+            default:
+              return res.status(400).json({ message: "Invalid model type" });
+          }
+    
+          const items = await Model.find().populate(populateOptions);
+          allReviews = formatReviews(items, modelType);
+        } else {
+          const tourReviews = await Tours.find().populate(populateOptions);
+          const hotelReviews = await Hotel.find().populate(populateOptions);
+          const busReviews = await Bus.find().populate(populateOptions);
+          const flightReviews = await Flight.find().populate(populateOptions);
+          const trainReviews = await Train.find().populate(populateOptions);
+    
+          allReviews = [
+            ...formatReviews(tourReviews, "Tour"),
+            ...formatReviews(hotelReviews, "Hotel"),
+            ...formatReviews(busReviews, "Bus"),
+            ...formatReviews(flightReviews, "Flight"),
+            ...formatReviews(trainReviews, "Train"),
+          ];
         }
-
-        res.status(200).json(allReviews);
-    } catch (error) {
+    
+        if (!allReviews.length) {
+          return res.status(404).json({ message: "No reviews found" });
+        }
+    
+        res.status(200).json({ message: "All reviews", allReviews });
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
         res.status(500).json({ message: "Server error", error: error.message });
-    }
-};
+      }
+    };
 
 
 // **---------------------**
 // ** Create Review **
 // **---------------------**
 const createReview = async (req, res) => {
-    try {
-
-        const { reviews, rating, modelType, produce_Id } = req.body;
-        if (!reviews || !rating || !modelType || !produce_Id) {
-            return res.status(400).json({ message: 'All fields are required' });
-        }
+  try {
+    const { comment, rating, product_Id, modelType, user_id } = req.body;
+    if (!comment || !rating || !product_Id || !modelType || !user_id) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
         const newReview = new Review({
-            reviews,
+            comment,
             rating,
-            author: req.user ? req.user._id : null,
+            author: user_id ,
+            product_Id:product_Id
         });
 
         await newReview.save();
@@ -64,15 +117,21 @@ const createReview = async (req, res) => {
             default: return res.status(400).json({ message: 'Invalid model type' });
         }
 
-        await Model.findByIdAndUpdate(produce_Id, { $push: { reviews: newReview._id } });
-
-        res.status(201).json({ message: 'Review added successfully', review: newReview });
-    } catch (error) {
-        console.error("Error in createReview:", error);
-        res.status(500).json({ message: 'Server error', error: error.message });
-    }
+        await Model.findByIdAndUpdate(
+          product_Id,
+          { $push: { reviews: newReview._id } },
+          { new: true }
+        );
+      
+    res.status(201).json({
+      message: "Review added successfully",
+      review: newReview,
+    });
+  } catch (error) {
+    console.error("Error in createReview:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 };
-
 
 
 // **---------------------**

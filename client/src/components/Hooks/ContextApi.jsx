@@ -1,37 +1,38 @@
-
 import { createContext, useContext, useEffect, useState } from "react";
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUserData] = useState("");
-  
- 
 
-// DARK MODE
-const [darkMode, setDarkMode] = useState(
-  localStorage.getItem("darkMode") === "true"
-);
+  // DARK MODE
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("darkMode") === "true"
+  );
 
-useEffect(() => {
-  localStorage.setItem("darkMode", darkMode);
-  if (darkMode) {
-    document.body.classList.toggle("dark", darkMode);
-  }
-}, [darkMode]);
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkMode);
+    if (darkMode) {
+      document.body.classList.toggle("dark", darkMode);
+    }
+  }, [darkMode]);
 
   const storeTokenInLS = (serverToken) => {
     localStorage.setItem("token", serverToken);
     setToken(serverToken);
   };
+  //user data
   const userAuthentication = async () => {
     if (!token) return;
     try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/user`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/user`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.ok) {
         const userData = await response.json();
         setUserData(userData);
@@ -45,19 +46,32 @@ useEffect(() => {
       // console.error("Error during user authentication:", error);
     }
   };
-  useEffect(() => {
-    if (token) {
-      userAuthentication();
+
+  // USER REVIEW
+  const [userReviewData, setUserReviewData] = useState();
+  const userReview = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/review`,
+        {
+          method: "GET",
+        }
+      );
+      if (response.ok) {
+        const userData = await response.json();
+        setUserReviewData(userData);
+      }
+    } catch (error) {
+      alert(error);
     }
-  }, [token]); 
+  };
 
   const isLoggedIn = !!token;
   const LogoutUser = () => {
     localStorage.removeItem("token");
     setToken(null);
-    setUserData(null); 
+    setUserData(null);
   };
- 
 
   // ALL BOOKING DETIELS FETCH ED FROM API
   const [allBooking, setBooking] = useState({ booking: 0 });
@@ -76,13 +90,15 @@ useEffect(() => {
       setBooking(data);
     } catch (error) {
       // console.error("Error fetching users:", error);
-      
     }
   };
-        
+
   useEffect(() => {
-    getAllBooking()
-  },[])
+    if (token) {
+      userAuthentication();
+    }
+    getAllBooking(), userReview();
+  }, [token]);
   return (
     <AuthContext.Provider
       value={{
@@ -90,9 +106,11 @@ useEffect(() => {
         user,
         token,
         LogoutUser,
-        isLoggedIn, 
+        isLoggedIn,
         allBooking,
-        darkMode, setDarkMode
+        darkMode,
+        setDarkMode,
+        userReviewData,
       }}
     >
       {children}

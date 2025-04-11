@@ -50,14 +50,8 @@ travellerType: {
 },
    reviews: [
       {
-        user: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Review",
-        },
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
       },
     ],
 owner: {

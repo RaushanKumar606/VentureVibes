@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../Hooks/ContextApi";
 
 function AllHotels() {
+  const {user} = useAuth()
   const [hotels, setHotels] = useState([]);
-
   const getHotel = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/hotels`, {
@@ -26,7 +27,12 @@ function AllHotels() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {hotels.map((item) => (
-          <Link to={`/hotel/${item._id}`} key={item._id} className="block">
+          <Link to={`/hotel/${item._id}`} key={item._id}  state={{
+            product_Id: item._id,
+            modelType: "hotel",
+            userId: user.userData._id,
+          }}
+           className="block">
             <div className="max-w-sm mx-auto shadow-lg rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300">
               <img
                 src={

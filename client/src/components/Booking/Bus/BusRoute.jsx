@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../Hooks/ContextApi";
 
 const BusRoute = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [busRouteData, setBusRouteData] = useState([]);
-
+const {user} =useAuth()
   const getBus = async () => {
     setLoading(true);
     setError(null);
@@ -39,7 +40,14 @@ const BusRoute = () => {
         {busRouteData.map((bus) => {
           const { _id, name, image } = bus;
           return (
-            <Link to={`/bus/${_id}`} key={_id} className="block">
+            <Link to={`/bus/${_id}`} key={_id} 
+            state={{
+              product_Id: bus._id,
+              modelType: 'bus',
+              userId: user.userData._id,
+            }}
+            className="block"
+            >
               <div className="max-w-sm mx-auto shadow-lg rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300">
                 <img src={image} alt={name} className="w-full h-40 object-cover" />
                 <div className="p-4">

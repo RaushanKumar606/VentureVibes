@@ -44,18 +44,13 @@ const toursSchema = new Schema({
           activity: { type: String, required: true }
         }
       ],
-    reviews: [
-        {
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Review",
-            },
-            createdAt: {
-                type: Date,
-                default: Date.now,
-            },
-        },
-    ],
+   
+     reviews: [
+       {
+         type: mongoose.Schema.Types.ObjectId, ref: "Review" ,
+    
+       }
+     ],
     owner: {
         type: Schema.Types.ObjectId,
         ref: "User",

@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 const reviewSchema = new mongoose.Schema(
     {
-        reviews:{
+        comment:{
             type:String,
             required: true,
         },
@@ -12,15 +12,16 @@ const reviewSchema = new mongoose.Schema(
             max: 5,
             required: true,
         },
+        product_Id: { type: mongoose.Schema.Types.ObjectId, required: true },
         createAt:{
             type: Date,
             default: () => Date.now()
         },
         author:{
             type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        // required: true ,
-        }
+           ref: "User",
+   
+           }
     }
 )
 const Review = mongoose.model("Review",reviewSchema)
