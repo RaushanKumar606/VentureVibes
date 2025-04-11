@@ -1,12 +1,73 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-
+import { useParams, useLocation } from "react-router-dom";
+import { useAuth } from "../Hooks/ContextApi";
 function SingleTour() {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [expandedDays, setExpandedDays] = useState({}); // State for collapsible sections
+  const [expandedDays, setExpandedDays] = useState({});
+  const [reviewData, setReviewData] = useState({
+    comment: "",
+    rating: "",
+  });
+  const location = useLocation();
+  const {
+    userId,
+    modelType,
+    product_Id,
+    token: tokenFromNav,
+  } = location.state || {};
+  const { token: tokenFromContext, userReviewData } = useAuth();
+  const [submitting, setSubmitting] = useState(false);
+  const token = tokenFromNav || tokenFromContext;
+
+  const tourReview = userReviewData?.allReviews?.filter(
+    ({ source, product_Id }) => source === "Tour" && product_Id === product_Id
+  );
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/create-review`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            rating: reviewData.rating,
+            comment: reviewData.comment,
+            modelType: modelType,
+            product_Id: product_Id,
+            user_id: userId,
+          }),
+        }
+      );
+
+      const result = await response.json();
+      if (response.ok) {
+        setReviewData(result);
+        alert("Review submitted successfully!");
+      } else {
+        alert(result.message || "Failed to add review");
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    setReviewData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   useEffect(() => {
     const apiUrl = `${import.meta.env.VITE_BASE_URL}/api/tours/${id}`;
@@ -27,7 +88,7 @@ function SingleTour() {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, product_Id, modelType, userId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -109,7 +170,7 @@ function SingleTour() {
       </div>
 
       {/* Destination name  */}
-      <div className="flex flex-wrap gap-2 mt-4">
+      <div className="flex flex-wrap gap-2  p-10">
         {data.destinations.map((place, idx) => (
           <span
             key={idx}
@@ -121,7 +182,7 @@ function SingleTour() {
       </div>
 
       {/* Itinerary Section */}
-      <div className="mt-4 space-y-6">
+      <div className="mt-5 p-10 space-y-6">
         {data.dayWisePlan.map((day, index) => {
           const dayKey = `day${index + 1}`;
           return (
@@ -140,16 +201,152 @@ function SingleTour() {
               </div>
               {expandedDays[dayKey] && (
                 <>
-                  <p className="font-semibold text-gray-700">   <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
+                  <p className="font-semibold text-gray-700">
+                    {" "}
+                    <span className="px-3 py-1 border rounded-full text-gray-600 text-sm">
                       Activity
-                    </span>{day.activity}</p>
-                 
-                
+                    </span>
+                    {day.activity}
+                  </p>
                 </>
               )}
             </div>
           );
         })}
+      </div>
+
+      {/* /User all review display  */}
+
+      <div className="div p-10 mt-5">
+        {tourReview?.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {tourReview.map((review, index) => (
+              <div key={index} className="p-4 shadow-md rounded bg-white">
+                <div className="flex items-center gap-3 mb-2">
+                  <img
+                    src={review.userImage}
+                    alt={review.userName}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <p className="text-gray-800 font-semibold">
+                    @{review.userName}
+                  </p>
+                </div>
+                <p className="text-yellow-500">
+                  {"⭐".repeat(Number(review.rating))}
+                </p>
+                <p className="text-gray-600">{review.comment}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* user post review */}
+      <div className="mt-5 p-10">
+        <h3 className="text-xl font-semibold text-gray-700 mb-2">
+          Leave a Review
+        </h3>
+
+        <form
+          onSubmit={handleSubmitReview}
+          className="space-y-4 bg-gray-100 p-4 rounded-lg shadow"
+        >
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Rating:
+            </label>
+
+            {/* Starability slot rating system */}
+            <fieldset className="starability-slot">
+              <input
+                type="radio"
+                id="rate1"
+                name="rating"
+                value="1"
+                checked={reviewData.rating === "1"}
+                onChange={handleChange}
+              />
+              <label htmlFor="rate1" title="Terrible">
+                1 star
+              </label>
+
+              <input
+                type="radio"
+                id="rate2"
+                name="rating"
+                value="2"
+                checked={reviewData.rating === "2"}
+                onChange={handleChange}
+              />
+              <label htmlFor="rate2" title="Not good">
+                2 stars
+              </label>
+
+              <input
+                type="radio"
+                id="rate3"
+                name="rating"
+                value="3"
+                checked={reviewData.rating === "3"}
+                onChange={handleChange}
+              />
+              <label htmlFor="rate3" title="Average">
+                3 stars
+              </label>
+
+              <input
+                type="radio"
+                id="rate4"
+                name="rating"
+                value="4"
+                checked={reviewData.rating === "4"}
+                onChange={handleChange}
+              />
+              <label htmlFor="rate4" title="Very good">
+                4 stars
+              </label>
+
+              <input
+                type="radio"
+                id="rate5"
+                name="rating"
+                value="5"
+                checked={reviewData.rating === "5"}
+                onChange={handleChange}
+              />
+              <label htmlFor="rate5" title="Amazing">
+                5 stars
+              </label>
+            </fieldset>
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              Your Review:
+            </label>
+            <textarea
+              name="comment"
+              value={reviewData.comment}
+              onChange={handleChange}
+              className="w-full border p-2 rounded"
+              rows="4"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            disabled={submitting}
+          >
+            {submitting ? "Submitting..." : "Submit Review"}
+          </button>
+        </form>
+      </div>
+  {/* Tour Location  */}
+      <div className=" p-10">
+      <h1>Where you&apos;ll be</h1>
+      {/* <div id="map" style=" width: 80vh; height: 600px"></div> */}
       </div>
     </>
   );

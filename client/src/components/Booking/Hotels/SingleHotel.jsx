@@ -18,10 +18,13 @@ function SingleHotel() {
     product_Id,
     token: tokenFromNav,
   } = location.state || {};
+
   const { token: tokenFromContext, userReviewData } = useAuth();
   const [submitting, setSubmitting] = useState(false);
   const token = tokenFromNav || tokenFromContext;
+
   const navigate = useNavigate();
+  
   const hotelReview = userReviewData?.allReviews?.filter(
     ({ source, product_Id }) => source === "Hotel" && product_Id === product_Id
   );

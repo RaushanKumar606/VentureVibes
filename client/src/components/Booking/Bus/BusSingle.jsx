@@ -1,4 +1,4 @@
-import { useParams, useNavigate ,useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../Hooks/ContextApi";
 const BusSingle = () => {
@@ -9,7 +9,7 @@ const BusSingle = () => {
   const [reviewData, setReviewData] = useState({
     comment: "",
     rating: "",
-    product_Id:"",
+    product_Id: "",
   });
   const { token: tokenFromContext, userReviewData } = useAuth();
   const location = useLocation();
@@ -83,7 +83,7 @@ const BusSingle = () => {
       );
 
       const result = await response.json();
-      console.log(result)
+      console.log(result);
       if (response.ok) {
         setReviewData(result);
         alert("Review submitted successfully!");
@@ -106,12 +106,12 @@ const BusSingle = () => {
     getById();
   }, [id]);
 
-    useEffect(() => {
-      if (!product_Id || !modelType || !userId) {
-        console.warn("Missing review data from location.state");
-        return;
-      }
-    }, [product_Id, modelType, userId]);
+  useEffect(() => {
+    if (!product_Id || !modelType || !userId) {
+      console.warn("Missing review data from location.state");
+      return;
+    }
+  }, [product_Id, modelType, userId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -164,28 +164,31 @@ const BusSingle = () => {
         </div>
       ))}
 
-
-  {/* /User all review display  */}
-  <div className="div">
-  {busReview?.length > 0 && (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {busReview.map((review, index) => (
-        <div key={index} className="p-4 shadow-md rounded bg-white">
-          <div className="flex items-center gap-3 mb-2">
-            <img
-              src={review.userImage}
-              alt={review.userName}
-              className="w-12 h-12 rounded-full object-cover"
-            />
-            <p className="text-gray-800 font-semibold">{review.userName}</p>
+      {/* /User all review display  */}
+      <div className="div">
+        {busReview?.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {busReview.map((review, index) => (
+              <div key={index} className="p-4 shadow-md rounded bg-white">
+                <div className="flex items-center gap-3 mb-2">
+                  <img
+                    src={review.userImage}
+                    alt={review.userName}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <p className="text-gray-800 font-semibold">
+                    {review.userName}
+                  </p>
+                </div>
+                <p className="text-yellow-500">
+                  {"⭐".repeat(Number(review.rating))}
+                </p>
+                <p className="text-gray-600">{review.comment}</p>
+              </div>
+            ))}
           </div>
-          <p className="text-yellow-500">⭐ {review.rating}</p>
-          <p className="text-gray-600">{review.comment}</p>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
+        )}
+      </div>
 
       <div className="mt-10">
         <h3 className="text-xl font-semibold text-gray-700 mb-2">
