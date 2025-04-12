@@ -22,10 +22,13 @@ function SingleTour() {
   const [submitting, setSubmitting] = useState(false);
   const token = tokenFromNav || tokenFromContext;
 
+  
+
   const tourReview = userReviewData?.allReviews?.filter(
     ({ source, product_Id }) => source === "Tour" && product_Id === product_Id
   );
 
+  
   const handleSubmitReview = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -236,6 +239,13 @@ function SingleTour() {
                   {"⭐".repeat(Number(review.rating))}
                 </p>
                 <p className="text-gray-600">{review.comment}</p>
+                <button
+      onClick={() => setShowAllComments((prev) => !prev)}
+      className="text-blue-600 hover:underline"
+    >
+ {showAllComments ? "Show less comments" : "Show more comments"}
+    </button>
+
               </div>
             ))}
           </div>
