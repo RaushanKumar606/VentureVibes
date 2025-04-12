@@ -239,12 +239,6 @@ function SingleTour() {
                   {"⭐".repeat(Number(review.rating))}
                 </p>
                 <p className="text-gray-600">{review.comment}</p>
-                <button
-      onClick={() => setShowAllComments((prev) => !prev)}
-      className="text-blue-600 hover:underline"
-    >
- {showAllComments ? "Show less comments" : "Show more comments"}
-    </button>
 
               </div>
             ))}
