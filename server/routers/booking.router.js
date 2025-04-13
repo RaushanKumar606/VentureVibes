@@ -8,6 +8,8 @@ router.route("/users/:userId").get( userMiddleware,bookings.getUserBooks);
 router.route("/cancel/:id").delete(userMiddleware, bookings.cancelBooking);
 router.route("/paymentStatus").put(userMiddleware, bookings.updatePaymentStatus);
 router.route("/create-payment-intent").post(userMiddleware,bookings.createPaymentIntent);
+router.route('/send-whatsapp').post(userMiddleware, bookings.sendWhatSms);
+
 
 
 

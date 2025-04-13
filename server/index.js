@@ -20,6 +20,7 @@ const Train = require('./routers/train.router');
 const bookingRoutes =require( "./routers/booking.router");
 // const  Chatbot = require('./routers/chatbot');
 
+
 require('dotenv').config();
 
 const corsOption = 

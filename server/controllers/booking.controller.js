@@ -6,6 +6,8 @@ const Train = require("../models/train.model.js");
 const User = require("../models/user.model.js");
 const Razorpay = require("razorpay");
 
+ const  {sendWhatsAppMessage} = require('../controllers/twilio.js')
+
 const createBooking = async (req, res) => {
   try {
     const { bookingType, bookingDate, transactionId } = req.body;
@@ -35,6 +37,11 @@ const createBooking = async (req, res) => {
       return res.status(404).json({ message: `${bookingType} not found` });
     }
 
+    const bookingDetails = `${bookingType} booking to ${bookedItem?.location || bookedItem?.destination || "your destination"} on ${bookingDate}`;
+
+
+    await sendWhatsAppMessage(user.number, user.name, bookingDetails);
+
     const newBooking = new Booking({
       user: userId,
       bookingType,
@@ -56,84 +63,101 @@ const createBooking = async (req, res) => {
 // Get All Bookings for a User
 
 const getUserBooks = async (req, res) => {
-    try {
-      const userId = req.user?.id || req.params.userId;
-        const bookings = await Booking.find({ user: userId })
-            .populate("user","name email")
-            .populate("hotel")
-            .populate("bus")
-            .populate("flight")
-            .populate("train");
-        if (!bookings.length) return res.status(404).json({ message: "No bookings found" });
-        res.status(200).json(bookings);
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching bookings", error });
-    }
+  try {
+    const userId = req.user?.id || req.params.userId;
+    const bookings = await Booking.find({ user: userId })
+      .populate("user", "name email")
+      .populate("hotel")
+      .populate("bus")
+      .populate("flight")
+      .populate("train");
+    if (!bookings.length) return res.status(404).json({ message: "No bookings found" });
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching bookings", error });
+  }
 };
 
 
 // Cancel a Booking
 const cancelBooking = async (req, res) => {
-    try {
-        const bookingId = req.params.id;
-        const booking = await Booking.findById(bookingId);
-        if (!booking) return res.status(404).json({ message: "Booking not found" });
-        await Booking.findByIdAndDelete(bookingId);
-        res.status(200).json({ message: "Booking canceled successfully" });
-    } catch (error) {
-        res.status(500).json({ message: "Error canceling booking", error });
-    }
+  try {
+    const bookingId = req.params.id;
+    const booking = await Booking.findById(bookingId);
+    if (!booking) return res.status(404).json({ message: "Booking not found" });
+    await Booking.findByIdAndDelete(bookingId);
+    res.status(200).json({ message: "Booking canceled successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error canceling booking", error });
+  }
 };
 //  Update Payment Status
 const updatePaymentStatus = async (req, res) => {
-    try {
-        const { bookingId, status } = req.body;
-        const validStatuses = ["Pending", "Paid", "Cancelled", "Refunded"];
-        if (!validStatuses.includes(status)) {
-            return res.status(400).json({ message: "Invalid payment status" });
-        }
-        const booking = await Booking.findByIdAndUpdate(
-            bookingId,
-            { paymentStatus: status },
-            { new: true }
-        );
-        if (!booking) return res.status(404).json({ message: "Booking not found" });
-        res.status(200).json({ message: "Payment status updated", booking });
-    } catch (error) {
-        res.status(500).json({ message: "Error updating payment status", error });
+  try {
+    const { bookingId, status } = req.body;
+    const validStatuses = ["Pending", "Paid", "Cancelled", "Refunded"];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ message: "Invalid payment status" });
     }
+    const booking = await Booking.findByIdAndUpdate(
+      bookingId,
+      { paymentStatus: status },
+      { new: true }
+    );
+    if (!booking) return res.status(404).json({ message: "Booking not found" });
+    res.status(200).json({ message: "Payment status updated", booking });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating payment status", error });
+  }
 };
 
 const createPaymentIntent = async (req, res) => {
   const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET
+
   });
+
   try {
     const { amount, currency, receipt } = req.body;
     console.log(req.body)
-    
+
 
     if (!amount || !currency || !receipt) {
       return res.status(400).json({ message: "Amount, currency, and receipt are required" });
     }
 
     const options = {
-      amount: amount * 100,
-      currency:'INR',
-      receipt:`receipt_${Date.now()}`
-      
+      amount: Number(amount) * 100,
+      currency: 'INR',
+      receipt: `receipt_${Date.now()}`
+
     };
     const order = await razorpay.orders.create(options);
     res.status(200).json({ success: true, order });
   } catch (error) {
+    console.error("Razorpay Order Creation Error:", error);
     res.status(500).json({ success: false, message: "Failed to  payment order", error: error.message });
   }
 };
 
+//  send sms on whatapp
 
+const sendWhatSms = async (req, res) => {
+  try {
+    const { number, userName, bookingDetails } = req.body;
+    const message = await sendWhatsAppMessage(number, userName, bookingDetails);
+    res.status(200).json({ success: true, sid: message.sid });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
 
-
-
-
-module.exports = { updatePaymentStatus, cancelBooking, getUserBooks, createBooking ,createPaymentIntent}
+module.exports = { 
+  updatePaymentStatus, 
+  cancelBooking, 
+  getUserBooks, 
+  createBooking, 
+  createPaymentIntent,
+  sendWhatSms
+}

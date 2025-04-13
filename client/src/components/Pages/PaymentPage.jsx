@@ -51,7 +51,7 @@ function PaymentPage() {
             return;
         }
         const options = {
-            key: import.meta.env.VITE_RAZORPAY_KEY_ID, 
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID,
             amount: price * 1,
             currency: "INR",
             name: "World Tour",
@@ -61,12 +61,12 @@ function PaymentPage() {
                 toast.success("Payment successful!");
 
                 let bookingData = { 
-                    bookingType: bookingType, 
-                    transactionId: response.razorpay_payment_id,
-                    bookingDate: new Date(),
-                    product_Id: product_Id
+                  bookingType: bookingType, 
+                  transactionId: response.razorpay_payment_id,
+                  bookingDate: new Date(),
+                  [bookingType.toLowerCase()]: product_Id 
                 };
-
+                
                 if (bookingType === "Hotel") {
                     bookingData.hotel = location.state. product_Id;
                 } else if (bookingType === "Bus") {

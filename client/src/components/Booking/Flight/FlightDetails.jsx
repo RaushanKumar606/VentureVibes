@@ -48,7 +48,6 @@ const FlightDetails = () => {
       }
       const data = await response.json();
       setFlight(data.flight);
-      console.log(data);
     } catch (error) {
       setError(error.message);
     } finally {
