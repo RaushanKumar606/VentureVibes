@@ -10,7 +10,7 @@ import {
   FaLocationArrow,
   FaGlobe,
 } from "react-icons/fa";
-import { LoadScript, Autocomplete,} from "@react-google-maps/api";
+
 import { useAuth } from "../Hooks/ContextApi";
 import { toast } from "react-toastify";
 
