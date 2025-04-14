@@ -10,8 +10,10 @@ import {
   FaLocationArrow,
   FaGlobe,
 } from "react-icons/fa";
+import { LoadScript, Autocomplete,} from "@react-google-maps/api";
 import { useAuth } from "../Hooks/ContextApi";
 import { toast } from "react-toastify";
+
 const AdminPostTour = () => {
   const [tourData, setTourData] = useState({
     title: "",
@@ -23,6 +25,7 @@ const AdminPostTour = () => {
     country: "",
     dayWisePlan: [{ day: 1, activity: "" }],
     description: "",
+    coordinates: { lat: "", lng: "" },
   });
   const { token } = useAuth();
   // const [images, setImages] = useState([]);
@@ -83,6 +86,8 @@ const AdminPostTour = () => {
       setTourData({ ...tourData, image: e.target.files[0] }); 
     }
   };
+
+   
   // Submit Form
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -247,6 +252,7 @@ const AdminPostTour = () => {
         {/* Location */}
         <div className="flex items-center bg-white text-black p-2 rounded-lg">
           <FaLocationArrow className="text-indigo-600 mx-2" />
+         
           <input
             type="text"
             name="location"
@@ -256,6 +262,7 @@ const AdminPostTour = () => {
             className="w-full p-2 outline-none"
             required
           />
+            
         </div>
 
         {/* Country */}
